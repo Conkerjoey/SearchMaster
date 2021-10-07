@@ -1,0 +1,83 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using MasterIndexer;
+
+namespace SearchMaster
+{
+    /// <summary>
+    /// Interaction logic for CorpusWindow.xaml
+    /// </summary>
+    public partial class CorpusWindow : Window
+    {
+        private Corpus corpus;
+        private Filter filter;
+
+        public CorpusWindow()
+        {
+            InitializeComponent();
+
+            filter = new Filter();
+            corpus = new Corpus(null, filter);
+
+            listBoxFilters.DataContext = filter;
+        }
+
+        public Corpus Corpus
+        {
+            get
+            {
+                return corpus;
+            }
+        }
+
+        private void buttonOk_Click(object sender, RoutedEventArgs e)
+        {
+            corpus.Name = textBoxCorpusName.Text;
+            corpus.AddLocation(textBoxCorpusPath.Text);
+            DialogResult = true;
+            Close();
+        }
+
+        private void buttonCancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+            Close();
+        }
+
+        private void buttonOpenFolder_Click(object sender, RoutedEventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                textBoxCorpusPath.Text = dialog.FileName;
+            }
+        }
+
+        private void buttonAddFilter_Click(object sender, RoutedEventArgs e)
+        {
+            filter.IgnoreList.Add("*");
+        }
+
+        private void buttonRemoveFilter_Click(object sender, RoutedEventArgs e)
+        {
+            if (0 <= listBoxFilters.SelectedIndex && listBoxFilters.SelectedIndex < filter.IgnoreList.Count)
+            {
+                filter.IgnoreList.RemoveAt(listBoxFilters.SelectedIndex);
+            }
+        }
+    }
+}
