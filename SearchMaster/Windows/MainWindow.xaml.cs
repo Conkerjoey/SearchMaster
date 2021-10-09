@@ -22,7 +22,7 @@ namespace SearchMaster
 
         static MainWindow()
         {
-            defaultSearchEngine = SearchEngine.LoadConfiguration("EngineConfiguration.xml");
+            defaultSearchEngine = SearchEngine.Load();
             defaultSettings = Settings.Load();
         }
 
@@ -40,6 +40,11 @@ namespace SearchMaster
         {
             InitializeComponent();
 
+            statusProgressBar.Value = 0;
+            statusProgressBar.Visibility = Visibility.Hidden;
+            statusSummaryText.Text = string.Empty;
+            statusCorporaDirectory.Text = "Corpora: " + Path.Combine(Environment.CurrentDirectory, defaultSearchEngine.CorporaDirectory);
+
             textBlockCorporaSelectionStatus.Text = string.Empty;
             textBlockSearchStatus.Text = string.Empty;
 
@@ -53,6 +58,9 @@ namespace SearchMaster
             comboBoxResolverType.SelectedItem = defaultSettings.ResolverType;
 
             checkBoxMultithread.IsChecked = defaultSettings.MultithreadingEnable;
+
+            comboBoxQueryType.ItemsSource = Enum.GetValues(typeof(Query.QueryType)).Cast<Query.QueryType>();
+            comboBoxQueryType.SelectedItem = Query.QueryType.Text;
         }
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
@@ -108,28 +116,41 @@ namespace SearchMaster
             if (true == corpusWindow.ShowDialog())
             {
                 Indexer indexer = new Indexer("1.0.0", defaultSettings.MultithreadingEnable, MainWindow.SearchEngine.CorporaDirectory);
-                TaskViewer taskViewer = new TaskViewer() { Title = "Task running", Summary = "Loading & analyzing documents... This may takes a while.", Owner = this.Owner };
-                taskViewer.Show();
+                //TaskViewer taskViewer = new TaskViewer() { Title = "Task running", Summary = "Loading & analyzing documents... This may takes a while.", Owner = this.Owner };
+                //taskViewer.Show();
 
                 Progress<double> progressRead = new Progress<double>(value => {
                     if (value == -1)
                     {
-                        taskViewer.Progress = 0;
+                        //taskViewer.Progress = 0;
+                        statusProgressBar.Value = 0;
                         return;
                     }
-                    taskViewer.Progress += value * 100.0D / corpusWindow.Corpus.DocumentCount;
-                    taskViewer.Summary = "Loading & analyzing documents... (" + (int)Math.Ceiling(taskViewer.Progress / 100 * corpusWindow.Corpus.DocumentCount) + "/" + corpusWindow.Corpus.DocumentCount + ")";
+                    //taskViewer.Progress += value * 100.0D / corpusWindow.Corpus.DocumentCount;
+                    //taskViewer.Summary = "Loading & analyzing documents... (" + (int)Math.Ceiling(taskViewer.Progress / 100 * corpusWindow.Corpus.DocumentCount) + "/" + corpusWindow.Corpus.DocumentCount + ")";
+
+                    statusProgressBar.Value += value * 100.0D / corpusWindow.Corpus.DocumentCount;
+                    if (statusProgressBar.Visibility != Visibility.Visible)
+                        statusProgressBar.Visibility = Visibility.Visible;
+                    statusSummaryText.Text = "Loading & analyzing documents... (" + (int)Math.Ceiling(statusProgressBar.Value / 100 * corpusWindow.Corpus.DocumentCount) + "/" + corpusWindow.Corpus.DocumentCount + ")";
                 });
                 Progress<double> progressCompute = new Progress<double>(value => {
-                    taskViewer.Progress += value * 100.0D / corpusWindow.Corpus.DocumentCount;
-                    taskViewer.Summary = "Compute weighted labels... (" + (int)Math.Ceiling(taskViewer.Progress / 100 * corpusWindow.Corpus.DocumentCount) + "/" + corpusWindow.Corpus.DocumentCount + ")";
+                    //taskViewer.Progress += value * 100.0D / corpusWindow.Corpus.DocumentCount;
+                    //taskViewer.Summary = "Compute weighted labels... (" + (int)Math.Ceiling(taskViewer.Progress / 100 * corpusWindow.Corpus.DocumentCount) + "/" + corpusWindow.Corpus.DocumentCount + ")";
+
+                    statusProgressBar.Value += value * 100.0D / corpusWindow.Corpus.DocumentCount;
+                    if (statusProgressBar.Visibility != Visibility.Visible)
+                        statusProgressBar.Visibility = Visibility.Visible;
+                    statusSummaryText.Text = "Compute weighted labels... (" + (int)Math.Ceiling(statusProgressBar.Value / 100 * corpusWindow.Corpus.DocumentCount) + "/" + corpusWindow.Corpus.DocumentCount + ")";
                 });
                 await Task.Run(() =>
                 {
                     indexer.ProcessCorpus(corpusWindow.Corpus, progressRead, progressCompute);
                 });
+                statusProgressBar.Visibility = Visibility.Hidden;
+                statusSummaryText.Text = string.Empty;
 
-                taskViewer.Close();
+                //taskViewer.Close();
                 listBoxCorpora.Items.Add(corpusWindow.Corpus);
                 defaultSettings.Corpora.Add(corpusWindow.Corpus);
                 defaultSettings.Save();
@@ -183,6 +204,7 @@ namespace SearchMaster
                 }
             }
         }
+        
 
         private void comboBoxResolverType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

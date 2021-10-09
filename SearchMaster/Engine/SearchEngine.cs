@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using DocLib;
 using System.Xml;
 
 namespace SearchMaster.Engine
 {
+    [Serializable]
     public class SearchEngine
     {
         public enum ResolverType
@@ -17,52 +19,55 @@ namespace SearchMaster.Engine
             LabelDensity,
         }
 
-        private string version = null;
-        private string corporaDirectory = null;
-        private Dictionary<string, string> acronyms = null;
+        private string corporaDirectory = "processed";
+        private Dictionary<string, string> acronyms = new Dictionary<string, string>();
 
         public SearchEngine()
         {
 
         }
 
+
+        public void Save()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            Stream fs = File.OpenWrite("configuration.dat");
+            formatter.Serialize(fs, this);
+            fs.Flush();
+            fs.Close();
+            fs.Dispose();
+        }
+
+        public static SearchEngine Load()
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            try
+            {
+                FileStream fs = File.Open("configuration.dat", FileMode.Open);
+                SearchEngine engine = (SearchEngine)formatter.Deserialize(fs);
+                fs.Flush();
+                fs.Close();
+                fs.Dispose();
+                return engine;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message + Environment.NewLine + e.StackTrace);
+                SearchEngine engine = new SearchEngine();
+                engine.Save();
+                return engine;
+            }
+        }
+
         public string CorporaDirectory
         {
             get { return corporaDirectory;  }
+            set { corporaDirectory = value; }
         }
 
-        public static SearchEngine LoadConfiguration(string configurationFilePath)
-        {
-            SearchEngine searchEngine = new SearchEngine();
-            string configurationFullFilePath = Path.GetFullPath(configurationFilePath);
-            XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(configurationFullFilePath);
-
-            XmlNode indexerXmlNode = xmlDocument.DocumentElement;
-            searchEngine.version = indexerXmlNode.Attributes["version"].InnerText;
-            searchEngine.corporaDirectory = xmlDocument.GetElementsByTagName("corpora_directory")[0].InnerText;
-            if (!Directory.Exists(searchEngine.corporaDirectory))
-            {
-                throw new ArgumentException("Corpora path in EngineConfiguration.xml file is invalid. Program cannot continue.");
-            }
-
-            searchEngine.acronyms = new Dictionary<string, string>();
-            XmlNode acronymsNode = xmlDocument.GetElementsByTagName("acronyms")[0];
-            foreach (XmlNode acronym in acronymsNode.ChildNodes)
-            {
-                string acronymName = acronym.Attributes["name"].InnerText;
-                string acronymValue = acronym.InnerText;
-                if (!searchEngine.acronyms.ContainsKey(acronymName))
-                {
-                    searchEngine.acronyms.Add(acronymName, acronymValue);
-                }
-            }
-            return searchEngine;
-        }
-
-        public string GetVersion()
-        {
-            return this.version;
+        public Dictionary<string, string> Acronyms {
+            get { return acronyms; }
+            set { acronyms = value; }
         }
     }
 }
