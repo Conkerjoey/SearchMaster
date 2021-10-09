@@ -173,9 +173,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EngineConfiguration.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Resources\icon_word.png" />
     <Resource Include="icon.ico" />
     <Resource Include="Resources\icon.png" />

@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<search_engine version="1.0.0">
-  <corpora_directory>processed</corpora_directory>
-  <acronyms>
-    <acronym name="C#">csharp</acronym>
-    <acronym name="C++">cpp</acronym>
-  </acronyms>
-</search_engine>
