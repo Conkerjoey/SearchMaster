@@ -51,7 +51,7 @@ namespace SearchMaster
                 return;
             }
 
-            if (System.IO.Directory.Exists(textBoxCorpusPath.Text) || textBoxCorpusPath.Text.Trim().Length <= 0)
+            if (!System.IO.Directory.Exists(textBoxCorpusPath.Text) || textBoxCorpusPath.Text.Trim().Length <= 0)
             {
                 new Popup() { Title = "Warning", Message = "Empty or invalid directory path.", Owner = this }.ShowDialog();
                 return;

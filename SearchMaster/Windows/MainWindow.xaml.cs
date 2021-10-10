@@ -89,7 +89,7 @@ namespace SearchMaster
                     break;
             }
 
-            Query query = new Query(comboBoxQuery.Text, Query.QueryType.Text);
+            Query query = new Query(comboBoxQuery.Text, (Query.QueryType) comboBoxQueryType.SelectedItem);
             if (defaultSettings.Queries.Contains(query))
             {
                 defaultSettings.Queries.Remove(query);
