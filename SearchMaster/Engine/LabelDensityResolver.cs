@@ -12,8 +12,6 @@ namespace SearchMaster.Engine
     public class LabelDensityResolver : IResolver
     {
         private List<string> indexedDocumentsPaths;
-        private List<SearchResult> results;
-        private Dictionary<Document, double[]> documentWeightsVectors;
         private bool multithreadingEnable;
 
         public List<string> IndexedDocumentsPath
@@ -31,27 +29,33 @@ namespace SearchMaster.Engine
         public LabelDensityResolver(List<string> indexedDocumentsPaths, bool multithreadingEnable)
         {
             this.indexedDocumentsPaths = indexedDocumentsPaths;
-            this.results = new List<SearchResult>();
-            this.documentWeightsVectors = new Dictionary<Document, double[]>();
             this.multithreadingEnable = multithreadingEnable;
         }
 
         public QueryResult SearchQuery(Query query)
         {
-            if (query.Type == Query.QueryType.Text)
+            switch (query.Type)
             {
-                string[] vecQuery = query.Text.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                List<SearchResult> results = MatchQueryLabels(vecQuery);
-                stopwatch.Stop();
-                return new QueryResult(results, query, indexedDocumentsPaths.Count, stopwatch.Elapsed);
+                case Query.QueryType.Text:
+                    {
+                        string[] vecQuery = query.Text.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        Stopwatch stopwatch = new Stopwatch();
+                        stopwatch.Start();
+                        List<SearchResult> results = MatchQueryLabels(vecQuery);
+                        stopwatch.Stop();
+                        return new QueryResult(results, query, indexedDocumentsPaths.Count, stopwatch.Elapsed);
+                    }
+                case Query.QueryType.Regex:
+                case Query.QueryType.FullMatch:
+                default:
+                    throw new NotImplementedException();
             }
-            return null;
         }
 
         private List<SearchResult> MatchQueryLabels(string[] vectorizedLabels)
         {
+            List<SearchResult> results = new List<SearchResult>();
+
             int logicalProcessorCount = 1;
             if (multithreadingEnable)
             {

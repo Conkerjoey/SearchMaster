@@ -12,7 +12,6 @@ namespace SearchMaster.Engine
     public class CosineSimilarityResolver : IResolver
     {
         private List<string> indexedDocumentsPaths;
-        private List<SearchResult> results;
         private Dictionary<Document, double[]> documentWeightsVectors;
         private bool multithreadingEnable;
 
@@ -31,27 +30,39 @@ namespace SearchMaster.Engine
         public CosineSimilarityResolver(List<string> indexedDocumentsPaths, bool multithreadingEnable)
         {
             this.indexedDocumentsPaths = indexedDocumentsPaths;
-            this.results = new List<SearchResult>();
             this.documentWeightsVectors = new Dictionary<Document, double[]>();
             this.multithreadingEnable = multithreadingEnable;
         }
 
         public QueryResult SearchQuery(Query query)
         {
-            if (query.Type == Query.QueryType.Text)
+            switch (query.Type)
             {
-                string[] vecQuery = query.Text.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                List<SearchResult> results = SearchByCosineSimilarity(vecQuery);
-                stopwatch.Stop();
-                return new QueryResult(results, query, indexedDocumentsPaths.Count, stopwatch.Elapsed);
+                case Query.QueryType.Text:
+                    {
+                        string[] vecQuery = query.Text.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        Stopwatch stopwatch = new Stopwatch();
+                        stopwatch.Start();
+                        List<SearchResult> results = SearchByCosineSimilarity(vecQuery);
+                        stopwatch.Stop();
+                        return new QueryResult(results, query, indexedDocumentsPaths.Count, stopwatch.Elapsed);
+                    }
+                case Query.QueryType.Regex:
+                case Query.QueryType.FullMatch:
+                    {
+
+                        throw new NotImplementedException();
+                    }
+                default:
+                    throw new NotImplementedException();
             }
-            return null;
         }
 
         private List<SearchResult> SearchByCosineSimilarity(string[] vectorizedLabels)
         {
+            List<SearchResult> results = new List<SearchResult>();
+            documentWeightsVectors.Clear();
+
             int logicalProcessorCount = 1;
             if (multithreadingEnable)
             {
