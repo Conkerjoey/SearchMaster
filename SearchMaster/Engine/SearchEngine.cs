@@ -17,6 +17,8 @@ namespace SearchMaster.Engine
         {
             CosineSimilarity,
             LabelDensity,
+            Regex,
+            FullMatch,
         }
 
         private string corporaDirectory = "processed";

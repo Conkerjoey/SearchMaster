@@ -58,9 +58,6 @@ namespace SearchMaster
             comboBoxResolverType.SelectedItem = defaultSettings.ResolverType;
 
             checkBoxMultithread.IsChecked = defaultSettings.MultithreadingEnable;
-
-            comboBoxQueryType.ItemsSource = Enum.GetValues(typeof(Query.QueryType)).Cast<Query.QueryType>();
-            comboBoxQueryType.SelectedItem = Query.QueryType.Text;
         }
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
@@ -80,8 +77,14 @@ namespace SearchMaster
             IResolver resolver = null;
             switch (defaultSettings.ResolverType)
             {
+                case SearchEngine.ResolverType.FullMatch:
+                    resolver = new FullMatchResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                    break;
                 case SearchEngine.ResolverType.LabelDensity:
                     resolver = new LabelDensityResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                    break;
+                case SearchEngine.ResolverType.Regex:
+                    resolver = new RegexResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
                     break;
                 case SearchEngine.ResolverType.CosineSimilarity:
                 default:
@@ -89,7 +92,7 @@ namespace SearchMaster
                     break;
             }
 
-            Query query = new Query(comboBoxQuery.Text, (Query.QueryType) comboBoxQueryType.SelectedItem);
+            Query query = new Query(comboBoxQuery.Text, defaultSettings.ResolverType);
             if (defaultSettings.Queries.Contains(query))
             {
                 defaultSettings.Queries.Remove(query);
@@ -222,6 +225,12 @@ namespace SearchMaster
                 defaultSettings.MultithreadingEnable = ((CheckBox)sender).IsChecked == true;
                 defaultSettings.Save();
             }
+        }
+
+        private void comboBoxQuery_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (((ComboBox)sender).SelectedItem != null)
+                comboBoxResolverType.SelectedItem = ((Query)((ComboBox)sender).SelectedItem).Type;
         }
     }
 }

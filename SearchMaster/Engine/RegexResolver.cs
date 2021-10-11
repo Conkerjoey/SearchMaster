@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
 using System.Diagnostics;
+using System.Threading;
 using System.Text.RegularExpressions;
 using DocLib;
 
 namespace SearchMaster.Engine
 {
-    public class LabelDensityResolver : IResolver
+    public class RegexResolver : IResolver
     {
         private List<string> indexedDocumentsPaths;
         private bool multithreadingEnable;
@@ -27,7 +27,7 @@ namespace SearchMaster.Engine
             }
         }
 
-        public LabelDensityResolver(List<string> indexedDocumentsPaths, bool multithreadingEnable)
+        public RegexResolver(List<string> indexedDocumentsPaths, bool multithreadingEnable)
         {
             this.indexedDocumentsPaths = indexedDocumentsPaths;
             this.multithreadingEnable = multithreadingEnable;
@@ -35,15 +35,15 @@ namespace SearchMaster.Engine
 
         public QueryResult SearchQuery(Query query)
         {
-            string[] vecQuery = query.Text.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-            List<SearchResult> results = MatchQueryLabels(vecQuery);
+            Regex regex = new Regex(query.Text, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            List<SearchResult> results = FindRegexMatch(regex);
             stopwatch.Stop();
             return new QueryResult(results, query, indexedDocumentsPaths.Count, stopwatch.Elapsed);
         }
 
-        private List<SearchResult> MatchQueryLabels(string[] vectorizedLabels)
+        private List<SearchResult> FindRegexMatch(Regex regex)
         {
             List<SearchResult> results = new List<SearchResult>();
 
@@ -65,7 +65,7 @@ namespace SearchMaster.Engine
                 int listIndex = i;
                 if (listIndex >= indexedDocumentsPathsProcessors.Count)
                     break;
-                Thread thread = new Thread(() => BuildDocumentSublistWeightsVector(indexedDocumentsPathsProcessors[listIndex], vectorizedLabels, ref results));
+                Thread thread = new Thread(() => FindRegexInDocument(indexedDocumentsPathsProcessors[listIndex], regex, ref results));
                 threads.Add(thread);
                 thread.Start();
             }
@@ -79,21 +79,21 @@ namespace SearchMaster.Engine
             return results;
         }
 
-        private void BuildDocumentSublistWeightsVector(List<string> documentsPathsSublist, string[] vectorizedLabels, ref List<SearchResult> results)
+        private void FindRegexInDocument(List<string> documentsPathsSublist, Regex regex, ref List<SearchResult> results)
         {
             for (int i = 0; i < documentsPathsSublist.Count; i++)
             {
                 Document document = Document.Load(documentsPathsSublist[i]);
                 double relevance = 0;
-
-                for (int l = 0; l < vectorizedLabels.Length; l++)
+                string[] lines = document.GetLines();
+                for (int l = 0; l < lines.Length; l++)
                 {
-                    List<WeightedLabel> weightedLabels = document.GetWeightedLabels().FindAll(x => x.GetText() == vectorizedLabels[l] || x.GetText().IndexOf(vectorizedLabels[l], StringComparison.InvariantCultureIgnoreCase) >= 0);
-                    if (weightedLabels != null)
+                    MatchCollection matches = regex.Matches(lines[l]);
+                    if (matches.Count > 0)
                     {
-                        foreach (WeightedLabel wLabel in weightedLabels)
-                            relevance += wLabel.GetTotalOccurence();
+
                     }
+                    relevance += matches.Count;
                 }
                 if (relevance > 0)
                 {

@@ -36,26 +36,12 @@ namespace SearchMaster.Engine
 
         public QueryResult SearchQuery(Query query)
         {
-            switch (query.Type)
-            {
-                case Query.QueryType.Text:
-                    {
-                        string[] vecQuery = query.Text.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                        Stopwatch stopwatch = new Stopwatch();
-                        stopwatch.Start();
-                        List<SearchResult> results = SearchByCosineSimilarity(vecQuery);
-                        stopwatch.Stop();
-                        return new QueryResult(results, query, indexedDocumentsPaths.Count, stopwatch.Elapsed);
-                    }
-                case Query.QueryType.Regex:
-                case Query.QueryType.FullMatch:
-                    {
-
-                        throw new NotImplementedException();
-                    }
-                default:
-                    throw new NotImplementedException();
-            }
+            string[] vecQuery = query.Text.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            List<SearchResult> results = SearchByCosineSimilarity(vecQuery);
+            stopwatch.Stop();
+            return new QueryResult(results, query, indexedDocumentsPaths.Count, stopwatch.Elapsed);
         }
 
         private List<SearchResult> SearchByCosineSimilarity(string[] vectorizedLabels)

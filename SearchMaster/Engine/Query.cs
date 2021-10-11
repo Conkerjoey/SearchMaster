@@ -9,17 +9,11 @@ namespace SearchMaster.Engine
     [Serializable]
     public class Query
     {
-        public enum QueryType
-        {
-            Text,
-            Regex,
-            FullMatch,
-        }
 
         private string text;
-        private QueryType type;
+        private SearchEngine.ResolverType type;
 
-        public Query(string text, QueryType type)
+        public Query(string text, SearchEngine.ResolverType type)
         {
             this.text = text;
             this.type = type;
@@ -30,7 +24,7 @@ namespace SearchMaster.Engine
             get { return text; }
         }
 
-        public QueryType Type
+        public SearchEngine.ResolverType Type
         {
             get { return type; }
         }
