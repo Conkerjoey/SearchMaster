@@ -1,0 +1,8 @@
+.vs
+DocLib/bin/
+DocLib/obj/
+MasterIndexer/bin/
+MasterIndexer/obj/
+SearchMaster/bin/
+SearchMaster/obj/
+SearchMaster/SearchMaster.csproj.user

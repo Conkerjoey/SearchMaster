@@ -15,7 +15,7 @@ namespace DocLib
         private string name;
         private DocumentPath documentPath;
         private Guid guid;
-        private List<WeightedLabel> weightLabels;
+        private List<WeightedLabel> weightLabels = new List<WeightedLabel>();
         private int totalWords;
 
         [NonSerialized]
@@ -49,7 +49,7 @@ namespace DocLib
         {
             string[] lines = Reader.ReadLines(this);
             Parser p = new Parser(lines);
-            weightLabels = p.GetLabels(ref totalWords); // return an ordered list.
+            weightLabels.AddRange(p.GetLabels(ref totalWords)); // return an ordered list.
         }
 
         public string[] GetLines()
@@ -87,6 +87,11 @@ namespace DocLib
                          docPathStr.EndsWith(".docx"))
                 {
                     return DocumentType.Word;
+                }
+                else if (docPathStr.EndsWith(".xls") ||
+                         docPathStr.EndsWith(".xlsx"))
+                {
+                    return DocumentType.Excel;
                 }
             }
             return DocumentType.Undefined;

@@ -14,6 +14,7 @@ namespace SearchMaster
     [Serializable]
     public class Settings
     {
+        public static readonly int MAX_QUERY_HISTORY = 50;
         private List<Corpus> corpora = new List<Corpus>();
         private List<Query> queries = new List<Query>();
         private SearchEngine.ResolverType resolverType;

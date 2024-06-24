@@ -14,8 +14,6 @@ namespace MasterIndexer
         private string name;
         private List<string> locations;
         private Filter filter;
-
-        [NonSerialized]
         List<string> documentsPath = new List<string>();
 
         public Corpus(string name, Filter filter)
@@ -81,6 +79,21 @@ namespace MasterIndexer
         {
             get { return locations; }
         }
+        
+        public string ContentLocation
+        {
+            get
+            {
+                if (locations.Count <= 1)
+                {
+                    return locations[0];
+                }
+                else
+                {
+                    return locations.Count + " different locations.";
+                }
+            }
+        }
 
         public int DocumentCount
         {
@@ -95,6 +108,14 @@ namespace MasterIndexer
             get
             {
                 return documentsPath;
+            }
+        }
+
+        public string FormattedDocumentCount
+        {
+            get
+            {
+                return documentsPath.Count + " documents";
             }
         }
 

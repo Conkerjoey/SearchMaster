@@ -22,10 +22,16 @@ namespace SearchMaster.Tools
                     return "Resources/icon_flow.png";
                 case DocLib.DocumentType.Word:
                     return "Resources/icon_word.png";
+                case DocLib.DocumentType.Excel:
+                    return "Resources/icon_excel.png";
                 case DocLib.DocumentType.Text:
                 case DocLib.DocumentType.Undefined:
-                default:
                     return "Resources/icon_default.png";
+                default:
+                    {
+                        Console.WriteLine("[RESOURCE] Warning no icon exist for the document type " + type.ToString());
+                        return "Resources/icon_default.png";
+                    }
             }
         }
     }

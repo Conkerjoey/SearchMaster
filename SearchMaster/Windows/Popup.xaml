@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterOwner"
         Title="Popup" Height="131" Width="275">
     <Grid>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Margin="10,10,10,10" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Path=Message}" FontSize="14" TextAlignment="Justify" />
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Center" Margin="10,10,10,10" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Path=Message, FallbackValue='An error occured.'}" FontSize="14" TextAlignment="Justify" />
         <Button x:Name="buttonOK" Content="OK" HorizontalAlignment="Left" Margin="45,0,0,10" VerticalAlignment="Bottom" Width="75" Click="buttonOK_Click" />
         <Button x:Name="buttonCancel" Content="Cancel" HorizontalAlignment="Right" Margin="0,0,45,10" VerticalAlignment="Bottom" Width="75" Click="buttonCancel_Click" />
     </Grid>

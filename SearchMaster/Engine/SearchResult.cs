@@ -60,7 +60,7 @@ namespace SearchMaster.Engine
                     case RelevanceType.Count:
                         return (int)relevance + " hit(s)";
                     case RelevanceType.Percentage:
-                        return ((double)relevance * 100).ToString("N1") + " %";
+                        return (relevance * 100.0D).ToString("N1") + " %";
                     default:
                         return (int)relevance + "";
                 }

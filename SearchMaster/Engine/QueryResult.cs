@@ -19,6 +19,9 @@ namespace SearchMaster.Engine
             this.query = query;
             this.numberOfDocumentAnalyzed = numberOfDocumentAnalyzed;
             this.elapsedTime = elapsedTime;
+
+            // Remove duplicate results on same document
+            this.searchResults = this.searchResults.GroupBy(x => x.FullPath).Select(x => x.First()).ToList();
         }
 
         public string GetQueryResultStatus()

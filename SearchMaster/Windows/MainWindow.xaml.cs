@@ -43,7 +43,7 @@ namespace SearchMaster
             statusProgressBar.Value = 0;
             statusProgressBar.Visibility = Visibility.Hidden;
             statusSummaryText.Text = string.Empty;
-            statusCorporaDirectory.Text = "Corpora: " + Path.Combine(Environment.CurrentDirectory, defaultSearchEngine.CorporaDirectory);
+            statusCorporaDirectory.Text = "Corpora location: " + Path.Combine(Environment.CurrentDirectory, defaultSearchEngine.CorporaDirectory);
 
             textBlockCorporaSelectionStatus.Text = string.Empty;
             textBlockSearchStatus.Text = string.Empty;
@@ -67,6 +67,13 @@ namespace SearchMaster
                 new Popup() { Title = "Warning", Message = "No corpus selected !", Owner = this }.ShowDialog();
                 return;
             }
+
+            if (comboBoxQuery.Text.Length <= 0)
+            {
+                new Popup() { Title = "Warning", Message = "Query is empty.", Owner = this }.ShowDialog();
+                return;
+            }
+
             List<string> serializedDocumentsPaths = new List<string>();
 
             foreach (Corpus corpus in listBoxCorpora.SelectedItems)
@@ -100,6 +107,12 @@ namespace SearchMaster
             }
             defaultSettings.Queries.Insert(0, query);
             comboBoxQuery.Items.Insert(0, query);
+
+            if (comboBoxQuery.Items.Count > Settings.MAX_QUERY_HISTORY)
+            {
+                comboBoxQuery.Items.RemoveAt(comboBoxQuery.Items.Count - 1);
+                defaultSettings.Queries.RemoveAt(defaultSettings.Queries.Count - 1);
+            }
 
             QueryResult queryResult = resolver.SearchQuery(query);
 

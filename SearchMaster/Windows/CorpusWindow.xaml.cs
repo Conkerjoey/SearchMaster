@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using MasterIndexer;
+using System;
 
 namespace SearchMaster
 {
@@ -81,14 +82,16 @@ namespace SearchMaster
 
         private void buttonAddFilter_Click(object sender, RoutedEventArgs e)
         {
-            filter.IgnoreList.Add("*");
+            filter.IgnoreList.Add("");
         }
 
         private void buttonRemoveFilter_Click(object sender, RoutedEventArgs e)
         {
             if (0 <= listBoxFilters.SelectedIndex && listBoxFilters.SelectedIndex < filter.IgnoreList.Count)
             {
-                filter.IgnoreList.RemoveAt(listBoxFilters.SelectedIndex);
+                int selectedIdx = listBoxFilters.SelectedIndex;
+                filter.IgnoreList.RemoveAt(selectedIdx);
+                listBoxFilters.SelectedIndex = Math.Min(selectedIdx, filter.IgnoreList.Count - 1);
             }
         }
     }

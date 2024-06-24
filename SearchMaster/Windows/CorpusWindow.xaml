@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SearchMaster"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="CorpusWindow" Height="297.334" Width="427.612">
+        Title="CorpusWindow" Height="300" Width="425">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -49,16 +49,16 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <ListBox x:Name="listBoxFilters" SelectionMode="Single" ItemsSource="{Binding Path=IgnoreList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Grid.Column="1" Grid.RowSpan="2">
+                <ListBox x:Name="listBoxFilters" SelectionMode="Single" ItemsSource="{Binding Path=IgnoreList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Grid.Column="1" Grid.RowSpan="2">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="0,5,0,5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <TextBox Text="{Binding Path=., Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0" MinWidth="150" Grid.Column="0" />
-                                <TextBlock Text="{Binding Path=.}" Margin="0,0,0,0" Grid.Column="1" />
+                                <TextBlock Text="." Grid.Column="0" />
+                                <TextBox Text="{Binding Path=., Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

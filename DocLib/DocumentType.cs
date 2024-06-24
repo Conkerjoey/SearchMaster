@@ -11,7 +11,8 @@ namespace DocLib
         Undefined,
         Text, // .txt
         PDF, // .pdf
-        Word, // .docx
+        Word, // .docx, .doc
+        Excel, // .xlsx, .xls
         CSharp, // .cs
         Cpp, // .cpp, .c
         Flow, // .flow
