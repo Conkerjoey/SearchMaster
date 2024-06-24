@@ -221,7 +221,6 @@ namespace SearchMaster
             }
         }
         
-
         private void comboBoxResolverType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (sender is ComboBox)
