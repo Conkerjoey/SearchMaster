@@ -60,10 +60,10 @@ namespace MasterIndexer
             }
         }
 
-        public void AddLocation(string path)
+        public void ListDocumentsAtLocation()
         {
-            location = path;
-            documentsPath.AddRange(Files.GetAllFiles(path, true, filter?.IgnoreList.ToList()));
+            documentsPath.Clear();
+            documentsPath.AddRange(Files.GetAllFiles(location, true, filter?.IgnoreList.ToList()));
         }
 
         #region Properties

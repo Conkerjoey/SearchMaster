@@ -63,9 +63,6 @@ namespace SearchMaster
                 new Popup() { Title = "Warning", Message = "Empty or invalid directory path.", Owner = this }.ShowDialog();
                 return;
             }
-
-            corpus.Name = textBoxCorpusName.Text;
-            corpus.AddLocation(textBoxCorpusPath.Text);
             DialogResult = true;
             Close();
         }

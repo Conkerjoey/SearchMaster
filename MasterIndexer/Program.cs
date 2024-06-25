@@ -64,7 +64,7 @@ namespace MasterIndexer
                     bool locationExistFlag = Directory.Exists(currentLocation);
                     if (locationExistFlag)
                     {
-                        currentCorpus.AddLocation(currentLocation);
+                        currentCorpus.Location = currentLocation;
                     }
                     else
                     {
