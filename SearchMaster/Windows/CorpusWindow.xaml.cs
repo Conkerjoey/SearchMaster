@@ -31,10 +31,15 @@ namespace SearchMaster
 
             if (corpus == null)
             {
-                corpus = new Corpus(null, new Filter());
+                this.corpus = new Corpus(null, new Filter());
+            }
+            else
+            {
+                this.corpus = corpus;
             }
 
-            listBoxFilters.DataContext = corpus.Filter;
+            this.DataContext = this.corpus;
+            listBoxFilters.DataContext = this.corpus.Filter;
         }
 
         public Corpus Corpus

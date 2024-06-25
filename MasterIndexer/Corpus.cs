@@ -12,14 +12,13 @@ namespace MasterIndexer
     public class Corpus
     {
         private string name;
-        private List<string> locations;
+        private string location;
         private Filter filter;
         List<string> documentsPath = new List<string>();
 
         public Corpus(string name, Filter filter)
         {
             this.name = name;
-            this.locations = new List<string>();
             this.filter = filter;
         }
 
@@ -63,7 +62,7 @@ namespace MasterIndexer
 
         public void AddLocation(string path)
         {
-            locations.Add(path);
+            location = path;
             documentsPath.AddRange(Files.GetAllFiles(path, true, filter?.IgnoreList.ToList()));
         }
 
@@ -75,24 +74,10 @@ namespace MasterIndexer
             set { name = value; }
         }
 
-        public List<string> Locations
+        public string Location
         {
-            get { return locations; }
-        }
-        
-        public string ContentLocation
-        {
-            get
-            {
-                if (locations.Count <= 1)
-                {
-                    return locations[0];
-                }
-                else
-                {
-                    return locations.Count + " different locations.";
-                }
-            }
+            get { return location; }
+            set { location = value; }
         }
 
         public int DocumentCount
