@@ -9,6 +9,7 @@ using System.IO;
 using SearchMaster.Engine;
 using DocLib;
 using MasterIndexer;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 namespace SearchMaster
 {
@@ -51,7 +52,7 @@ namespace SearchMaster
             foreach (Corpus corpus in defaultSettings.Corpora)
                 listBoxCorpora.Items.Add(corpus);
 
-            foreach (Query query in defaultSettings.Queries)
+            foreach (SearchMaster.Engine.Query query in defaultSettings.Queries)
                 comboBoxQuery.Items.Add(query);
 
             comboBoxResolverType.ItemsSource = Enum.GetValues(typeof(SearchEngine.ResolverType)).Cast<SearchEngine.ResolverType>();
@@ -99,7 +100,7 @@ namespace SearchMaster
                     break;
             }
 
-            Query query = new Query(comboBoxQuery.Text, defaultSettings.ResolverType);
+            SearchMaster.Engine.Query query = new SearchMaster.Engine.Query(comboBoxQuery.Text, defaultSettings.ResolverType);
             if (defaultSettings.Queries.Contains(query))
             {
                 defaultSettings.Queries.Remove(query);
@@ -198,9 +199,22 @@ namespace SearchMaster
             }
         }
 
+        private void buttonCorpusSettings_Click(object sender, RoutedEventArgs e)
+        {
+            Button cmd = (Button) sender;
+            if (cmd.DataContext is Corpus)
+            {
+                CorpusWindow corpusWindow = new CorpusWindow((Corpus)cmd.DataContext) { Title = "Corpus Creation Window", Owner = this };
+                if (true == corpusWindow.ShowDialog())
+                {
+
+                }
+            }
+        }
 
         private void listBoxCorpora_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             textBlockCorporaSelectionStatus.Text = listBoxCorpora.SelectedItems.Count + " selected.";
         }
 
@@ -242,7 +256,7 @@ namespace SearchMaster
         private void comboBoxQuery_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (((ComboBox)sender).SelectedItem != null)
-                comboBoxResolverType.SelectedItem = ((Query)((ComboBox)sender).SelectedItem).Type;
+                comboBoxResolverType.SelectedItem = ((SearchMaster.Engine.Query)((ComboBox)sender).SelectedItem).Type;
         }
     }
 }

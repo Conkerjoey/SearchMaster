@@ -14,7 +14,6 @@ using System.Windows.Shapes;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using MasterIndexer;
-using System;
 
 namespace SearchMaster
 {
@@ -26,14 +25,16 @@ namespace SearchMaster
         private Corpus corpus;
         private Filter filter;
 
-        public CorpusWindow()
+        public CorpusWindow(Corpus corpus = null)
         {
             InitializeComponent();
 
-            filter = new Filter();
-            corpus = new Corpus(null, filter);
+            if (corpus == null)
+            {
+                corpus = new Corpus(null, new Filter());
+            }
 
-            listBoxFilters.DataContext = filter;
+            listBoxFilters.DataContext = corpus.Filter;
         }
 
         public Corpus Corpus

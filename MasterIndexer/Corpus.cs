@@ -119,6 +119,11 @@ namespace MasterIndexer
             }
         }
 
+        public Filter Filter
+        {
+            get { return filter; }
+        }
+
         #endregion
     }
 }
