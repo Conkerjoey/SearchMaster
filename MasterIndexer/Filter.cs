@@ -19,5 +19,10 @@ namespace MasterIndexer
         {
             get; set;
         }
+
+        public Filter Duplicate()
+        {
+            return new Filter() { IgnoreList = new ObservableCollection<string>(this.IgnoreList) };
+        }
     }
 }

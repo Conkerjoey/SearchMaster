@@ -23,7 +23,6 @@ namespace SearchMaster
     public partial class CorpusWindow : Window
     {
         private Corpus corpus;
-        private Filter filter;
 
         public CorpusWindow(Corpus corpus = null)
         {
@@ -35,7 +34,7 @@ namespace SearchMaster
             }
             else
             {
-                this.corpus = corpus;
+                this.corpus = corpus.Duplicate();
             }
 
             this.DataContext = this.corpus;
@@ -85,16 +84,16 @@ namespace SearchMaster
 
         private void buttonAddFilter_Click(object sender, RoutedEventArgs e)
         {
-            filter.IgnoreList.Add("");
+            Corpus.Filter.IgnoreList.Add("");
         }
 
         private void buttonRemoveFilter_Click(object sender, RoutedEventArgs e)
         {
-            if (0 <= listBoxFilters.SelectedIndex && listBoxFilters.SelectedIndex < filter.IgnoreList.Count)
+            if (0 <= listBoxFilters.SelectedIndex && listBoxFilters.SelectedIndex < Corpus.Filter.IgnoreList.Count)
             {
                 int selectedIdx = listBoxFilters.SelectedIndex;
-                filter.IgnoreList.RemoveAt(selectedIdx);
-                listBoxFilters.SelectedIndex = Math.Min(selectedIdx, filter.IgnoreList.Count - 1);
+                Corpus.Filter.IgnoreList.RemoveAt(selectedIdx);
+                listBoxFilters.SelectedIndex = Math.Min(selectedIdx, Corpus.Filter.IgnoreList.Count - 1);
             }
         }
     }

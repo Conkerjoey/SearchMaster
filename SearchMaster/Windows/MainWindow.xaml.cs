@@ -204,10 +204,15 @@ namespace SearchMaster
             Button cmd = (Button) sender;
             if (cmd.DataContext is Corpus)
             {
-                CorpusWindow corpusWindow = new CorpusWindow((Corpus)cmd.DataContext) { Title = "Corpus Creation Window", Owner = this };
+                Corpus selectedCorpus = (Corpus) cmd.DataContext;
+                CorpusWindow corpusWindow = new CorpusWindow(selectedCorpus) { Title = "Corpus Creation Window", Owner = this };
                 if (true == corpusWindow.ShowDialog())
                 {
-
+                    selectedCorpus.Name = corpusWindow.Corpus.Name;
+                    selectedCorpus.Location = corpusWindow.Corpus.Location;
+                    selectedCorpus.DocumentsPath = corpusWindow.Corpus.DocumentsPath;
+                    selectedCorpus.Filter = corpusWindow.Corpus.Filter;
+                    // TODO: Rescan directory
                 }
             }
         }

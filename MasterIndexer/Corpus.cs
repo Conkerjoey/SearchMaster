@@ -5,16 +5,28 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using DocLib;
+using System.ComponentModel;
 
 namespace MasterIndexer
 {
     [Serializable]
-    public class Corpus
+    public class Corpus : INotifyPropertyChanged
     {
         private string name;
         private string location;
         private Filter filter;
         List<string> documentsPath = new List<string>();
+
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         public Corpus(string name, Filter filter)
         {
@@ -66,18 +78,23 @@ namespace MasterIndexer
             documentsPath.AddRange(Files.GetAllFiles(location, true, filter?.IgnoreList.ToList()));
         }
 
+        public Corpus Duplicate()
+        {
+            return new Corpus(Name, Filter.Duplicate()) { Location = this.Location, DocumentsPath = this.DocumentsPath.ToList<string>() };
+        }
+
         #region Properties
 
         public string Name
         {
             get { return name; }
-            set { name = value; }
+            set { name = value; this.OnPropertyChanged("Name"); }
         }
 
         public string Location
         {
             get { return location; }
-            set { location = value; }
+            set { location = value; this.OnPropertyChanged("Location"); }
         }
 
         public int DocumentCount
@@ -94,6 +111,11 @@ namespace MasterIndexer
             {
                 return documentsPath;
             }
+            set
+            {
+                documentsPath = value;
+                this.OnPropertyChanged("DocumentsPath");
+            }
         }
 
         public string FormattedDocumentCount
@@ -107,6 +129,7 @@ namespace MasterIndexer
         public Filter Filter
         {
             get { return filter; }
+            set { filter = value; this.OnPropertyChanged("Filter"); }
         }
 
         #endregion
