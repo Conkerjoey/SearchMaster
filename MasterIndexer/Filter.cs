@@ -12,7 +12,7 @@ namespace MasterIndexer
     public class Filter : INotifyPropertyChanged
     {
 
-        private ObservableCollection<String> _filters = new ObservableCollection<String>();
+        private ObservableCollection<StringWrapper> _filters = new ObservableCollection<StringWrapper>();
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
@@ -30,14 +30,20 @@ namespace MasterIndexer
             
         }
 
-        public ObservableCollection<String> IgnoreList
+        public List<string> ToList()
+        {
+            return this._filters.Cast<string>().ToList();
+        }
+
+        public ObservableCollection<StringWrapper> IgnoreList
         {
             get { return this._filters; } set { _filters = value; this.OnPropertyChanged("IgnoreList"); }
         }
 
         public Filter Duplicate()
         {
-            return new Filter() { IgnoreList = new ObservableCollection<String>(this.IgnoreList) };
+            var clonedList = this.IgnoreList.Select(objEntity => (StringWrapper) objEntity.Clone()).ToList();
+            return new Filter() { IgnoreList = new ObservableCollection<StringWrapper>(clonedList) };
         }
     }
 }

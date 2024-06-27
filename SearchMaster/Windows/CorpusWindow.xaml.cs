@@ -84,7 +84,7 @@ namespace SearchMaster
 
         private void buttonAddFilter_Click(object sender, RoutedEventArgs e)
         {
-            Corpus.Filter.IgnoreList.Add("");
+            Corpus.Filter.IgnoreList.Add(new StringWrapper(""));
         }
 
         private void buttonRemoveFilter_Click(object sender, RoutedEventArgs e)

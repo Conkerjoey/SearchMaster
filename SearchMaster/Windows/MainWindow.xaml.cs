@@ -132,6 +132,7 @@ namespace SearchMaster
             CorpusWindow corpusWindow = new CorpusWindow() { Title = "Corpus Creation Window", Owner = this };
             if (true == corpusWindow.ShowDialog())
             {
+                corpusWindow.Corpus.ListDocumentsAtLocation();
                 Indexer indexer = new Indexer("1.0.0", defaultSettings.MultithreadingEnable, MainWindow.SearchEngine.CorporaDirectory);
                 //TaskViewer taskViewer = new TaskViewer() { Title = "Task running", Summary = "Loading & analyzing documents... This may takes a while.", Owner = this.Owner };
                 //taskViewer.Show();

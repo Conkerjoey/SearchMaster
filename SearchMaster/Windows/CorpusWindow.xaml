@@ -58,7 +58,7 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="." Grid.Column="0" />
-                                <TextBox Text="{Binding Path=., Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" />
+                                <TextBox Text="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
