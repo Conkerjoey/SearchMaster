@@ -57,7 +57,7 @@ namespace MasterIndexer
                     Console.WriteLine("[WARNING] One corpus does not have a 'name' attribute. Thus, it will not be processed.");
                     continue;
                 }
-                Corpus currentCorpus = new Corpus(corpusName, null);
+                Corpus currentCorpus = new Corpus() { Name = corpusName };
                 foreach (XmlNode locationNode in corpusNode.ChildNodes)
                 {
                     string currentLocation = locationNode.InnerText;

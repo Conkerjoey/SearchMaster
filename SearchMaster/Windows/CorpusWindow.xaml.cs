@@ -30,7 +30,7 @@ namespace SearchMaster
 
             if (corpus == null)
             {
-                this.corpus = new Corpus(null, new Filter());
+                this.corpus = new Corpus();
             }
             else
             {
@@ -38,7 +38,6 @@ namespace SearchMaster
             }
 
             this.DataContext = this.corpus;
-            this.listBoxFilters.DataContext = this.corpus.Filter;
         }
 
         public Corpus Corpus
@@ -79,21 +78,6 @@ namespace SearchMaster
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 textBoxCorpusPath.Text = dialog.FileName;
-            }
-        }
-
-        private void buttonAddFilter_Click(object sender, RoutedEventArgs e)
-        {
-            Corpus.Filter.IgnoreList.Add(new StringWrapper(""));
-        }
-
-        private void buttonRemoveFilter_Click(object sender, RoutedEventArgs e)
-        {
-            if (0 <= listBoxFilters.SelectedIndex && listBoxFilters.SelectedIndex < Corpus.Filter.IgnoreList.Count)
-            {
-                int selectedIdx = listBoxFilters.SelectedIndex;
-                Corpus.Filter.IgnoreList.RemoveAt(selectedIdx);
-                listBoxFilters.SelectedIndex = Math.Min(selectedIdx, Corpus.Filter.IgnoreList.Count - 1);
             }
         }
     }

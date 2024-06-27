@@ -212,7 +212,8 @@ namespace SearchMaster
                     selectedCorpus.Name = corpusWindow.Corpus.Name;
                     selectedCorpus.Location = corpusWindow.Corpus.Location;
                     selectedCorpus.DocumentsPath = corpusWindow.Corpus.DocumentsPath;
-                    selectedCorpus.Filter = corpusWindow.Corpus.Filter;
+                    selectedCorpus.Whitelist = corpusWindow.Corpus.Whitelist;
+                    selectedCorpus.Blacklist = corpusWindow.Corpus.Blacklist;
                     // TODO: Rescan directory
                 }
             }

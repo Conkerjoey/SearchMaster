@@ -33,8 +33,7 @@ namespace MasterIndexer
             return new StringWrapper(this.Value);
         }
 
-
-        public static implicit operator string(StringWrapper str)
+        public static explicit operator string(StringWrapper str)
         {
             return str.Value;
         }

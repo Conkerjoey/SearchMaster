@@ -12,9 +12,11 @@ namespace MasterIndexer
     [Serializable]
     public class Corpus : INotifyPropertyChanged
     {
+        private string id;
         private string name;
         private string location;
-        private Filter filter;
+        private string whitelist;
+        private string blacklist;
         List<string> documentsPath = new List<string>();
 
         [field: NonSerialized]
@@ -28,10 +30,9 @@ namespace MasterIndexer
             }
         }
 
-        public Corpus(string name, Filter filter)
+        public Corpus()
         {
-            this.name = name;
-            this.filter = filter;
+
         }
 
         public void ScanDocumentLabels(List<Document> documentsSublist, IProgress<double> progress)
@@ -75,12 +76,12 @@ namespace MasterIndexer
         public void ListDocumentsAtLocation()
         {
             documentsPath.Clear();
-            documentsPath.AddRange(Files.GetAllFiles(location, true, filter?.ToList()));
+            documentsPath.AddRange(Files.GetAllFiles(location, true, whitelist, blacklist));
         }
 
         public Corpus Duplicate()
         {
-            return new Corpus(Name, Filter.Duplicate()) { Location = this.Location, DocumentsPath = this.DocumentsPath.ToList<string>() };
+            return new Corpus() { Name = this.Name, Whitelist = this.Whitelist, blacklist = this.Blacklist, Location = this.Location, DocumentsPath = this.DocumentsPath.ToList<string>() };
         }
 
         #region Properties
@@ -95,6 +96,18 @@ namespace MasterIndexer
         {
             get { return location; }
             set { location = value; this.OnPropertyChanged("Location"); }
+        }
+
+        public string Whitelist
+        {
+            get { return whitelist; }
+            set { whitelist = value; this.OnPropertyChanged("Whitelist"); }
+        }
+
+        public string Blacklist
+        {
+            get { return blacklist; }
+            set { blacklist = value; this.OnPropertyChanged("Blacklist"); }
         }
 
         public int DocumentCount
@@ -125,13 +138,6 @@ namespace MasterIndexer
                 return documentsPath.Count + " documents";
             }
         }
-
-        public Filter Filter
-        {
-            get { return filter; }
-            set { filter = value; this.OnPropertyChanged("Filter"); }
-        }
-
         #endregion
     }
 }
