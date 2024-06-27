@@ -49,7 +49,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <ListBox x:Name="listBoxFilters" SelectionMode="Single" ItemsSource="{Binding Path=IgnoreList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Grid.Column="1" Grid.RowSpan="2">
+                <ListBox x:Name="listBoxFilters" SelectionMode="Single" ItemsSource="{Binding IgnoreList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Grid.Column="1" Grid.RowSpan="2">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="0,5,0,5">

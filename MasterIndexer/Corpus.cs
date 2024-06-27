@@ -75,7 +75,7 @@ namespace MasterIndexer
         public void ListDocumentsAtLocation()
         {
             documentsPath.Clear();
-            documentsPath.AddRange(Files.GetAllFiles(location, true, filter?.IgnoreList.ToList()));
+            documentsPath.AddRange(Files.GetAllFiles(location, true, filter?.IgnoreList.ToList<string>()));
         }
 
         public Corpus Duplicate()

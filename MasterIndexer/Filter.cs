@@ -4,25 +4,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace MasterIndexer
 {
     [Serializable]
-    public class Filter
+    public class Filter : INotifyPropertyChanged
     {
-        public Filter()
+
+        private ObservableCollection<String> _filters = new ObservableCollection<String>();
+
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName)
         {
-            IgnoreList = new ObservableCollection<string>();
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
-        public ObservableCollection<string> IgnoreList
+        public Filter()
         {
-            get; set;
+            
+        }
+
+        public ObservableCollection<String> IgnoreList
+        {
+            get { return this._filters; } set { _filters = value; this.OnPropertyChanged("IgnoreList"); }
         }
 
         public Filter Duplicate()
         {
-            return new Filter() { IgnoreList = new ObservableCollection<string>(this.IgnoreList) };
+            return new Filter() { IgnoreList = new ObservableCollection<String>(this.IgnoreList) };
         }
     }
 }

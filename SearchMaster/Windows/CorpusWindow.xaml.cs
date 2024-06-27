@@ -38,7 +38,7 @@ namespace SearchMaster
             }
 
             this.DataContext = this.corpus;
-            listBoxFilters.DataContext = this.corpus.Filter;
+            this.listBoxFilters.DataContext = this.corpus.Filter;
         }
 
         public Corpus Corpus
