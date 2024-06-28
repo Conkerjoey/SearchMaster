@@ -12,7 +12,7 @@ namespace MasterIndexer
     [Serializable]
     public class Corpus : INotifyPropertyChanged
     {
-        private string id;
+        private string originalName;
         private string name;
         private string location;
         private string whitelist;
@@ -89,7 +89,7 @@ namespace MasterIndexer
         public string Name
         {
             get { return name; }
-            set { name = value; this.OnPropertyChanged("Name"); }
+            set { name = value; if (originalName == null) originalName = name; this.OnPropertyChanged("Name"); }
         }
 
         public string Location

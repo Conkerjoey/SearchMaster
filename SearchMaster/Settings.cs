@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.ComponentModel;
 using SearchMaster.Engine;
+using System.Text.Json;
 
 namespace SearchMaster
 {
@@ -55,13 +56,16 @@ namespace SearchMaster
 
         public void Save()
         {
-            BinaryFormatter formatter = new BinaryFormatter();
+            // BinaryFormatter formatter = new BinaryFormatter();
+            // 
+            // Stream fs = File.OpenWrite("settings.dat");
+            // formatter.Serialize(fs, this);
+            // fs.Flush();
+            // fs.Close();
+            // fs.Dispose();
 
-            Stream fs = File.OpenWrite("settings.dat");
-            formatter.Serialize(fs, this);
-            fs.Flush();
-            fs.Close();
-            fs.Dispose();
+            string jsonString = JsonSerializer.Serialize(this);
+            File.WriteAllText("settings.json", jsonString);
         }
 
         public static Settings Load()
