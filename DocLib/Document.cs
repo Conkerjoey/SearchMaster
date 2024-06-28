@@ -16,6 +16,7 @@ namespace DocLib
         private DocumentPath documentPath;
         private Guid guid;
         private List<WeightedLabel> weightLabels = new List<WeightedLabel>();
+        private List<string> urls = new List<string>();
         private int totalWords;
 
         [NonSerialized]
@@ -49,7 +50,8 @@ namespace DocLib
         {
             string[] lines = Reader.ReadLines(this);
             Parser p = new Parser(lines);
-            weightLabels.AddRange(p.GetLabels(ref totalWords)); // return an ordered list.
+            weightLabels.AddRange(p.GetLabels(ref totalWords));
+            urls.AddRange(p.GetURLs());
         }
 
         public string[] GetLines()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DocLib
@@ -9,6 +10,7 @@ namespace DocLib
     public class Parser
     {
         private string[] lines;
+        private Regex urlRegex = new Regex(@"(https?)://(-\.)?([^\s/?\.#-]+\.?)+(/[^\s]*)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public Parser(string[] lines)
         {
@@ -40,6 +42,20 @@ namespace DocLib
                 totalWords += words.Length;
             }
             return labels;
+        }
+
+        public List<string> GetURLs()
+        {
+            List<string> urls = new List<string>();
+            for (int i = 0; i < lines.Length; i++)
+            {
+                MatchCollection matches = urlRegex.Matches(lines[i]);
+                foreach (Match match in matches)
+                {
+                    urls.Add(match.Value);
+                }
+            }
+            return urls;
         }
     }
 }

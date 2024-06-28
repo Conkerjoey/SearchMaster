@@ -1,0 +1,4 @@
+PowerPoint file support
+OneNote file support
+Automatic URL detection and crawlign
+Automatic txt file detection based on encoding
