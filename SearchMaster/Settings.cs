@@ -9,6 +9,7 @@ using System.IO;
 using System.ComponentModel;
 using SearchMaster.Engine;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace SearchMaster
 {
@@ -56,22 +57,26 @@ namespace SearchMaster
 
         public void Save()
         {
-            // BinaryFormatter formatter = new BinaryFormatter();
+            BinaryFormatter formatter = new BinaryFormatter();
+            
+            Stream fs = File.OpenWrite("settings.dat");
+            formatter.Serialize(fs, this);
+            fs.Flush();
+            fs.Close();
+            fs.Dispose();
+            // var options = new JsonSerializerOptions()
+            // {
+            //     IncludeFields = true,
             // 
-            // Stream fs = File.OpenWrite("settings.dat");
-            // formatter.Serialize(fs, this);
-            // fs.Flush();
-            // fs.Close();
-            // fs.Dispose();
-
-            string jsonString = JsonSerializer.Serialize(this);
-            File.WriteAllText("settings.json", jsonString);
+            // };
+            // string jsonString = JsonSerializer.Serialize(this, options);
+            // File.WriteAllText("settings.json", jsonString);
         }
 
         public static Settings Load()
         {
             BinaryFormatter formatter = new BinaryFormatter();
-
+            
             try
             {
                 FileStream fs = File.Open("settings.dat", FileMode.Open);
@@ -88,6 +93,17 @@ namespace SearchMaster
                 settings.Save();
                 return settings;
             }
+            // try
+            // {
+            //     return JsonSerializer.Deserialize<Settings>(File.ReadAllText("settings.json"));
+            // }
+            // catch (Exception e)
+            // {
+            //     Console.WriteLine(e.Message + Environment.NewLine + e.StackTrace);
+            //     Settings settings = new Settings();
+            //     settings.Save();
+            //     return settings;
+            // }
         }
     }
 }

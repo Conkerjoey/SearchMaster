@@ -91,7 +91,7 @@ namespace SearchMaster.Engine
                     MatchCollection matches = regex.Matches(lines[l]);
                     if (matches.Count > 0)
                     {
-
+                        int bp = 0;
                     }
                     relevance += matches.Count;
                 }

@@ -62,7 +62,10 @@ namespace DocLib
             if (doc.DocumentPath != null)
             {
                 string docPathStr = doc.DocumentPath.Path;
-                if (docPathStr.EndsWith(".txt"))
+                if (docPathStr.EndsWith(".txt") ||
+                    docPathStr.EndsWith(".css") ||
+                    docPathStr.EndsWith(".html") ||
+                    docPathStr.EndsWith(".js"))
                 {
                     return DocumentType.Text;
                 }

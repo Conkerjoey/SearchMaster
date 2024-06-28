@@ -87,7 +87,7 @@ namespace SearchMaster.Engine
                 string[] lines = document.GetLines();
                 for (int l = 0; l < lines.Length; l++)
                 {
-                    if (lines[l].Contains(text))
+                    if (lines[l].ToLower().Contains(text.ToLower()))
                     {
                         relevance++;
                     }
