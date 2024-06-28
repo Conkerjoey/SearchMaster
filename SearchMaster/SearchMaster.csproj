@@ -126,6 +126,9 @@
     <Compile Include="Windows\CorpusWindow.xaml.cs">
       <DependentUpon>CorpusWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\OnScreenPreview.xaml.cs">
+      <DependentUpon>OnScreenPreview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Popup.xaml.cs">
       <DependentUpon>Popup.xaml</DependentUpon>
     </Compile>
@@ -156,6 +159,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\OnScreenPreview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Popup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -35,6 +35,7 @@ namespace SearchMaster
             else
             {
                 this.corpus = corpus.Duplicate();
+                this.textBoxCorpusName.IsEnabled = false;
             }
 
             this.DataContext = this.corpus;

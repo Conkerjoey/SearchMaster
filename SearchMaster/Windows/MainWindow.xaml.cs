@@ -10,6 +10,7 @@ using SearchMaster.Engine;
 using DocLib;
 using MasterIndexer;
 using DocumentFormat.OpenXml.Spreadsheet;
+using SearchMaster.Windows;
 
 namespace SearchMaster
 {
@@ -20,6 +21,7 @@ namespace SearchMaster
     {
         private static SearchEngine defaultSearchEngine;
         private static Settings defaultSettings;
+        private OnScreenPreview currentPreview = null;
 
         static MainWindow()
         {
@@ -241,7 +243,24 @@ namespace SearchMaster
                 }
             }
         }
-        
+
+        private void listBoxSearchResults_MouseEnter(object sender, MouseEventArgs e)
+        {
+            // currentPreview = new OnScreenPreview();
+            // currentPreview.ShowDialog();
+        }
+
+        private void listBoxSearchResults_MouseLeave(object sender, MouseEventArgs e)
+        {
+            // currentPreview.Hide();
+            // currentPreview = null;
+        }
+
+        private void listBoxSearchResults_MouseMove(object sender, MouseEventArgs e)
+        {
+            var mousePosition = e.GetPosition(this);
+        }
+
         private void comboBoxResolverType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (sender is ComboBox)

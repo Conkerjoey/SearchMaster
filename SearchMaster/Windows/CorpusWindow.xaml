@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SearchMaster"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="CorpusWindow" Height="256" Width="425">
+        Title="CorpusWindow" Height="288" Width="425">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -40,7 +40,7 @@
                 <Button x:Name="buttonOpenFolder" Content="..." Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Bottom" Width="20" Height="18" Click="buttonOpenFolder_Click"/>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="groupBoxFilters" Grid.Column="1" Header="Filter" Margin="0,0,0,10" Grid.Row="2" Grid.ColumnSpan="3" Height="auto">
+        <GroupBox x:Name="groupBoxFilters" Grid.Column="1" Header="File Filter" Margin="0,0,0,10" Grid.Row="2" Grid.ColumnSpan="3" Height="auto">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -50,11 +50,13 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="textBlockWhitelist" Text="Whitelist" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBox x:Name="textBoxWhitelist" Text="{Binding Whitelist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,0,0" TextWrapping="Wrap" Grid.ColumnSpan="2" VerticalAlignment="Center" IsEnabled="False"/>
-                <TextBlock x:Name="textBlockBlacklist" Text="Blacklist" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBox x:Name="textBoxBlacklist" Text="{Binding Blacklist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxWhitelist" Text="{Binding Whitelist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,0,0" TextWrapping="Wrap" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
+                <TextBlock x:Name="textBlockOr" Text="Or" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBlock x:Name="textBlockBlacklist" Text="Blacklist" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxBlacklist" Text="{Binding Blacklist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
             </Grid>
         </GroupBox>
         <Button x:Name="buttonOk" Content="OK" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center" Width="74" Click="buttonOk_Click" Margin="118,0,0,0" Grid.ColumnSpan="2" />

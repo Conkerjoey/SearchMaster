@@ -12,17 +12,31 @@ namespace DocLib
     public class Files
     {
 
-        public static List<string> GetAllFiles(string directory, bool subdirectories, string whitelist = null, string blacklist = null)
+        public static List<string> GetAllFiles(string directory, bool subdirectories, string whitelist = "", string blacklist = "")
         {
+            if (whitelist == null)
+                whitelist = "";
+            if (blacklist == null)
+                blacklist = "";
+            whitelist = whitelist.Trim();
+            whitelist = whitelist.Trim();
             List<string> files = new List<string>();
             try
             {
                 foreach (string f in Directory.GetFiles(directory))
                 {
-                    if (blacklist != null)
+                    if (blacklist.Length > 0 && whitelist.Length <= 0)
                     {
                         string ext = Path.GetExtension(f).Replace(".", "");
                         if (!blacklist.ToLower().Contains(ext.ToLower()))
+                        {
+                            files.Add(f);
+                        }
+                    }
+                    else if (whitelist.Length > 0 && blacklist.Length <= 0)
+                    {
+                        string ext = Path.GetExtension(f).Replace(".", "");
+                        if (whitelist.ToLower().Contains(ext.ToLower()))
                         {
                             files.Add(f);
                         }
@@ -31,6 +45,7 @@ namespace DocLib
                     {
                         files.Add(f);
                     }
+
                 }
                 if (subdirectories)
                 {
