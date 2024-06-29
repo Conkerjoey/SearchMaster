@@ -7,8 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.IO;
 using SearchMaster.Engine;
-using DocLib;
-using MasterIndexer;
+using SearchMaster.Indexing;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System.Windows.Data;
 
@@ -79,7 +78,7 @@ namespace SearchMaster
 
             foreach (Corpus corpus in listBoxCorpora.SelectedItems)
             {
-                serializedDocumentsPaths.AddRange(Files.GetAllFiles(Path.Combine(new string[] { defaultSearchEngine.CorporaDirectory, corpus.Name }), false, null));
+                serializedDocumentsPaths.AddRange(Utils.ListDirectory(Path.Combine(new string[] { defaultSearchEngine.CorporaDirectory, corpus.Name }), false, null));
             }
 
             IResolver resolver = null;
@@ -129,58 +128,16 @@ namespace SearchMaster
             CorpusWindow corpusWindow = new CorpusWindow() { Title = "Corpus Creation Window", Owner = this };
             if (true == corpusWindow.ShowDialog())
             {
-                corpusWindow.Corpus.ListDocumentsAtLocation();
                 Indexer indexer = new Indexer("1.0.0", defaultSettings.MultithreadingEnable, MainWindow.SearchEngine.CorporaDirectory, corpusWindow.Corpus.CrawlUrlEnabled);
-                //TaskViewer taskViewer = new TaskViewer() { Title = "Task running", Summary = "Loading & analyzing documents... This may takes a while.", Owner = this.Owner };
-                //taskViewer.Show();
-
-                Progress<double> progressRead = new Progress<double>(value => {
-                    if (value == -1)
-                    {
-                        //taskViewer.Progress = 0;
-                        statusProgressBar.Value = 0;
-                        return;
-                    }
-                    //taskViewer.Progress += value * 100.0D / corpusWindow.Corpus.DocumentCount;
-                    //taskViewer.Summary = "Loading & analyzing documents... (" + (int)Math.Ceiling(taskViewer.Progress / 100 * corpusWindow.Corpus.DocumentCount) + "/" + corpusWindow.Corpus.DocumentCount + ")";
-
-                    statusProgressBar.Value += value * 100.0D / corpusWindow.Corpus.DocumentCount;
-                    if (statusProgressBar.Visibility != Visibility.Visible)
-                        statusProgressBar.Visibility = Visibility.Visible;
-                    statusSummaryText.Text = "Loading & analyzing documents... (" + (int)Math.Ceiling(statusProgressBar.Value / 100 * corpusWindow.Corpus.DocumentCount) + "/" + corpusWindow.Corpus.DocumentCount + ")";
-                });
-                Progress<double> progressCrawl = new Progress<double>(value => {
-                    if (value == -1)
-                    {
-                        //taskViewer.Progress = 0;
-                        statusProgressBar.Value = 0;
-                        return;
-                    }
-                    //taskViewer.Progress += value * 100.0D / corpusWindow.Corpus.DocumentCount;
-                    //taskViewer.Summary = "Loading & analyzing documents... (" + (int)Math.Ceiling(taskViewer.Progress / 100 * corpusWindow.Corpus.DocumentCount) + "/" + corpusWindow.Corpus.DocumentCount + ")";
-
-                    statusProgressBar.Value += value * 100.0D / corpusWindow.Corpus.DocumentCount;
-                    if (statusProgressBar.Visibility != Visibility.Visible)
-                        statusProgressBar.Visibility = Visibility.Visible;
-                    statusSummaryText.Text = "Crawling URLs... (" + (int)Math.Ceiling(statusProgressBar.Value / 100 * corpusWindow.Corpus.DocumentCount) + "/" + corpusWindow.Corpus.DocumentCount + ")";
-                });
-                Progress<double> progressCompute = new Progress<double>(value => {
-                    //taskViewer.Progress += value * 100.0D / corpusWindow.Corpus.DocumentCount;
-                    //taskViewer.Summary = "Compute weighted labels... (" + (int)Math.Ceiling(taskViewer.Progress / 100 * corpusWindow.Corpus.DocumentCount) + "/" + corpusWindow.Corpus.DocumentCount + ")";
-
-                    statusProgressBar.Value += value * 100.0D / corpusWindow.Corpus.DocumentCount;
-                    if (statusProgressBar.Visibility != Visibility.Visible)
-                        statusProgressBar.Visibility = Visibility.Visible;
-                    statusSummaryText.Text = "Compute weighted labels... (" + (int)Math.Ceiling(statusProgressBar.Value / 100 * corpusWindow.Corpus.DocumentCount) + "/" + corpusWindow.Corpus.DocumentCount + ")";
-                });
+                statusProgressBar.Visibility = Visibility.Visible;
+                statusSummaryText.Text = "Indexing...";
                 await Task.Run(() =>
                 {
-                    indexer.ProcessCorpus(corpusWindow.Corpus, progressRead, progressCrawl, progressCompute);
+                    indexer.ProcessCorpus(corpusWindow.Corpus);
                 });
                 statusProgressBar.Visibility = Visibility.Hidden;
                 statusSummaryText.Text = string.Empty;
 
-                //taskViewer.Close();
                 listBoxCorpora.Items.Add(corpusWindow.Corpus);
                 defaultSettings.Corpora.Add(corpusWindow.Corpus);
                 defaultSettings.Save();
@@ -223,7 +180,7 @@ namespace SearchMaster
                 {
                     selectedCorpus.Name = corpusWindow.Corpus.Name;
                     selectedCorpus.Location = corpusWindow.Corpus.Location;
-                    selectedCorpus.DocumentsPath = corpusWindow.Corpus.DocumentsPath;
+                    selectedCorpus.DocumentCount = corpusWindow.Corpus.DocumentCount;
                     selectedCorpus.Whitelist = corpusWindow.Corpus.Whitelist;
                     selectedCorpus.Blacklist = corpusWindow.Corpus.Blacklist;
                     selectedCorpus.CrawlUrlEnabled = corpusWindow.Corpus.CrawlUrlEnabled;
@@ -250,7 +207,7 @@ namespace SearchMaster
                 if (((ListBoxItem)sender).Content is SearchResult)
                 {
                     SearchResult sr = (SearchResult)((ListBoxItem)sender).Content;
-                    System.Diagnostics.Process.Start(sr.Document.DocumentPath.Path);
+                    System.Diagnostics.Process.Start(sr.Document.DocumentSource.Path);
                 }
             }
         }

@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
 using DocLib;
+using System.Diagnostics;
 
 namespace MasterIndexer
 {
@@ -26,20 +27,21 @@ namespace MasterIndexer
 
         public void ProcessCorpus(Corpus corpus, IProgress<double> progressRead, IProgress<double> progressCrawl, IProgress<double> progressCompute)
         {
+            corpus.ListDocumentsAtLocation();
             List<Document> documents = new List<Document>();
 
-            foreach (DocumentPath documentPath in corpus.DocumentsPath)
+            foreach (DocumentSource documentSource in corpus.DocumentsPath)
             {
-                if (documentPath.PathType == DocumentPath.Type.Local)
+                if (documentSource.PathType == DocumentSource.Type.Local)
                 {
-                    if (File.Exists(documentPath.Path))
+                    if (File.Exists(documentSource.Path))
                     {
-                        Document doc = new Document(Path.GetFileName(documentPath.Path), documentPath);
+                        Document doc = new Document(Path.GetFileName(documentSource.Path), documentSource.Path, documentSource);
                         documents.Add(doc);
                     }
                     else
                     {
-                        Console.WriteLine("[WARNING] File '" + documentPath + "' in corpus '" + corpus.Name + "' has an invalid path or does not exists.");
+                        Console.WriteLine("[WARNING] File '" + documentSource + "' in corpus '" + corpus.Name + "' has an invalid path or does not exists.");
                     }
                 }
             }
@@ -69,7 +71,13 @@ namespace MasterIndexer
                 int listIndex = i;
                 if (listIndex >= documentListProcessors.Count)
                     break;
-                Thread thread = new Thread(() => corpus.ScanDocumentLabels(documentListProcessors[listIndex], progressRead));
+                Thread thread = new Thread(() => {
+                    foreach (Document document in documentListProcessors[listIndex])
+                    {
+                        document.ReadContent();
+                        progressRead?.Report(1);
+                    }
+                });
                 threads.Add(thread);
                 thread.Start();
             }
@@ -80,23 +88,42 @@ namespace MasterIndexer
             threads.Clear();
 
             progressRead?.Report(-1);
-            
-            for (int i = 0; i < logicalProcessorCount; i++)
-            {
-                int listIndex = i;
-                if (listIndex >= documentListProcessors.Count)
-                    break;
-                Thread thread = new Thread(() => corpus.ScanDocumentLabels(documentListProcessors[listIndex], progressCrawl));
-                threads.Add(thread);
-                thread.Start();
-            }
-            foreach (Thread thread in threads)
-            {
-                thread.Join();
-            }
-            threads.Clear();
 
-            progressRead?.Report(-1);
+
+
+            // Single Threaded by Design
+            List<string> tempFiles = new List<string>();
+            HttpService httpService = new HttpService();
+            List<Document> documentsFromWeb = new List<Document>();
+            foreach (Document document in documents)
+            {
+                foreach (string url in document.URLs)
+                {
+                    string tempFile = Utils.CreateTempFile();
+                    DocumentType docType = httpService.Crawl(url, tempFile);
+                    tempFiles.Add(tempFile);
+                    DocumentSource documentSource = new DocumentSource(DocumentSource.Type.Web, url);
+                    Document docFromWeb = new Document(Path.GetFileName(tempFile), tempFile, documentSource) { DocumentType = docType };
+                    corpus.DocumentsPath.Add(documentSource);
+                    docFromWeb.ReadContent();
+                    documentsFromWeb.Add(docFromWeb);
+                    documentListProcessors[0].Add(docFromWeb);
+                    progressCrawl?.Report(1);
+                }
+            }
+            documents.AddRange(documentsFromWeb);
+            // Delete temporary files
+            foreach (string tmpFile in tempFiles)
+            {
+                if (File.Exists(tmpFile))
+                {
+                    File.Delete(tmpFile);
+                }
+            }
+            progressCrawl?.Report(-1);
+            // ----------------------------
+
+
 
             DirectoryInfo corpusDirectoryInfo = new DirectoryInfo(Path.Combine(new string[] { outputDirectory, corpus.Name }));
             corpusDirectoryInfo.Create();
@@ -119,6 +146,7 @@ namespace MasterIndexer
                 thread.Join();
             }
             threads.Clear();
+            progressCompute?.Report(-1);
         }
     }
 }

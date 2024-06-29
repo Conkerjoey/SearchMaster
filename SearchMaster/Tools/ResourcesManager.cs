@@ -3,31 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SearchMaster.Indexing;
 
 namespace SearchMaster.Tools
 {
     public class ResourcesManager
     {
-        public static string GetDocumentIconPathFromType(DocLib.DocumentType type)
+        public static string GetFileIconFromType(FileType type)
         {
             switch (type)
             {
-                case DocLib.DocumentType.PDF:
-                    return "Resources/icon_pdf.png";
-                case DocLib.DocumentType.CSharp:
-                    return "Resources/icon_csharp.png";
-                case DocLib.DocumentType.Cpp:
+                case FileType.Cpp:
                     return "Resources/icon_cpp.png";
-                case DocLib.DocumentType.Flow:
-                    return "Resources/icon_flow.png";
-                case DocLib.DocumentType.Word:
-                    return "Resources/icon_word.png";
-                case DocLib.DocumentType.Excel:
+                case FileType.CSharp:
+                    return "Resources/icon_csharp.png";
+                case FileType.Excel:
                     return "Resources/icon_excel.png";
-                case DocLib.DocumentType.Onenote:
+                case FileType.Flow:
+                    return "Resources/icon_flow.png";
+                case FileType.Matlab:
+                    return "Resources/icon_matlab.png";
+                case FileType.Onenote:
                     return "Resources/icon_onenote.png";
-                case DocLib.DocumentType.Text:
-                case DocLib.DocumentType.Undefined:
+                case FileType.PDF:
+                    return "Resources/icon_pdf.png";
+                case FileType.Python:
+                    return "Resources/icon_python.png";
+                case FileType.Html:
+                    return "Resources/icon_web.png";
+                case FileType.Word:
+                    return "Resources/icon_word.png";
+                case FileType.Json:
+                case FileType.Css:
+                case FileType.Javascript:
+                case FileType.Text:
+                case FileType.Undefined:
                     return "Resources/icon_default.png";
                 default:
                     {

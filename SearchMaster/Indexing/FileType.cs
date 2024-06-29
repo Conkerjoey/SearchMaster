@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DocLib
+namespace SearchMaster.Indexing
 {
-    public enum DocumentType
+    // Supported file type (see Reader.cs)
+    public enum FileType
     {
         Undefined,
         Text, // .txt

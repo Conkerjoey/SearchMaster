@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DocLib;
+using SearchMaster.Indexing;
 
 namespace SearchMaster.Engine
 {
@@ -47,7 +47,7 @@ namespace SearchMaster.Engine
         {
             get
             {
-                return "../" + Tools.ResourcesManager.GetDocumentIconPathFromType(document.GetDocumentType());
+                return "../" + Tools.ResourcesManager.GetFileIconFromType(document.FileType);
             }
         }
 
@@ -71,7 +71,7 @@ namespace SearchMaster.Engine
         {
             get
             {
-                return Document.DocumentPath.Path;
+                return Document.DocumentSource.Path;
             }
         }
 

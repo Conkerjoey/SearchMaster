@@ -8,30 +8,32 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using System.Linq;
-using Microsoft.Office.Interop.Word;
 
-namespace DocLib
+namespace SearchMaster.Indexing
 {
     public class Reader
     {
-        public static string[] ReadLines(Document document)
+        public static string[] ReadLines(DocFile docFile)
         {
-            switch (document.DocumentType)
+            switch (docFile.FileType)
             {
-                case DocumentType.Flow:
-                case DocumentType.Cpp:
-                case DocumentType.CSharp:
-                case DocumentType.Python:
-                case DocumentType.Matlab:
-                case DocumentType.Text:
-                    return File.ReadAllLines(document.Filepath);
-                case DocumentType.Word:
-                    WordprocessingDocument wordDocument = WordprocessingDocument.Open(document.Filepath, false);
+                case FileType.Html:
+                case FileType.Json:
+                case FileType.Css:
+                case FileType.Javascript:
+                case FileType.Cpp:
+                case FileType.CSharp:
+                case FileType.Python:
+                case FileType.Matlab:
+                case FileType.Text:
+                    return File.ReadAllLines(docFile.FilePath);
+                case FileType.Word:
+                    WordprocessingDocument wordDocument = WordprocessingDocument.Open(docFile.FilePath, false);
                     Body body = wordDocument.MainDocumentPart.Document.Body;
                     wordDocument.Close();
                     return body.InnerText.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-                case DocumentType.Excel:
-                    SpreadsheetDocument sheetDocument = SpreadsheetDocument.Open(document.Filepath, false);
+                case FileType.Excel:
+                    SpreadsheetDocument sheetDocument = SpreadsheetDocument.Open(docFile.FilePath, false);
                     WorkbookPart workbookPart = sheetDocument.WorkbookPart;
                     SharedStringTablePart sstpart = workbookPart.GetPartsOfType<SharedStringTablePart>().First();
                     SharedStringTable sst = sstpart.SharedStringTable;
@@ -79,11 +81,11 @@ namespace DocLib
                     //     }
                     // }
                     return strings.ToArray();
-                case DocumentType.PDF:
+                case FileType.PDF:
                     StringBuilder text = new StringBuilder();
-                    if (File.Exists(document.Filepath))
+                    if (File.Exists(docFile.FilePath))
                     {
-                        PdfReader pdfReader = new PdfReader(document.Filepath);
+                        PdfReader pdfReader = new PdfReader(docFile.FilePath);
                         for (int page = 1; page <= pdfReader.NumberOfPages; page++)
                         {
                             ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();

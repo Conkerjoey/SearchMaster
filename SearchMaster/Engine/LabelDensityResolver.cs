@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
-using DocLib;
+using SearchMaster.Indexing;
 
 namespace SearchMaster.Engine
 {
@@ -88,7 +88,7 @@ namespace SearchMaster.Engine
 
                 for (int l = 0; l < vectorizedLabels.Length; l++)
                 {
-                    List<WeightedLabel> weightedLabels = document.GetWeightedLabels().FindAll(x => x.GetText() == vectorizedLabels[l] || x.GetText().IndexOf(vectorizedLabels[l], StringComparison.InvariantCultureIgnoreCase) >= 0);
+                    List<WeightedLabel> weightedLabels = document.WeightedLabels.FindAll(x => x.GetText() == vectorizedLabels[l] || x.GetText().IndexOf(vectorizedLabels[l], StringComparison.InvariantCultureIgnoreCase) >= 0);
                     if (weightedLabels != null)
                     {
                         foreach (WeightedLabel wLabel in weightedLabels)

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using DocLib;
+using SearchMaster.Indexing;
 using System.ComponentModel;
 
-namespace MasterIndexer
+namespace SearchMaster.Indexing
 {
     [Serializable]
     public class Corpus : INotifyPropertyChanged
@@ -17,7 +17,6 @@ namespace MasterIndexer
         private string location;
         private string whitelist;
         private string blacklist;
-        List<DocumentSource> documentsSource = new List<DocumentSource>();
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
@@ -35,14 +34,14 @@ namespace MasterIndexer
 
         }
 
-        public void ComputeCorpusDocumentsLabelWeights(List<Document> documentsSublist, List<Document> corpusDocuments, string corpusOutputDirectory, IProgress<double> progress)
+        public void ComputeCorpusDocumentsLabelWeights(List<Document> documentsSublist, List<Document> corpusDocuments, string corpusOutputDirectory)
         {
             for (int i = 0; i < documentsSublist.Count; i++)
             {
-                for (int l = 0; l < documentsSublist[i].GetWeightedLabels().Count; l++)
+                for (int l = 0; l < documentsSublist[i].WeightedLabels.Count; l++)
                 {
                     int labelDocOccurence = 1;
-                    WeightedLabel weightedLabel = documentsSublist[i].GetWeightedLabels()[l];
+                    WeightedLabel weightedLabel = documentsSublist[i].WeightedLabels[l];
 
                     for (int j = 0; j < corpusDocuments.Count; j++)
                     {
@@ -55,24 +54,17 @@ namespace MasterIndexer
                         }
                     }
                     // Compute TF-IDF
-                    double weight = (weightedLabel.GetTotalOccurence() + 0.0D) / documentsSublist[i].GetTotalWords() * Math.Log(corpusDocuments.Count / (labelDocOccurence + 0.0D));
+                    double weight = (weightedLabel.GetTotalOccurence() + 0.0D) / documentsSublist[i].WordCount * Math.Log(corpusDocuments.Count / (labelDocOccurence + 0.0D));
                     // End of Compute
                     weightedLabel.SetWeight(weight);
                 }
                 documentsSublist[i].Save(corpusOutputDirectory);
-                progress?.Report(1);
             }
-        }
-
-        public void ListDocumentsAtLocation()
-        {
-            documentsSource.Clear();
-            documentsSource.AddRange(Files.GetAllFilesD(location, true, whitelist, blacklist));
         }
 
         public Corpus Duplicate()
         {
-            return new Corpus() { Name = this.Name, Whitelist = this.Whitelist, blacklist = this.Blacklist, Location = this.Location, DocumentsPath = this.DocumentsPath.ToList<DocumentSource>() };
+            return new Corpus() { Name = this.Name, Whitelist = this.Whitelist, blacklist = this.Blacklist, Location = this.Location, };
         }
 
         #region Properties
@@ -103,30 +95,14 @@ namespace MasterIndexer
 
         public int DocumentCount
         {
-            get
-            {
-                return documentsSource.Count;
-            }
-        }
-
-        public List<DocumentSource> DocumentsPath
-        {
-            get
-            {
-                return documentsSource;
-            }
-            set
-            {
-                documentsSource = value;
-                this.OnPropertyChanged("DocumentsPath");
-            }
+            get;set;
         }
 
         public string FormattedDocumentCount
         {
             get
             {
-                return documentsSource.Count + " documents";
+                return DocumentCount + " documents";
             }
         }
 

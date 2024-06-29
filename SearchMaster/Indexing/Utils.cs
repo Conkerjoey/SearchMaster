@@ -1,18 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 
-namespace DocLib
+namespace SearchMaster.Indexing
 {
-    public class Files
+    public class Utils
     {
+        public static string CreateTempFile()
+        {
+            string fileName = string.Empty;
+            try
+            {
+                fileName = Path.GetTempFileName();
+                FileInfo fileInfo = new FileInfo(fileName);
+                fileInfo.Attributes = FileAttributes.Temporary;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("[ERROR] " + ex.Message);
+            }
+            return fileName;
+        }
 
-        public static List<string> GetAllFiles(string directory, bool subdirectories, string whitelist = "", string blacklist = "")
+        public static List<string> ListDirectory(string directory, bool subdirectories, string whitelist = "", string blacklist = "")
         {
             if (whitelist == null)
                 whitelist = "";
@@ -45,13 +58,12 @@ namespace DocLib
                     {
                         files.Add(f);
                     }
-
                 }
                 if (subdirectories)
                 {
                     foreach (string d in Directory.GetDirectories(directory))
                     {
-                        files.AddRange(GetAllFiles(d, subdirectories, whitelist, blacklist));
+                        files.AddRange(ListDirectory(d, subdirectories, whitelist, blacklist));
                     }
                 }
             }
@@ -60,17 +72,6 @@ namespace DocLib
                 throw e;
             }
             return files;
-        }
-
-        public static List<DocumentSource> GetAllFilesD(string directory, bool subdirectories, string whitelist = "", string blacklist = "")
-        {
-            List<string> filespath = GetAllFiles(directory, subdirectories, whitelist, blacklist);
-            List<DocumentSource> docPaths = new List<DocumentSource>();
-            foreach(string file in filespath)
-            {
-                docPaths.Add(new DocumentSource(DocumentSource.Type.Local, file));
-            }
-            return docPaths;
         }
     }
 }

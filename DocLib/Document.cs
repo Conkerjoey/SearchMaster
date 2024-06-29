@@ -12,99 +12,53 @@ namespace DocLib
     [Serializable]
     public class Document
     {
-        private string name;
-        private DocumentPath documentPath;
+        private DocumentSource documentSource;
         private Guid guid;
         private List<WeightedLabel> weightLabels = new List<WeightedLabel>();
         private List<string> urls = new List<string>();
         private int totalWords;
-
-        [NonSerialized]
+        private string filepath;
         private DocumentType documentType;
 
-        public Document(string name, DocumentPath documentPath)
+        public Document(string name, string filepath, DocumentSource documentSource)
         {
-            this.name = name;
-            this.documentPath = documentPath;
-            this.documentType = DetermineDocType(this);
+            this.Name = name;
+            this.documentSource = documentSource;
+            this.documentType = DetermineDocType(filepath);
+            this.filepath = filepath;
             this.guid = Guid.NewGuid();
         }
 
         public string Name
         {
-            get
-            {
-                return name;
-            }
+            get;set;
         }
 
-        public DocumentPath DocumentPath
+        public string Filepath
+        {
+            get { return filepath; }
+            set { filepath = value; }
+        }
+
+        public DocumentSource DocumentSource
         {
             get
             {
-                return documentPath;
+                return documentSource;
             }
         }
 
-        public void Scan(bool crawlUrlEnabled)
+        public void ReadContent()
         {
             string[] lines = Reader.ReadLines(this);
             Parser p = new Parser(lines);
             weightLabels.AddRange(p.GetLabels(ref totalWords));
-            if (crawlUrlEnabled)
-                urls.AddRange(p.GetURLs());
+            urls.AddRange(p.GetURLs());
         }
 
         public string[] GetLines()
         {
             return Reader.ReadLines(this);
-        }
-
-        public static DocumentType DetermineDocType(Document doc)
-        {
-            if (doc.DocumentPath != null)
-            {
-                string docPathStr = doc.DocumentPath.Path;
-                if (docPathStr.EndsWith(".txt") ||
-                    docPathStr.EndsWith(".css") ||
-                    docPathStr.EndsWith(".html") ||
-                    docPathStr.EndsWith(".js"))
-                {
-                    return DocumentType.Text;
-                }
-                else if (docPathStr.EndsWith(".pdf"))
-                {
-                    return DocumentType.PDF;
-                }
-                else if (docPathStr.EndsWith(".flow"))
-                {
-                    return DocumentType.Flow;
-                }
-                else if (docPathStr.EndsWith(".cs"))
-                {
-                    return DocumentType.CSharp;
-                }
-                else if (docPathStr.EndsWith(".cpp") ||
-                          docPathStr.EndsWith(".c"))
-                {
-                    return DocumentType.Cpp;
-                }
-                else if (docPathStr.EndsWith(".doc") ||
-                         docPathStr.EndsWith(".docx"))
-                {
-                    return DocumentType.Word;
-                }
-                else if (docPathStr.EndsWith(".xls") ||
-                         docPathStr.EndsWith(".xlsx"))
-                {
-                    return DocumentType.Excel;
-                }
-                else if (docPathStr.EndsWith(".one"))
-                {
-                    return DocumentType.Onenote;
-                }
-            }
-            return DocumentType.Undefined;
         }
 
         public List<WeightedLabel> GetWeightedLabels()
@@ -122,9 +76,10 @@ namespace DocLib
             return this.totalWords;
         }
 
-        public DocumentType GetDocumentType()
+        public DocumentType DocumentType
         {
-            return documentType;
+            get { return this.documentType; }
+            set {  this.documentType = value; }
         }
 
         public List<string> URLs
@@ -148,7 +103,6 @@ namespace DocLib
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
             Document document = (Document)formatter.Deserialize(stream);
-            document.documentType = DetermineDocType(document);
             stream.Close();
             return document;
         }
@@ -160,7 +114,7 @@ namespace DocLib
 
         public override string ToString()
         {
-            return name;
+            return Name;
         }
 
         public override bool Equals(object obj)
@@ -175,6 +129,73 @@ namespace DocLib
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public static DocumentType DetermineDocType(string filepath)
+        {
+            if (filepath.EndsWith(".txt") ||
+                filepath.EndsWith(".css") ||
+                filepath.EndsWith(".html") ||
+                filepath.EndsWith(".js"))
+            {
+                return DocumentType.Text;
+            }
+            else if (filepath.EndsWith(".pdf"))
+            {
+                return DocumentType.PDF;
+            }
+            else if (filepath.EndsWith(".flow"))
+            {
+                return DocumentType.Flow;
+            }
+            else if (filepath.EndsWith(".cs"))
+            {
+                return DocumentType.CSharp;
+            }
+            else if (filepath.EndsWith(".cpp") ||
+                      filepath.EndsWith(".c"))
+            {
+                return DocumentType.Cpp;
+            }
+            else if (filepath.EndsWith(".doc") ||
+                     filepath.EndsWith(".docx"))
+            {
+                return DocumentType.Word;
+            }
+            else if (filepath.EndsWith(".xls") ||
+                     filepath.EndsWith(".xlsx"))
+            {
+                return DocumentType.Excel;
+            }
+            else if (filepath.EndsWith(".one"))
+            {
+                return DocumentType.Onenote;
+            }
+            else if (filepath.EndsWith(".py") || filepath.EndsWith(".pyc") || filepath.EndsWith(".pyi") || filepath.EndsWith(".pyd") || filepath.EndsWith(".pyo") || filepath.EndsWith(".pyw") || filepath.EndsWith(".pyz"))
+            {
+                return DocumentType.Python;
+            }
+            else if (filepath.EndsWith(".m"))
+            {
+                return DocumentType.Matlab;
+            }
+            else if (filepath.EndsWith(".html"))
+            {
+                return DocumentType.Html;
+            }
+            else if (filepath.EndsWith(".css"))
+            {
+                return DocumentType.Css;
+            }
+            else if (filepath.EndsWith(".js"))
+            {
+                return DocumentType.Javascript;
+            }
+            else if (filepath.EndsWith(".json"))
+            {
+                return DocumentType.Json;
+            }
+            return DocumentType.Undefined;
         }
     }
 }

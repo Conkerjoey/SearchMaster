@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Diagnostics;
-using DocLib;
+using SearchMaster.Indexing;
 
 namespace SearchMaster.Engine
 {
@@ -108,7 +108,7 @@ namespace SearchMaster.Engine
 
                 for (int l = 0; l < vectorizedLabels.Length; l++)
                 {
-                    WeightedLabel weightedLabel = document.GetWeightedLabels().Find(x => x.GetText() == vectorizedLabels[l]);
+                    WeightedLabel weightedLabel = document.WeightedLabels.Find(x => x.GetText() == vectorizedLabels[l]);
                     if (weightedLabel != null)
                     {
                         if (documentWeightsVectors.ContainsKey(document))

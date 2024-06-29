@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Threading;
 using System.Text.RegularExpressions;
-using DocLib;
+using SearchMaster.Indexing;
 
 namespace SearchMaster.Engine
 {
@@ -80,17 +80,15 @@ namespace SearchMaster.Engine
 
         private void FindInDocument(List<string> documentsPathsSublist, string text, ref List<SearchResult> results)
         {
+            string[] vecQuery = text.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             for (int i = 0; i < documentsPathsSublist.Count; i++)
             {
                 Document document = Document.Load(documentsPathsSublist[i]);
                 double relevance = 0;
-                string[] lines = document.GetLines();
-                for (int l = 0; l < lines.Length; l++)
+                for (int l = 0; l < vecQuery.Length; l++)
                 {
-                    if (lines[l].ToLower().Contains(text.ToLower()))
-                    {
-                        relevance++;
-                    }
+                    List<WeightedLabel> weightedLabels = document.WeightedLabels.FindAll(x => x.GetText() == vecQuery[l] || x.GetText().IndexOf(vecQuery[l], StringComparison.InvariantCultureIgnoreCase) >= 0);
+                    relevance += weightedLabels.Count;
                 }
                 if (relevance > 0)
                 {

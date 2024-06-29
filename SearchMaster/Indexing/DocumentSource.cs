@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DocLib
+namespace SearchMaster.Indexing
 {
     [Serializable]
-    public class DocumentPath
+    public class DocumentSource
     {
         public enum Type
         {
@@ -21,7 +21,7 @@ namespace DocLib
         private Type type;
         private string path;
 
-        public DocumentPath(Type type, string path)
+        public DocumentSource(Type type, string path)
         {
             this.type = type;
             this.path = path;

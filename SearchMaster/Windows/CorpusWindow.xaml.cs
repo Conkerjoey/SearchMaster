@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using MasterIndexer;
+using SearchMaster.Indexing;
 
 namespace SearchMaster
 {

@@ -122,7 +122,20 @@
     <Compile Include="Engine\FullMatchResolver.cs" />
     <Compile Include="Engine\LabelDensityResolver.cs" />
     <Compile Include="Engine\IResolver.cs" />
+    <Compile Include="Engine\OkapiBM25Resolver.cs" />
     <Compile Include="Engine\RegexResolver.cs" />
+    <Compile Include="Indexing\Corpus.cs" />
+    <Compile Include="Indexing\Document.cs" />
+    <Compile Include="Indexing\DocumentSource.cs" />
+    <Compile Include="Indexing\FileType.cs" />
+    <Compile Include="Indexing\DocFile.cs" />
+    <Compile Include="Indexing\HttpService.cs" />
+    <Compile Include="Indexing\Indexer.cs" />
+    <Compile Include="Indexing\Parser.cs" />
+    <Compile Include="Indexing\Reader.cs" />
+    <Compile Include="Indexing\StringWrapper.cs" />
+    <Compile Include="Indexing\Utils.cs" />
+    <Compile Include="Indexing\WeightedLabel.cs" />
     <Compile Include="Windows\CorpusWindow.xaml.cs">
       <DependentUpon>CorpusWindow.xaml</DependentUpon>
     </Compile>
@@ -193,16 +206,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DocLib\DocLib.csproj">
-      <Project>{7696475a-d826-40bd-b6c4-af9ec0ccebc3}</Project>
-      <Name>DocLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MasterIndexer\MasterIndexer.csproj">
-      <Project>{f075a278-3012-402e-96e3-fcedb187bfe4}</Project>
-      <Name>MasterIndexer</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="icon.ico" />
     <Resource Include="Resources\icon_word.png" />
     <Resource Include="Resources\icon_flow.png" />
@@ -239,6 +242,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icon_onenote.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon_web.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon_python.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon_matlab.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
