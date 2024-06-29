@@ -18,8 +18,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="10"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="10"/>
         </Grid.RowDefinitions>
         <GroupBox x:Name="groupBoxCorpusName" Grid.Column="1" Header="Corpus Details" Height="auto" Grid.Row="1" Grid.ColumnSpan="3" VerticalAlignment="Center">
@@ -59,8 +60,9 @@
                 <TextBox x:Name="textBoxBlacklist" Text="{Binding Blacklist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
             </Grid>
         </GroupBox>
-        <Button x:Name="buttonOk" Content="OK" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center" Width="74" Click="buttonOk_Click" Margin="118,0,0,0" Grid.ColumnSpan="2" />
-        <Button x:Name="buttonCancel" Grid.ColumnSpan="1" Content="Cancel" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="3" VerticalAlignment="Center" Width="76" Click="buttonCancel_Click" Margin="10,0,0,0" />
+        <CheckBox x:Name="checkBoxCrawl" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Content="Crawl URL on the web" IsChecked="{Binding CrawlUrlEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button x:Name="buttonOk" Content="OK" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center" Width="74" Click="buttonOk_Click" Margin="118,0,0,0" Grid.ColumnSpan="2" />
+        <Button x:Name="buttonCancel" Grid.ColumnSpan="1" Content="Cancel" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center" Width="76" Click="buttonCancel_Click" Margin="10,0,0,0" />
 
     </Grid>
 </Window>
