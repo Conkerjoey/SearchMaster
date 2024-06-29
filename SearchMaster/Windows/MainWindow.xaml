@@ -83,8 +83,8 @@
                         <DataTemplate>
                             <Grid Margin="0,5,0,5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto" />
-                                    <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto" MinWidth="150px" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
@@ -92,14 +92,14 @@
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
                                 <Image Source="../Resources/icon_folder.png" Width="32" Height="32" Grid.RowSpan="2" />
-                                <TextBlock Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Margin="5,0,0,0" />
-                                <TextBlock Text="{Binding Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" />
+                                <TextBlock Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14px" FontWeight="DemiBold" Grid.Column="1" Margin="5,0,0,0" />
+                                <TextBlock Text="{Binding Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="12px" Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" />
                                 <Button Click="buttonCorpusSettings_Click" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="2" VerticalAlignment="Top" BorderBrush="{x:Null}" Foreground="{x:Null}" Background="{x:Null}" IsEnabled="False">
                                     <StackPanel>
                                         <Image Source="../Resources/icon_settings.png"  Width="16" Height="16" />
                                     </StackPanel>
                                 </Button>
-                                <TextBlock Text="{Binding FormattedDocumentCount}" Grid.Column="2" Grid.Row="1" Margin="5,0,0,0" FontSize="10px" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+                                <TextBlock Text="{Binding FormattedDocumentCount}" Grid.Column="2" Grid.Row="1" Margin="5,0,0,0" FontSize="12px" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -147,9 +147,9 @@
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
                                 <Image Source="{Binding IconPath}" Width="32" Height="32" Grid.RowSpan="2" />
-                                <TextBlock Text="{Binding Text}" Grid.Column="1" Margin="5,0,0,0" />
-                                <TextBlock Text="{Binding FormattedRelevance}" Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" />
-                                <TextBlock Text="{Binding FullPath}" Grid.Column="2" Grid.Row="2" Margin="5,0,0,0" FontSize="10px" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+                                <TextBlock Text="{Binding Text}" Grid.Column="1" Margin="5,0,0,0" Grid.ColumnSpan="2" FontSize="14px" FontWeight="DemiBold" />
+                                <TextBlock Text="{Binding FormattedRelevance}" FontSize="12px" Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" />
+                                <TextBlock Text="{Binding FullPath}" Grid.Column="2" Grid.Row="2" Margin="5,0,0,0" FontSize="12px" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

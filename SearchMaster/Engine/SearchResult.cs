@@ -71,7 +71,14 @@ namespace SearchMaster.Engine
         {
             get
             {
-                return Document.DocumentSource.Path;
+                if (Document.Parent != null)
+                {
+                    return "From link in " + Document.Parent.DocumentSource.Path;
+                }
+                else
+                {
+                    return Document.DocumentSource.Path;
+                }
             }
         }
 

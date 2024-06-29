@@ -128,7 +128,7 @@ namespace SearchMaster
             CorpusWindow corpusWindow = new CorpusWindow() { Title = "Corpus Creation Window", Owner = this };
             if (true == corpusWindow.ShowDialog())
             {
-                Indexer indexer = new Indexer("1.0.0", defaultSettings.MultithreadingEnable, MainWindow.SearchEngine.CorporaDirectory, corpusWindow.Corpus.CrawlUrlEnabled);
+                Indexer indexer = new Indexer("1.0.0", defaultSettings.MultithreadingEnable, MainWindow.SearchEngine.CorporaDirectory);
                 statusProgressBar.Visibility = Visibility.Visible;
                 statusSummaryText.Text = "Indexing...";
                 await Task.Run(() =>

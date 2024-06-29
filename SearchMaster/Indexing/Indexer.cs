@@ -23,12 +23,11 @@ namespace SearchMaster.Indexing
         private string outputDirectory;
         private bool crawlUrl;
 
-        public Indexer(string version, bool isMultithreaded, string outputDirectory, bool crawlUrl)
+        public Indexer(string version, bool isMultithreaded, string outputDirectory)
         {
             this.version = version;
             this.isMultithreaded = isMultithreaded;
             this.outputDirectory = outputDirectory;
-            this.crawlUrl = crawlUrl;
         }
 
         public void ProcessCorpus(Corpus corpus)
@@ -93,35 +92,42 @@ namespace SearchMaster.Indexing
             }
             threads.Clear();
 
-            foreach (var element in docURLs)
+            if (corpus.CrawlUrlEnabled)
             {
-                Document parentDoc = element.Key;
-                foreach (string url in element.Value)
+                List<string> processedURLs = new List<string>();
+                foreach (var element in docURLs)
                 {
-                    string tempFile = Utils.CreateTempFile();
-                    FileType docType = httpService.Crawl(url, tempFile);
-                    tempFiles.Add(tempFile);
+                    Document parentDoc = element.Key;
+                    foreach (string url in element.Value)
+                    {
+                        if (processedURLs.Contains(url))
+                            continue;
+                        string tempFile = Utils.CreateTempFile();
+                        FileType docType = httpService.Crawl(url, tempFile);
+                        tempFiles.Add(tempFile);
 
-                    DocFile webfile = new DocFile() { FilePath = tempFile, FileType = docType };
-                    string[] weblines = Reader.ReadLines(webfile);
-                    Parser webparser = new Parser(weblines);
-                    int webWordCount = 0;
-                    List<WeightedLabel> weblabels = webparser.GetLabels(ref webWordCount);
-
-                    DocumentSource documentSource = new DocumentSource(DocumentSource.Type.Web, url);
-                    Document docFromWeb = new Document() { Name = url, FileType = webfile.FileType, WeightedLabels = weblabels, WordCount = webWordCount, DocumentSource = new DocumentSource(DocumentSource.Type.Web, url), Parent = parentDoc };
-                    documents.Add(docFromWeb);
+                        DocFile webfile = new DocFile() { FilePath = tempFile, FileType = docType };
+                        string[] weblines = Reader.ReadLines(webfile);
+                        Parser webparser = new Parser(weblines);
+                        int webWordCount = 0;
+                        List<WeightedLabel> weblabels = webparser.GetLabels(ref webWordCount);
+                        
+                        processedURLs.Add(url);
+                        DocumentSource documentSource = new DocumentSource(DocumentSource.Type.Web, url);
+                        Document docFromWeb = new Document() { Name = url, FileType = webfile.FileType, WeightedLabels = weblabels, WordCount = webWordCount, DocumentSource = new DocumentSource(DocumentSource.Type.Web, url), Parent = parentDoc };
+                        documents.Add(docFromWeb);
+                    }
                 }
-            }
-            // Delete temporary files
-            foreach (string tmpFile in tempFiles)
-            {
-                if (File.Exists(tmpFile))
+                // Delete temporary files
+                foreach (string tmpFile in tempFiles)
                 {
-                    File.Delete(tmpFile);
+                    if (File.Exists(tmpFile))
+                    {
+                        File.Delete(tmpFile);
+                    }
                 }
+                // ----------------------------
             }
-            // ----------------------------
 
             if (documents.Count <= 0)
             {
