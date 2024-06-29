@@ -37,9 +37,17 @@ namespace MasterIndexer
 
         public void ScanDocumentLabels(List<Document> documentsSublist, IProgress<double> progress)
         {
+            HttpService httpService = new HttpService();
             foreach (Document document in documentsSublist)
             {
-                document.Scan();
+                document.Scan(CrawlUrlEnabled);
+                if (CrawlUrlEnabled)
+                {
+                    foreach (string url in document.URLs)
+                    {
+                        httpService.Crawl(url);
+                    }
+                }
                 progress?.Report(1);
             }
         }
@@ -137,6 +145,11 @@ namespace MasterIndexer
             {
                 return documentsPath.Count + " documents";
             }
+        }
+
+        public bool CrawlUrlEnabled
+        {
+            get; set;
         }
         #endregion
     }

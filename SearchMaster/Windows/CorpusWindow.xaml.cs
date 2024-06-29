@@ -36,6 +36,7 @@ namespace SearchMaster
             {
                 this.corpus = corpus.Duplicate();
                 this.textBoxCorpusName.IsEnabled = false;
+                this.checkBoxCrawl.IsEnabled = false;
             }
 
             this.DataContext = this.corpus;

@@ -46,12 +46,13 @@ namespace DocLib
             }
         }
 
-        public void Scan()
+        public void Scan(bool crawlUrlEnabled)
         {
             string[] lines = Reader.ReadLines(this);
             Parser p = new Parser(lines);
             weightLabels.AddRange(p.GetLabels(ref totalWords));
-            urls.AddRange(p.GetURLs());
+            if (crawlUrlEnabled)
+                urls.AddRange(p.GetURLs());
         }
 
         public string[] GetLines()
@@ -120,6 +121,12 @@ namespace DocLib
         public DocumentType GetDocumentType()
         {
             return documentType;
+        }
+
+        public List<string> URLs
+        {
+            get { return this.urls; }
+            set { this.urls = value; }
         }
 
         public void Save(string directory)
