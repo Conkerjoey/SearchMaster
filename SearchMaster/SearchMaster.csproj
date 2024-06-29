@@ -205,7 +205,6 @@
   <ItemGroup>
     <Resource Include="icon.ico" />
     <Resource Include="Resources\icon_word.png" />
-    <Resource Include="Resources\icon.png" />
     <Resource Include="Resources\icon_flow.png" />
     <Resource Include="Resources\icon_add.png" />
     <Resource Include="Resources\icon_remove.png" />
@@ -233,10 +232,13 @@
     <Resource Include="Resources\icon_folder.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icon_gear.png" />
+    <Resource Include="Resources\icon_small.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icon_small.png" />
+    <Resource Include="Resources\icon_settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon_onenote.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

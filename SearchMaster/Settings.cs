@@ -78,13 +78,6 @@ namespace SearchMaster
             fs.Flush();
             fs.Close();
             fs.Dispose();
-            // var options = new JsonSerializerOptions()
-            // {
-            //     IncludeFields = true,
-            // 
-            // };
-            // string jsonString = JsonSerializer.Serialize(this, options);
-            // File.WriteAllText("settings.json", jsonString);
         }
 
         public static Settings Load()
@@ -107,17 +100,6 @@ namespace SearchMaster
                 settings.Save();
                 return settings;
             }
-            // try
-            // {
-            //     return JsonSerializer.Deserialize<Settings>(File.ReadAllText("settings.json"));
-            // }
-            // catch (Exception e)
-            // {
-            //     Console.WriteLine(e.Message + Environment.NewLine + e.StackTrace);
-            //     Settings settings = new Settings();
-            //     settings.Save();
-            //     return settings;
-            // }
         }
     }
 }

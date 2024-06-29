@@ -24,6 +24,8 @@ namespace SearchMaster.Tools
                     return "Resources/icon_word.png";
                 case DocLib.DocumentType.Excel:
                     return "Resources/icon_excel.png";
+                case DocLib.DocumentType.Onenote:
+                    return "Resources/icon_onenote.png";
                 case DocLib.DocumentType.Text:
                 case DocLib.DocumentType.Undefined:
                     return "Resources/icon_default.png";

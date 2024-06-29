@@ -99,6 +99,10 @@ namespace DocLib
                 {
                     return DocumentType.Excel;
                 }
+                else if (docPathStr.EndsWith(".one"))
+                {
+                    return DocumentType.Onenote;
+                }
             }
             return DocumentType.Undefined;
         }

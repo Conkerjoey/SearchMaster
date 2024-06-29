@@ -16,5 +16,6 @@ namespace DocLib
         CSharp, // .cs
         Cpp, // .cpp, .c
         Flow, // .flow
+        Onenote, // .one
     }
 }
