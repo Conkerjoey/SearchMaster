@@ -30,11 +30,13 @@ namespace SearchMaster
         public List<Corpus> Corpora
         {
             get { return corpora; }
+            set { corpora = value; }
         }
 
         public List<Query> Queries
         {
             get { return queries; }
+            set { queries = value; }
         }
 
         public SearchEngine.ResolverType ResolverType

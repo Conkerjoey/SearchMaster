@@ -10,6 +10,7 @@ using SearchMaster.Engine;
 using DocLib;
 using MasterIndexer;
 using DocumentFormat.OpenXml.Spreadsheet;
+using System.Windows.Data;
 
 namespace SearchMaster
 {
@@ -52,8 +53,7 @@ namespace SearchMaster
             foreach (Corpus corpus in defaultSettings.Corpora)
                 listBoxCorpora.Items.Add(corpus);
 
-            foreach (SearchMaster.Engine.Query query in defaultSettings.Queries)
-                comboBoxQuery.Items.Add(query);
+            BindingOperations.SetBinding(comboBoxQuery, ComboBox.ItemsSourceProperty, new Binding("Queries") { Source = defaultSettings, Mode=BindingMode.TwoWay, UpdateSourceTrigger=UpdateSourceTrigger.PropertyChanged });
 
             comboBoxResolverType.ItemsSource = Enum.GetValues(typeof(SearchEngine.ResolverType)).Cast<SearchEngine.ResolverType>();
             comboBoxResolverType.SelectedItem = defaultSettings.ResolverType;
@@ -104,14 +104,11 @@ namespace SearchMaster
             if (defaultSettings.Queries.Contains(query))
             {
                 defaultSettings.Queries.Remove(query);
-                comboBoxQuery.Items.Remove(query);
             }
             defaultSettings.Queries.Insert(0, query);
-            comboBoxQuery.Items.Insert(0, query);
 
             if (comboBoxQuery.Items.Count > Settings.MAX_QUERY_HISTORY)
             {
-                comboBoxQuery.Items.RemoveAt(comboBoxQuery.Items.Count - 1);
                 defaultSettings.Queries.RemoveAt(defaultSettings.Queries.Count - 1);
             }
 

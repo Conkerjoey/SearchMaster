@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SearchMaster.Engine
 {
     [Serializable]
-    public class Query
+    public class Query : IEquatable<Query>
     {
 
         private string text;
@@ -44,6 +44,11 @@ namespace SearchMaster.Engine
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public bool Equals(Query other)
+        {
+            return this.text == other.text && this.type == other.type;
         }
     }
 }
