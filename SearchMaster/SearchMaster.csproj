@@ -203,8 +203,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icon_word.png" />
     <Resource Include="icon.ico" />
+    <Resource Include="Resources\icon_word.png" />
     <Resource Include="Resources\icon.png" />
     <Resource Include="Resources\icon_flow.png" />
     <Resource Include="Resources\icon_add.png" />
@@ -234,6 +234,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icon_gear.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon_small.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

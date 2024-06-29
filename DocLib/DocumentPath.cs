@@ -15,6 +15,7 @@ namespace DocLib
             Subversion,
             Local,
             Network,
+            Web,
         }
 
         private Type type;

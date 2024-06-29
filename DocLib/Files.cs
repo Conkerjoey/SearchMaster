@@ -61,5 +61,16 @@ namespace DocLib
             }
             return files;
         }
+
+        public static List<DocumentPath> GetAllFilesD(string directory, bool subdirectories, string whitelist = "", string blacklist = "")
+        {
+            List<string> filespath = GetAllFiles(directory, subdirectories, whitelist, blacklist);
+            List<DocumentPath> docPaths = new List<DocumentPath>();
+            foreach(string file in filespath)
+            {
+                docPaths.Add(new DocumentPath(DocumentPath.Type.Local, file));
+            }
+            return docPaths;
+        }
     }
 }

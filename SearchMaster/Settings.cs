@@ -10,17 +10,29 @@ using System.ComponentModel;
 using SearchMaster.Engine;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Collections.ObjectModel;
 
 namespace SearchMaster
 {
     [Serializable]
-    public class Settings
+    public class Settings : INotifyPropertyChanged
     {
         public static readonly int MAX_QUERY_HISTORY = 50;
         private List<Corpus> corpora = new List<Corpus>();
-        private List<Query> queries = new List<Query>();
+        private ObservableCollection<Query> queries = new ObservableCollection<Query>();
         private SearchEngine.ResolverType resolverType;
         private bool multithreadedFlag = true;
+
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         public Settings()
         {
@@ -33,10 +45,10 @@ namespace SearchMaster
             set { corpora = value; }
         }
 
-        public List<Query> Queries
+        public ObservableCollection<Query> Queries
         {
             get { return queries; }
-            set { queries = value; }
+            set { queries = value; this.OnPropertyChanged("Queries"); }
         }
 
         public SearchEngine.ResolverType ResolverType

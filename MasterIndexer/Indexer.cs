@@ -14,28 +14,33 @@ namespace MasterIndexer
         private string version;
         private bool isMultithreaded;
         private string outputDirectory;
+        private bool crawlUrl;
 
-        public Indexer(string version, bool isMultithreaded, string outputDirectory)
+        public Indexer(string version, bool isMultithreaded, string outputDirectory, bool crawlUrl)
         {
             this.version = version;
             this.isMultithreaded = isMultithreaded;
             this.outputDirectory = outputDirectory;
+            this.crawlUrl = crawlUrl;
         }
 
-        public void ProcessCorpus(Corpus corpus, IProgress<double> progressRead, IProgress<double> progressCompute)
+        public void ProcessCorpus(Corpus corpus, IProgress<double> progressRead, IProgress<double> progressCrawl, IProgress<double> progressCompute)
         {
             List<Document> documents = new List<Document>();
 
-            foreach (string documentPath in corpus.DocumentsPath)
+            foreach (DocumentPath documentPath in corpus.DocumentsPath)
             {
-                if (File.Exists(documentPath))
+                if (documentPath.PathType == DocumentPath.Type.Local)
                 {
-                    Document doc = new Document(Path.GetFileName(documentPath), new DocumentPath(DocumentPath.Type.Local, documentPath));
-                    documents.Add(doc);
-                }
-                else
-                {
-                    Console.WriteLine("[WARNING] File '" + documentPath + "' in corpus '" + corpus.Name + "' has an invalid path or does not exists.");
+                    if (File.Exists(documentPath.Path))
+                    {
+                        Document doc = new Document(Path.GetFileName(documentPath.Path), documentPath);
+                        documents.Add(doc);
+                    }
+                    else
+                    {
+                        Console.WriteLine("[WARNING] File '" + documentPath + "' in corpus '" + corpus.Name + "' has an invalid path or does not exists.");
+                    }
                 }
             }
 
@@ -65,6 +70,23 @@ namespace MasterIndexer
                 if (listIndex >= documentListProcessors.Count)
                     break;
                 Thread thread = new Thread(() => corpus.ScanDocumentLabels(documentListProcessors[listIndex], progressRead));
+                threads.Add(thread);
+                thread.Start();
+            }
+            foreach (Thread thread in threads)
+            {
+                thread.Join();
+            }
+            threads.Clear();
+
+            progressRead?.Report(-1);
+            
+            for (int i = 0; i < logicalProcessorCount; i++)
+            {
+                int listIndex = i;
+                if (listIndex >= documentListProcessors.Count)
+                    break;
+                Thread thread = new Thread(() => corpus.ScanDocumentLabels(documentListProcessors[listIndex], progressCrawl));
                 threads.Add(thread);
                 thread.Start();
             }

@@ -74,11 +74,11 @@ namespace MasterIndexer
                 corpora.Add(currentCorpus);
             }
 
-            indexer = new Indexer(indexerVersion, indexerMultithreadFlag, indexerOutputDirectory);
+            indexer = new Indexer(indexerVersion, indexerMultithreadFlag, indexerOutputDirectory, false);
 
             foreach (Corpus corpus in corpora)
             {
-                indexer.ProcessCorpus(corpus, null, null);
+                indexer.ProcessCorpus(corpus, null, null, null);
             }
 
             Console.ReadKey();

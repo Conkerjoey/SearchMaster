@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         Title="SearchMaster" Height="600" Width="1000"
         WindowStartupLocation="CenterScreen"
+        Closed="Window_Closed"
         >
     <Grid>
         <Grid.ColumnDefinitions>

@@ -17,7 +17,7 @@ namespace MasterIndexer
         private string location;
         private string whitelist;
         private string blacklist;
-        List<string> documentsPath = new List<string>();
+        List<DocumentPath> documentsPath = new List<DocumentPath>();
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
@@ -37,17 +37,9 @@ namespace MasterIndexer
 
         public void ScanDocumentLabels(List<Document> documentsSublist, IProgress<double> progress)
         {
-            HttpService httpService = new HttpService();
             foreach (Document document in documentsSublist)
             {
                 document.Scan(CrawlUrlEnabled);
-                if (CrawlUrlEnabled)
-                {
-                    foreach (string url in document.URLs)
-                    {
-                        httpService.Crawl(url);
-                    }
-                }
                 progress?.Report(1);
             }
         }
@@ -84,12 +76,12 @@ namespace MasterIndexer
         public void ListDocumentsAtLocation()
         {
             documentsPath.Clear();
-            documentsPath.AddRange(Files.GetAllFiles(location, true, whitelist, blacklist));
+            documentsPath.AddRange(Files.GetAllFilesD(location, true, whitelist, blacklist));
         }
 
         public Corpus Duplicate()
         {
-            return new Corpus() { Name = this.Name, Whitelist = this.Whitelist, blacklist = this.Blacklist, Location = this.Location, DocumentsPath = this.DocumentsPath.ToList<string>() };
+            return new Corpus() { Name = this.Name, Whitelist = this.Whitelist, blacklist = this.Blacklist, Location = this.Location, DocumentsPath = this.DocumentsPath.ToList<DocumentPath>() };
         }
 
         #region Properties
@@ -126,7 +118,7 @@ namespace MasterIndexer
             }
         }
 
-        public List<string> DocumentsPath
+        public List<DocumentPath> DocumentsPath
         {
             get
             {
