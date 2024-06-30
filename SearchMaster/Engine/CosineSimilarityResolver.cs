@@ -77,11 +77,7 @@ namespace SearchMaster.Engine
             }
             threads.Clear();
 
-            double[] queryWeights = new double[vectorizedLabels.Length];
-            for (int i = 0; i < queryWeights.Length; i++)
-            {
-                queryWeights[i] = 1;
-            }
+            double[] queryWeights = Maths.Ones(vectorizedLabels.Length);
 
             foreach (KeyValuePair<Document, double[]> documentWeightsKeyPair in documentWeightsVectors)
             {

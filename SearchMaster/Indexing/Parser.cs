@@ -22,8 +22,8 @@ namespace SearchMaster.Indexing
             List<WeightedLabel> labels = new List<WeightedLabel>();
             for (int i = 0; i < lines.Length; i++)
             {
-                string line = lines[i].Replace(",", ""); // Remove comma
-                line = lines[i].Replace("(", "").Replace(")", ""); // Remove parenthesis
+                string line = lines[i].Replace(",", " ").Replace("{", " ").Replace("}", " "); // Remove comma, curly-bracket
+                line = lines[i].Replace("(", " ").Replace(")", " ").Replace("[", " ").Replace("]", " "); // Remove parenthesis
                 line = line.ToLower();
 
                 string[] words = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);

@@ -93,6 +93,12 @@ namespace SearchMaster
                 case SearchEngine.ResolverType.Regex:
                     resolver = new RegexResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
                     break;
+                case SearchEngine.ResolverType.OkapiBM25:
+                    resolver = new OkapiBM25(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                    break;
+                case SearchEngine.ResolverType.TFIDF:
+                    resolver = new TFIDFResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                    break;
                 case SearchEngine.ResolverType.CosineSimilarity:
                 default:
                     resolver = new CosineSimilarityResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);

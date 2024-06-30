@@ -19,6 +19,8 @@ namespace SearchMaster.Engine
             LabelDensity,
             Regex,
             FullMatch,
+            OkapiBM25,
+            TFIDF,
         }
 
         private string corporaDirectory = "processed";

@@ -124,6 +124,7 @@
     <Compile Include="Engine\IResolver.cs" />
     <Compile Include="Engine\OkapiBM25Resolver.cs" />
     <Compile Include="Engine\RegexResolver.cs" />
+    <Compile Include="Engine\TFIDFResolver.cs" />
     <Compile Include="Indexing\Corpus.cs" />
     <Compile Include="Indexing\Document.cs" />
     <Compile Include="Indexing\DocumentSource.cs" />

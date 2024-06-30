@@ -9,12 +9,10 @@ using SearchMaster.Indexing;
 
 namespace SearchMaster.Engine
 {
-    public class OkapiBM25 : IResolver
+    public class TFIDFResolver : IResolver
     {
         private List<string> indexedDocumentsPaths;
         private Dictionary<Document, double[]> documentWeightsVectors;
-        private Dictionary<Document, double[]> documentCountVectors;
-        private int totalDocumentWords = 0;
         private bool multithreadingEnable;
 
         public List<string> IndexedDocumentsPath
@@ -29,11 +27,10 @@ namespace SearchMaster.Engine
             }
         }
 
-        public OkapiBM25(List<string> indexedDocumentsPaths, bool multithreadingEnable)
+        public TFIDFResolver(List<string> indexedDocumentsPaths, bool multithreadingEnable)
         {
             this.indexedDocumentsPaths = indexedDocumentsPaths;
             this.documentWeightsVectors = new Dictionary<Document, double[]>();
-            this.documentCountVectors = new Dictionary<Document, double[]>();
             this.multithreadingEnable = multithreadingEnable;
         }
 
@@ -51,7 +48,6 @@ namespace SearchMaster.Engine
         {
             List<SearchResult> results = new List<SearchResult>();
             documentWeightsVectors.Clear();
-            documentCountVectors.Clear();
 
             int logicalProcessorCount = 1;
             if (multithreadingEnable)
@@ -90,22 +86,10 @@ namespace SearchMaster.Engine
                 doc_count = Maths.Add(doc_count, Maths.NonZero(documentWeightsVectors.ElementAt(i).Value));
             }
 
-            double[,] matCount = new double[documentCountVectors.Count, vectorizedLabels.Length];
-            for (int i = 0; i < documentCountVectors.Count; i++)
-            {
-                for (int j = 0; j < documentCountVectors.ElementAt(i).Value.Length; j++)
-                    matCount[i, j] = documentCountVectors.ElementAt(i).Value[j];
-            }
-
-            double avgWordCount = totalDocumentWords / indexedDocumentsPaths.Count;
-            double k1 = 1.5; // [1.2, 2]
-            double b = 0.75;
             double[] docCounts = Maths.Times(Maths.Ones(vectorizedLabels.Length), indexedDocumentsPaths.Count);
             double[] idf = Maths.Apply(Math.Log, Maths.Divide(docCounts, doc_count));
-
-            double[,] bm25Score = Maths.Divide(Maths.Times(Maths.Times(mat, idf, 1), k1 + 1), Maths.Add(mat, Maths.Times(Maths.Add(Maths.Times(matCount, b / avgWordCount), 1 - b), k1)));
-
-            double[] docMag = Maths.Apply(Maths.Sum, bm25Score, 1);
+            double[,] tfidf = Maths.Times(mat, idf, 1);
+            double[] docMag = Maths.Apply(Maths.Magnitude, tfidf, 1);
             double maxVal = Maths.Max(docMag);
             docMag = Maths.Divide(docMag, maxVal);
 
@@ -140,20 +124,6 @@ namespace SearchMaster.Engine
                             lock (documentWeightsVectors)
                             {
                                 documentWeightsVectors.Add(document, tempArray);
-                                totalDocumentWords += document.WordCount;
-                            }
-                        }
-                        if (documentCountVectors.ContainsKey(document))
-                        {
-                            documentCountVectors[document][l] = document.WordCount;
-                        }
-                        else
-                        {
-                            double[] tempArray = new double[vectorizedLabels.Length];
-                            tempArray[l] = document.WordCount;
-                            lock (documentCountVectors)
-                            {
-                                documentCountVectors.Add(document, tempArray);
                             }
                         }
                     }
