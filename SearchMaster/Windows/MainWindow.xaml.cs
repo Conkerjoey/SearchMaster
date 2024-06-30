@@ -251,5 +251,10 @@ namespace SearchMaster
         {
             defaultSettings.Save();
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            new Popup() { Message = "Application by XXXXXXXX" }.ShowDialog();
+        }
     }
 }

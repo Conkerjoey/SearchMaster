@@ -19,10 +19,7 @@ namespace SearchMaster.Indexing
 
         public static FileType DetermineFileType(string filepath)
         {
-            if (filepath.EndsWith(".txt") ||
-                filepath.EndsWith(".css") ||
-                filepath.EndsWith(".html") ||
-                filepath.EndsWith(".js"))
+            if (filepath.EndsWith(".txt"))
             {
                 return FileType.Text;
             }

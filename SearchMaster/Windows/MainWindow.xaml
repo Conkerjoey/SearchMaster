@@ -29,21 +29,12 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Menu Grid.ColumnSpan="7" Grid.Column="0">
-            <MenuItem Header="_Edit">
-                <MenuItem Command="ApplicationCommands.Copy"/>
-                <MenuItem Command="ApplicationCommands.Cut"/>
-                <MenuItem Command="ApplicationCommands.Paste"/>
+            <MenuItem Header="Application">
+                <MenuItem Header="Settings"/>
             </MenuItem>
-            <MenuItem Header="_Font">
-                <MenuItem Header="_Bold" IsCheckable="True"
-        />
-                <MenuItem Header="_Italic" IsCheckable="True"
-        />
-                <Separator/>
-                <MenuItem Header="I_ncrease Font Size"
-     />
-                <MenuItem Header="_Decrease Font Size"
-         />
+            <MenuItem Header="Help">
+                <MenuItem Header="Manual" />
+                <MenuItem Header="About" Click="MenuItem_Click" />
             </MenuItem>
         </Menu>
         <GroupBox x:Name="groupBoxSearchOptions" Grid.ColumnSpan="5" Grid.Column="1" Header="Search Options" HorizontalAlignment="Stretch" Height="auto" Margin="5,5,5,5" Grid.Row="1" Grid.RowSpan="1" VerticalAlignment="Stretch" Width="auto">

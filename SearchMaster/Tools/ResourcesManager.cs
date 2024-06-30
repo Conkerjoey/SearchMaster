@@ -33,9 +33,10 @@ namespace SearchMaster.Tools
                     return "Resources/icon_web.png";
                 case FileType.Word:
                     return "Resources/icon_word.png";
+                case FileType.Javascript:
+                    return "Resources/icon_js.png";
                 case FileType.Json:
                 case FileType.Css:
-                case FileType.Javascript:
                 case FileType.Text:
                 case FileType.Undefined:
                     return "Resources/icon_default.png";
