@@ -8,6 +8,7 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using System.Linq;
+using Microsoft.Office.Interop.OneNote;
 
 namespace SearchMaster.Indexing
 {
@@ -30,7 +31,6 @@ namespace SearchMaster.Indexing
                 case FileType.Word:
                     WordprocessingDocument wordDocument = WordprocessingDocument.Open(docFile.FilePath, false);
                     Body body = wordDocument.MainDocumentPart.Document.Body;
-                    wordDocument.Close();
                     return body.InnerText.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                 case FileType.Excel:
                     SpreadsheetDocument sheetDocument = SpreadsheetDocument.Open(docFile.FilePath, false);
@@ -81,6 +81,23 @@ namespace SearchMaster.Indexing
                     //     }
                     // }
                     return strings.ToArray();
+                case FileType.Onenote:
+                    {
+                        var oneNoteApp = new Application();
+                        string notebookId;
+                        oneNoteApp.OpenHierarchy(docFile.FilePath, null, out notebookId, CreateFileType.cftNone);
+                        string notebookXml;
+                        // Get the XML content of the OneNote file
+                        oneNoteApp.GetHierarchy(null, HierarchyScope.hsNotebooks, out notebookXml);
+
+                        // Parse the XML content to get the text content
+                        var notebookDoc = new System.Xml.XmlDocument();
+                        notebookDoc.LoadXml(notebookXml);
+                        oneNoteApp.CloseNotebook(notebookId);
+                        // Traverse through the XML to read the text content
+                        return ReadNotebookContent(notebookDoc.DocumentElement);
+                    }
+
                 case FileType.PDF:
                     StringBuilder text = new StringBuilder();
                     if (File.Exists(docFile.FilePath))
@@ -99,6 +116,22 @@ namespace SearchMaster.Indexing
                     return text.ToString().Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             }
             return new string[] { };
+        }
+
+        static string[] ReadNotebookContent(System.Xml.XmlNode node)
+        {
+            if (node == null)
+                return new string[] { };
+            List<string> lines = new List<string>();
+            foreach (System.Xml.XmlNode childNode in node.ChildNodes)
+            {
+                if (childNode.Name == "one:OE" && childNode.InnerText != null)
+                {
+                    lines.Add(childNode.InnerText);
+                }
+                ReadNotebookContent(childNode);
+            }
+            return lines.ToArray();
         }
     }
 }
