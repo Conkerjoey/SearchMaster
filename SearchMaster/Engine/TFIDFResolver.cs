@@ -109,7 +109,7 @@ namespace SearchMaster.Engine
 
                 for (int l = 0; l < vectorizedLabels.Length; l++)
                 {
-                    WeightedLabel weightedLabel = document.WeightedLabels.Find(x => x.GetText() == vectorizedLabels[l]);
+                    WeightedLabel weightedLabel = document.WeightedLabels.Find(x => x.GetText().Contains(vectorizedLabels[l]));
                     if (weightedLabel != null)
                     {
                         double tf = weightedLabel.GetWeight();

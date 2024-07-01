@@ -21,7 +21,6 @@ namespace SearchMaster.Indexing
         private string version;
         private bool isMultithreaded;
         private string outputDirectory;
-        private bool crawlUrl;
 
         public Indexer(string version, bool isMultithreaded, string outputDirectory)
         {

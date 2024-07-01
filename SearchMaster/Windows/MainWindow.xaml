@@ -53,9 +53,13 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="textBlockResolver" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,32" Grid.Row="1" Grid.RowSpan="1" TextWrapping="Wrap" Text="Resolver" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+                <TextBlock x:Name="textBlockResolver" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,32" Grid.Row="1" Grid.RowSpan="1" TextWrapping="Wrap" Text="Engine" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
                 <ComboBox x:Name="comboBoxResolverType" Grid.Column="1" HorizontalAlignment="Left" Margin="0,21,0,5" Grid.Row="1" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxResolverType_SelectionChanged" Grid.ColumnSpan="2" />
                 <CheckBox x:Name="checkBoxMultithread" Content="Multithreaded" Grid.Column="3" HorizontalAlignment="Left" Margin="10,24,0,8" Grid.Row="1" VerticalAlignment="Center" Width="200" Checked="checkBoxMultithread_CheckedChanged" Unchecked="checkBoxMultithread_CheckedChanged" />
+                <StackPanel Grid.Column="4" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden">
+                    <RadioButton x:Name="radioButtonSingleThread" GroupName="ThreadingOption" Content="Single Threaded" />
+                    <RadioButton x:Name="radioButtonMultiThread" GroupName="ThreadingOption" Content="Multi Threaded" />
+                </StackPanel>
             </Grid>
         </GroupBox>
         <GroupBox x:Name="groupBoxCorpora" Grid.ColumnSpan="2" Grid.Column="1" Header="Corpora" HorizontalAlignment="Stretch" Margin="5,5,5,5" Grid.Row="2" Grid.RowSpan="3" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">

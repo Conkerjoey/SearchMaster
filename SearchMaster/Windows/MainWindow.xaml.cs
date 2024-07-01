@@ -10,6 +10,7 @@ using SearchMaster.Engine;
 using SearchMaster.Indexing;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System.Windows.Data;
+using System.ComponentModel;
 
 namespace SearchMaster
 {
@@ -213,7 +214,14 @@ namespace SearchMaster
                 if (((ListBoxItem)sender).Content is SearchResult)
                 {
                     SearchResult sr = (SearchResult)((ListBoxItem)sender).Content;
-                    System.Diagnostics.Process.Start(sr.Document.DocumentSource.Path);
+                    try
+                    {
+                        System.Diagnostics.Process.Start(sr.Document.DocumentSource.Path);
+                    }
+                    catch (Win32Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
                 }
             }
         }
