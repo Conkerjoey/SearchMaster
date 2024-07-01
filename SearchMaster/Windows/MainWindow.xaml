@@ -30,7 +30,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.ColumnSpan="7" Grid.Column="0">
             <MenuItem Header="Application">
-                <MenuItem Header="Settings"/>
+                <MenuItem Header="Settings" Click="buttonOpenAppSettings_Click"/>
             </MenuItem>
             <MenuItem Header="Help">
                 <MenuItem Header="Manual" />
@@ -186,7 +186,7 @@
                 </ItemsPanelTemplate>
             </StatusBar.ItemsPanel>
             <StatusBarItem Grid.Column="0">
-                <TextBlock x:Name="statusCorporaDirectory" Text="placeholder" />
+                <TextBlock x:Name="statusCorporaDirectory" Text="{Binding CorporaDirectory, FallbackValue='placeholder'}" />
             </StatusBarItem>
             <!-- <Separator Grid.Column="1" /> -->
             <StatusBarItem Grid.Column="4" HorizontalAlignment="Right">

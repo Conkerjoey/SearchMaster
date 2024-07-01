@@ -7,11 +7,12 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using SearchMaster.Indexing;
 using System.Xml;
+using System.ComponentModel;
 
 namespace SearchMaster.Engine
 {
     [Serializable]
-    public class SearchEngine
+    public class SearchEngine : INotifyPropertyChanged
     {
         public enum ResolverType
         {
@@ -23,12 +24,26 @@ namespace SearchMaster.Engine
             TFIDF,
         }
 
-        private string corporaDirectory = "processed";
+        private string corporaDirectory = null;
         private Dictionary<string, string> acronyms = new Dictionary<string, string>();
+
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         public SearchEngine()
         {
-
+            if (corporaDirectory == null)
+            {
+                corporaDirectory = Path.Combine(Environment.CurrentDirectory, "corpora");
+            }
         }
 
 
@@ -48,7 +63,7 @@ namespace SearchMaster.Engine
             try
             {
                 FileStream fs = File.Open("configuration.dat", FileMode.Open);
-                SearchEngine engine = (SearchEngine)formatter.Deserialize(fs);
+                SearchEngine engine = (SearchEngine) formatter.Deserialize(fs);
                 fs.Flush();
                 fs.Close();
                 fs.Dispose();
@@ -66,7 +81,7 @@ namespace SearchMaster.Engine
         public string CorporaDirectory
         {
             get { return corporaDirectory;  }
-            set { corporaDirectory = value; }
+            set { corporaDirectory = value; this.OnPropertyChanged("CorporaDirectory"); }
         }
 
         public Dictionary<string, string> Acronyms {

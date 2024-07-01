@@ -11,6 +11,7 @@ using SearchMaster.Indexing;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System.Windows.Data;
 using System.ComponentModel;
+using SearchMaster.Windows;
 
 namespace SearchMaster
 {
@@ -45,10 +46,10 @@ namespace SearchMaster
             statusProgressBar.Value = 0;
             statusProgressBar.Visibility = Visibility.Hidden;
             statusSummaryText.Text = string.Empty;
-            statusCorporaDirectory.Text = "Corpora location: " + Path.Combine(Environment.CurrentDirectory, defaultSearchEngine.CorporaDirectory);
 
             textBlockCorporaSelectionStatus.Text = string.Empty;
             textBlockSearchStatus.Text = string.Empty;
+            statusCorporaDirectory.DataContext = defaultSearchEngine;
 
             foreach (Corpus corpus in defaultSettings.Corpora)
                 listBoxCorpora.Items.Add(corpus);
@@ -262,7 +263,16 @@ namespace SearchMaster
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            new Popup() { Message = "Application by XXXXXXXX" }.ShowDialog();
+            new Popup() { Message = "Application by XXXXXXXX", Owner = this }.ShowDialog();
+        }
+
+        private void buttonOpenAppSettings_Click(object sender, RoutedEventArgs e)
+        {
+            AppSettingsWindow appSettingsWindow = new AppSettingsWindow() { Title = "Application Settings", Owner = this };
+            if (true == appSettingsWindow.ShowDialog())
+            {
+                
+            }
         }
     }
 }
