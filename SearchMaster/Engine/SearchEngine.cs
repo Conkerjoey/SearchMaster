@@ -46,6 +46,13 @@ namespace SearchMaster.Engine
             }
         }
 
+        public SearchEngine Duplicate()
+        {
+            return new SearchEngine()
+            {
+                CorporaDirectory = this.CorporaDirectory, Acronyms = this.acronyms.ToDictionary(entry => entry.Key, entry => entry.Value) };
+        }
+
 
         public void Save()
         {

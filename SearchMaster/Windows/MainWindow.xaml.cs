@@ -268,10 +268,10 @@ namespace SearchMaster
 
         private void buttonOpenAppSettings_Click(object sender, RoutedEventArgs e)
         {
-            AppSettingsWindow appSettingsWindow = new AppSettingsWindow() { Title = "Application Settings", Owner = this };
+            AppSettingsWindow appSettingsWindow = new AppSettingsWindow() { Title = "Application Settings", Owner = this, DataContext = defaultSearchEngine.Duplicate() };
             if (true == appSettingsWindow.ShowDialog())
             {
-                
+                defaultSearchEngine = (SearchEngine) appSettingsWindow.DataContext;
             }
         }
     }

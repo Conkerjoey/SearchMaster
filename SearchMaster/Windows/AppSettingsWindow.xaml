@@ -34,7 +34,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="textBlockCorporaPath" Text="Path" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBox x:Name="textBoxCorporaPath" Text="{Binding Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxCorporaPath" Text="{Binding CorporaDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
                 <Button x:Name="buttonOpenFolder" Content="..." Grid.Column="2" HorizontalAlignment="Left" Grid.Row="0" Margin="10,0,0,0" VerticalAlignment="Bottom" Width="20" Height="18" Click="buttonOpenFolder_Click"/>
             </Grid>
         </GroupBox>
