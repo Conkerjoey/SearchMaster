@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SearchMaster"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="CorpusWindow" Height="288" Width="425">
+        Title="CorpusWindow" Height="316" Width="425">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -35,10 +35,10 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="textBlockCorpusName" Text="Name" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBox x:Name="textBoxCorpusName" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,0,0" TextWrapping="Wrap" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxCorpusName" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='placeholder'}" Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
                 <TextBlock x:Name="textBlockCorpusPath" Text="Path" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBox x:Name="textBoxCorpusPath" Text="{Binding Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <Button x:Name="buttonOpenFolder" Content="..." Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Bottom" Width="20" Height="18" Click="buttonOpenFolder_Click"/>
+                <TextBox x:Name="textBoxCorpusPath" Text="{Binding Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='placeholder'}" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <Button x:Name="buttonOpenFolder" Content="..." Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Bottom" Width="25" Height="25" Click="buttonOpenFolder_Click"/>
             </Grid>
         </GroupBox>
         <GroupBox x:Name="groupBoxFilters" Grid.Column="1" Header="File Filter" Margin="0,0,0,10" Grid.Row="2" Grid.ColumnSpan="3" Height="auto">
@@ -54,15 +54,14 @@
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="textBlockWhitelist" Text="Whitelist" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBox x:Name="textBoxWhitelist" Text="{Binding Whitelist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,0,0" TextWrapping="Wrap" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxWhitelist" Text="{Binding Whitelist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='placeholder'}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Grid.ColumnSpan="2" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock x:Name="textBlockOr" Text="Or" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
                 <TextBlock x:Name="textBlockBlacklist" Text="Blacklist" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBox x:Name="textBoxBlacklist" Text="{Binding Blacklist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Height="auto" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxBlacklist" Text="{Binding Blacklist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='placeholder'}"  Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,10,0,0" Height="25" TextWrapping="Wrap" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
             </Grid>
         </GroupBox>
         <CheckBox x:Name="checkBoxCrawl" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Content="Extend crawling if URLs are found in documents" IsChecked="{Binding CrawlUrlEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button x:Name="buttonOk" Content="OK" Grid.Column="1" HorizontalAlignment="Right" Grid.Row="4" VerticalAlignment="Center" Width="75" Click="buttonOk_Click" Margin="0,0,10,0" Grid.ColumnSpan="2" />
-        <Button x:Name="buttonCancel" Grid.ColumnSpan="1" Content="Cancel" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Center" Width="75" Click="buttonCancel_Click" Margin="10,0,0,0" />
-
+        <Button x:Name="buttonOk" Content="OK" Grid.Column="1" HorizontalAlignment="Right" Grid.Row="4" VerticalAlignment="Bottom" Width="75" Click="buttonOk_Click" Margin="0,0,10,0" Grid.ColumnSpan="2" />
+        <Button x:Name="buttonCancel" Grid.ColumnSpan="1" Content="Cancel" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="4" VerticalAlignment="Bottom" Width="75" Click="buttonCancel_Click" Margin="10,0,0,0" />
     </Grid>
 </Window>
