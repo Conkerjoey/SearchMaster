@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<indexer version="1.0.0" multithreaded="true" output="C:\">
-  <corpus name="Default Directory">
-    <location>C:\</location>
-  </corpus>
-</indexer>
