@@ -274,9 +274,13 @@
     <Resource Include="Resources\icon_js.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="privacy.html">
+    <Content Include="help_en.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>mkdir /p $(SolutionDir)SearchMaster\$(OutDir)vendor
+xcopy /e /k /h /i $(SolutionDir)SearchMaster\vendor $(SolutionDir)SearchMaster\$(OutDir)vendor</PreBuildEvent>
+  </PropertyGroup>
 </Project>
