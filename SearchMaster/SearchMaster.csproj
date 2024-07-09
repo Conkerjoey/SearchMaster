@@ -280,7 +280,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>mkdir /p $(SolutionDir)SearchMaster\$(OutDir)vendor
-xcopy /e /k /h /i $(SolutionDir)SearchMaster\vendor $(SolutionDir)SearchMaster\$(OutDir)vendor</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>SET path_dir=$(TargetDir)vendor
+if not exist "%25path_dir%25" mkdir "%25path_dir%25"
+xcopy $(ProjectDir)vendor $(TargetDir)vendor /S /C /I /R /K /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
