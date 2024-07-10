@@ -54,13 +54,13 @@ namespace SearchMaster
         {
             if (textBoxCorpusName.Text.Trim().Length <= 0)
             {
-                new Popup() { Title = "Warning", Message = "No corpus name.", Owner = this }.ShowDialog();
+                new Popup() { Title = "Warning", Message = "No corpus name.", Owner = this, Type = Popup.PopupType.Warning }.ShowDialog();
                 return;
             }
 
             if (!System.IO.Directory.Exists(textBoxCorpusPath.Text) || textBoxCorpusPath.Text.Trim().Length <= 0)
             {
-                new Popup() { Title = "Warning", Message = "Empty or invalid directory path.", Owner = this }.ShowDialog();
+                new Popup() { Title = "Warning", Message = "Empty or invalid directory path.", Owner = this, Type = Popup.PopupType.Warning }.ShowDialog();
                 return;
             }
             DialogResult = true;

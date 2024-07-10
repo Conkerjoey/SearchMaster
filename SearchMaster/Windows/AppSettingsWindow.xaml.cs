@@ -39,7 +39,7 @@ namespace SearchMaster.Windows
         {
             if (!System.IO.Directory.Exists(textBoxCorporaPath.Text) || textBoxCorporaPath.Text.Trim().Length <= 0)
             {
-                new Popup() { Title = "Warning", Message = "Empty or invalid directory path.", Owner = this }.ShowDialog();
+                new Popup() { Title = "Warning", Message = "Empty or invalid directory path.", Owner = this, Type = Popup.PopupType.Error }.ShowDialog();
                 return;
             }
             DialogResult = true;

@@ -66,13 +66,13 @@ namespace SearchMaster
         {
             if (listBoxCorpora.SelectedItems.Count <= 0)
             {
-                new Popup() { Title = "Warning", Message = "No corpus selected !", Owner = this }.ShowDialog();
+                new Popup() { Title = "Warning", Message = "No corpus selected !", Owner = this, Type = Popup.PopupType.Warning }.ShowDialog();
                 return;
             }
 
             if (comboBoxQuery.Text.Length <= 0)
             {
-                new Popup() { Title = "Warning", Message = "Query is empty.", Owner = this }.ShowDialog();
+                new Popup() { Title = "Warning", Message = "Query is empty.", Owner = this, Type = Popup.PopupType.Warning }.ShowDialog();
                 return;
             }
 
@@ -155,7 +155,7 @@ namespace SearchMaster
 
         private void buttonRemoveCorpus_Click(object sender, RoutedEventArgs e)
         {
-            Popup popup = new Popup() { Title = "Confirm deletion", Message = "Are you sure you want to delete the selected corpus ?", Owner = this };
+            Popup popup = new Popup() { Title = "Confirm deletion", Message = "Are you sure you want to delete the selected corpus ?", Owner = this, Type=Popup.PopupType.Warning };
             if (true == popup.ShowDialog())
             {
                 Corpus[] corpora = new Corpus[listBoxCorpora.SelectedItems.Count];
@@ -261,7 +261,19 @@ namespace SearchMaster
             defaultSettings.Save();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void MenuItemManual_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(Path.Combine(Environment.CurrentDirectory, "help_en.html"));
+            }
+            catch (Win32Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
         {
             new Popup() { Message = "Application by XXXXXXXX", Owner = this }.ShowDialog();
         }

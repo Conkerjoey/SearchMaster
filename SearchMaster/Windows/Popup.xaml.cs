@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Cms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,12 +21,23 @@ namespace SearchMaster
     public partial class Popup : Window
     {
         private string message;
+        public enum PopupType
+        {
+            Info,
+            Warning,
+            Error
+        }
 
         public Popup()
         {
             InitializeComponent();
 
             DataContext = this;
+        }
+
+        public PopupType Type
+        {
+            get; set;
         }
 
         public string Message
@@ -44,6 +56,23 @@ namespace SearchMaster
         {
             DialogResult = false;
             Close();
+        }
+
+        public string ImageIcon
+        {
+            get
+            {
+                switch (Type)
+                {
+                    case PopupType.Warning:
+                        return "../Resources/icon_warning.png";
+                    case PopupType.Error:
+                        return "../Resources/icon_error.png";
+                    case PopupType.Info:
+                    default:
+                        return "../Resources/icon_info.png";
+                }
+            }
         }
     }
 }

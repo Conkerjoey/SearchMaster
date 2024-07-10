@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using SearchMaster.Indexing;
 using System.Xml;
 using System.ComponentModel;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace SearchMaster.Engine
 {
@@ -43,6 +44,7 @@ namespace SearchMaster.Engine
             if (corporaDirectory == null)
             {
                 corporaDirectory = Path.Combine(Environment.CurrentDirectory, "corpora");
+                Directory.CreateDirectory(corporaDirectory);
             }
         }
 
