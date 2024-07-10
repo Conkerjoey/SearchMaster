@@ -147,6 +147,7 @@
     <Compile Include="Indexing\StringWrapper.cs" />
     <Compile Include="Indexing\Utils.cs" />
     <Compile Include="Indexing\WeightedLabel.cs" />
+    <Compile Include="Tools\Localization.cs" />
     <Compile Include="Windows\AppSettingsWindow.xaml.cs">
       <DependentUpon>AppSettingsWindow.xaml</DependentUpon>
     </Compile>

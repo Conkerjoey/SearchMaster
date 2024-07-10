@@ -98,8 +98,8 @@ namespace SearchMaster.Engine
             }
 
             double avgWordCount = totalDocumentWords / indexedDocumentsPaths.Count;
-            double k1 = 1.5; // [1.2, 2]
-            double b = 0.75;
+            double k1 = 1.5; // Range as per doc = [1.2, 2]
+            double b = 0.75; // Value as per doc = 0.75
             double[] docCounts = Maths.Times(Maths.Ones(vectorizedLabels.Length), indexedDocumentsPaths.Count);
             double[] idf = Maths.Apply(Math.Log, Maths.Divide(docCounts, doc_count));
 

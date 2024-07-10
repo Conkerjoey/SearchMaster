@@ -17,6 +17,12 @@ namespace SearchMaster
     [Serializable]
     public class Settings : INotifyPropertyChanged
     {
+        public enum SupportedLanguage
+        {
+            French,
+            English
+        }
+
         public static readonly int MAX_QUERY_HISTORY = 50;
         private List<Corpus> corpora = new List<Corpus>();
         private ObservableCollection<Query> queries = new ObservableCollection<Query>();
@@ -69,10 +75,15 @@ namespace SearchMaster
             set { multithreadedFlag = value; }
         }
 
+        public SupportedLanguage CurrentLanguage
+        {
+            get; set;
+        }
+
         public void Save()
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            
+
             Stream fs = File.OpenWrite("settings.dat");
             formatter.Serialize(fs, this);
             fs.Flush();
@@ -83,7 +94,7 @@ namespace SearchMaster
         public static Settings Load()
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            
+
             try
             {
                 FileStream fs = File.Open("settings.dat", FileMode.Open);
