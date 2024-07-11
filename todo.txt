@@ -3,3 +3,4 @@ OneNote file support
 Automatic txt file detection based on character encoding
 Help page in Menu Bar using WebBrowser window
 Radio button to select find in files or use indexing method
+Getting Started
