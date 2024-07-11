@@ -29,15 +29,15 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Menu Grid.ColumnSpan="7" Grid.Column="0">
-            <MenuItem Header="Application">
-                <MenuItem Header="Settings" Click="buttonOpenAppSettings_Click"/>
+            <MenuItem Header="{x:Static Properties:lang.Application}">
+                <MenuItem Header="{x:Static Properties:lang.Settings}" Click="buttonOpenAppSettings_Click"/>
             </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem Header="Manual" Click="MenuItemManual_Click"/>
-                <MenuItem Header="About" Click="MenuItemAbout_Click" />
+            <MenuItem Header="{x:Static Properties:lang.Help}">
+                <MenuItem Header="{x:Static Properties:lang.Manual}" Click="MenuItemManual_Click"/>
+                <MenuItem Header="{x:Static Properties:lang.About}" Click="MenuItemAbout_Click" />
             </MenuItem>
         </Menu>
-        <GroupBox x:Name="groupBoxSearchOptions" Grid.ColumnSpan="5" Grid.Column="1" Header="Search Options" HorizontalAlignment="Stretch" Height="auto" Margin="5,5,5,5" Grid.Row="1" Grid.RowSpan="1" VerticalAlignment="Stretch" Width="auto">
+        <GroupBox x:Name="groupBoxSearchOptions" Grid.ColumnSpan="5" Grid.Column="1" Header="{x:Static Properties:lang.SearchOptions}" HorizontalAlignment="Stretch" Height="auto" Margin="5,5,5,5" Grid.Row="1" Grid.RowSpan="1" VerticalAlignment="Stretch" Width="auto">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="10"/>
@@ -53,9 +53,9 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="textBlockResolver" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,32" Grid.Row="1" Grid.RowSpan="1" TextWrapping="Wrap" Text="Engine" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
+                <TextBlock x:Name="textBlockResolver" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,32" Grid.Row="1" Grid.RowSpan="1" TextWrapping="Wrap" Text="{x:Static Properties:lang.Engine}" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
                 <ComboBox x:Name="comboBoxResolverType" Grid.Column="1" HorizontalAlignment="Left" Margin="0,21,0,5" Grid.Row="1" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxResolverType_SelectionChanged" Grid.ColumnSpan="2" />
-                <CheckBox x:Name="checkBoxMultithread" Content="Multithreaded" Grid.Column="3" HorizontalAlignment="Left" Margin="10,24,0,8" Grid.Row="1" VerticalAlignment="Center" Width="200" Checked="checkBoxMultithread_CheckedChanged" Unchecked="checkBoxMultithread_CheckedChanged" />
+                <CheckBox x:Name="checkBoxMultithread" Content="{x:Static Properties:lang.Multithreaded}" Grid.Column="3" HorizontalAlignment="Left" Margin="10,24,0,8" Grid.Row="1" VerticalAlignment="Center" Width="200" Checked="checkBoxMultithread_CheckedChanged" Unchecked="checkBoxMultithread_CheckedChanged" />
                 <StackPanel Grid.Column="4" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden">
                     <RadioButton x:Name="radioButtonSingleThread" GroupName="ThreadingOption" Content="Single Threaded" />
                     <RadioButton x:Name="radioButtonMultiThread" GroupName="ThreadingOption" Content="Multi Threaded" />
@@ -111,7 +111,7 @@
                 </Button>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="groupBoxSearch" Grid.Column="4" Header="Search" HorizontalAlignment="Stretch" Margin="5,5,5,5" Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="2" VerticalAlignment="Stretch">
+        <GroupBox x:Name="groupBoxSearch" Grid.Column="4" Header="{x:Static Properties:lang.Search}" HorizontalAlignment="Stretch" Margin="5,5,5,5" Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="2" VerticalAlignment="Stretch">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -149,7 +149,7 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Button x:Name="buttonSearch" Content="Search" Grid.Column="2" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Center" Width="90" Click="buttonSearch_Click" IsDefault="true" Height="25"/>
+                <Button x:Name="buttonSearch" Content="{x:Static Properties:lang.Search}" Grid.Column="2" HorizontalAlignment="Left" Margin="5,10,10,10" VerticalAlignment="Center" Width="90" Click="buttonSearch_Click" IsDefault="true" Height="25"/>
                 <TextBlock x:Name="textBlockSearchStatus" HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Row="1" Grid.ColumnSpan="3" TextWrapping="Wrap" Text="placeholder" VerticalAlignment="Top"/>
                 <ComboBox x:Name="comboBoxQuery" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" Height="25" Margin="10,10,5,10" IsEditable="True" Text="" VerticalAlignment="Center" Grid.ColumnSpan="2" SelectionChanged="comboBoxQuery_SelectionChanged" IsTextSearchEnabled="False" >
                     <ComboBox.ItemTemplate>

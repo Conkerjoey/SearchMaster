@@ -117,10 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="About" xml:space="preserve">
+    <value>À propos</value>
+  </data>
+  <data name="Application" xml:space="preserve">
+    <value>Application</value>
+  </data>
   <data name="Directory" xml:space="preserve">
     <value>Répertoire</value>
   </data>
+  <data name="Engine" xml:space="preserve">
+    <value>Moteur</value>
+  </data>
   <data name="Folders" xml:space="preserve">
     <value>Dossiers</value>
+  </data>
+  <data name="Help" xml:space="preserve">
+    <value>Aide</value>
+  </data>
+  <data name="Manual" xml:space="preserve">
+    <value>Guide</value>
+  </data>
+  <data name="Multithreaded" xml:space="preserve">
+    <value>Parallélisé</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Recherche</value>
+  </data>
+  <data name="SearchOptions" xml:space="preserve">
+    <value>Options de recherche</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Paramètres</value>
   </data>
 </root>
