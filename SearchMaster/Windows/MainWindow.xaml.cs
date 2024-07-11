@@ -12,6 +12,8 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using System.Windows.Data;
 using System.ComponentModel;
 using SearchMaster.Windows;
+using System.Threading;
+using System.Globalization;
 
 namespace SearchMaster
 {
@@ -60,6 +62,8 @@ namespace SearchMaster
             comboBoxResolverType.SelectedItem = defaultSettings.ResolverType;
 
             checkBoxMultithread.IsChecked = defaultSettings.MultithreadingEnable;
+
+            DataContext = defaultSettings;
         }
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)

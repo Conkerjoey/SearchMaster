@@ -62,7 +62,7 @@
                 </StackPanel>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="groupBoxCorpora" Grid.ColumnSpan="2" Grid.Column="1" Header="Folders" HorizontalAlignment="Stretch" Margin="5,5,5,5" Grid.Row="2" Grid.RowSpan="3" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+        <GroupBox x:Name="groupBoxCorpora" Grid.ColumnSpan="2" Grid.Column="1" Header="{x:Static Properties:lang.Folders}" HorizontalAlignment="Stretch" Margin="5,5,5,5" Grid.Row="2" Grid.RowSpan="3" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>

@@ -11,18 +11,13 @@ using SearchMaster.Engine;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections.ObjectModel;
+using SearchMaster.Tools;
 
 namespace SearchMaster
 {
     [Serializable]
     public class Settings : INotifyPropertyChanged
     {
-        public enum SupportedLanguage
-        {
-            French,
-            English
-        }
-
         public static readonly int MAX_QUERY_HISTORY = 50;
         private List<Corpus> corpora = new List<Corpus>();
         private ObservableCollection<Query> queries = new ObservableCollection<Query>();
@@ -31,14 +26,6 @@ namespace SearchMaster
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string propertyName)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
 
         public Settings()
         {
@@ -75,11 +62,6 @@ namespace SearchMaster
             set { multithreadedFlag = value; }
         }
 
-        public SupportedLanguage CurrentLanguage
-        {
-            get; set;
-        }
-
         public void Save()
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -110,6 +92,15 @@ namespace SearchMaster
                 Settings settings = new Settings();
                 settings.Save();
                 return settings;
+            }
+        }
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }
