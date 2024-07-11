@@ -79,6 +79,42 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Blacklist.
+        /// </summary>
+        public static string BlackList {
+            get {
+                return ResourceManager.GetString("BlackList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Corpora Settings.
+        /// </summary>
+        public static string CorporaSettings {
+            get {
+                return ResourceManager.GetString("CorporaSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Corpus Details.
+        /// </summary>
+        public static string CorpusDetails {
+            get {
+                return ResourceManager.GetString("CorpusDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Directory.
         /// </summary>
         public static string Directory {
@@ -93,6 +129,24 @@ namespace SearchMaster.Properties {
         public static string Engine {
             get {
                 return ResourceManager.GetString("Engine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Extend crawling if URLs are found in documents.
+        /// </summary>
+        public static string ExtendCrawling {
+            get {
+                return ResourceManager.GetString("ExtendCrawling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à FileFilter.
+        /// </summary>
+        public static string FileFilter {
+            get {
+                return ResourceManager.GetString("FileFilter", resourceCulture);
             }
         }
         
@@ -133,6 +187,42 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à OK.
+        /// </summary>
+        public static string OK {
+            get {
+                return ResourceManager.GetString("OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Or.
+        /// </summary>
+        public static string Or {
+            get {
+                return ResourceManager.GetString("Or", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Path.
+        /// </summary>
+        public static string Path {
+            get {
+                return ResourceManager.GetString("Path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Search.
         /// </summary>
         public static string Search {
@@ -156,6 +246,15 @@ namespace SearchMaster.Properties {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Whitelist.
+        /// </summary>
+        public static string WhiteList {
+            get {
+                return ResourceManager.GetString("WhiteList", resourceCulture);
             }
         }
     }

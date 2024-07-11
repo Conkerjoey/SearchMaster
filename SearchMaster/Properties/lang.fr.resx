@@ -123,11 +123,29 @@
   <data name="Application" xml:space="preserve">
     <value>Application</value>
   </data>
+  <data name="BlackList" xml:space="preserve">
+    <value>Exclusions</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Annuler</value>
+  </data>
+  <data name="CorporaSettings" xml:space="preserve">
+    <value>Paramètres de Corpora</value>
+  </data>
+  <data name="CorpusDetails" xml:space="preserve">
+    <value>Corpus Details</value>
+  </data>
   <data name="Directory" xml:space="preserve">
     <value>Répertoire</value>
   </data>
   <data name="Engine" xml:space="preserve">
     <value>Moteur</value>
+  </data>
+  <data name="ExtendCrawling" xml:space="preserve">
+    <value>Élargir la recherche avec les URLs trouvés</value>
+  </data>
+  <data name="FileFilter" xml:space="preserve">
+    <value>Filtre</value>
   </data>
   <data name="Folders" xml:space="preserve">
     <value>Dossiers</value>
@@ -141,6 +159,18 @@
   <data name="Multithreaded" xml:space="preserve">
     <value>Parallélisé</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>Continuer</value>
+  </data>
+  <data name="Or" xml:space="preserve">
+    <value>Ou</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>Chemin</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Recherche</value>
   </data>
@@ -149,5 +179,8 @@
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Paramètres</value>
+  </data>
+  <data name="WhiteList" xml:space="preserve">
+    <value>Inclusions</value>
   </data>
 </root>
