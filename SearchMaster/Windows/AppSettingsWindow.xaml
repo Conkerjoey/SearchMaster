@@ -7,7 +7,7 @@
         xmlns:Properties="clr-namespace:SearchMaster.Properties"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="AppSettingsWindow" Height="250" Width="564">
+        Title="{x:Static Properties:lang.ApplicationWindow}" Height="250" Width="564">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>

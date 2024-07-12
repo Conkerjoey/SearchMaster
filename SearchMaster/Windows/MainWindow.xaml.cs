@@ -14,6 +14,7 @@ using System.ComponentModel;
 using SearchMaster.Windows;
 using System.Threading;
 using System.Globalization;
+using SearchMaster.Properties;
 
 namespace SearchMaster
 {
@@ -56,7 +57,7 @@ namespace SearchMaster
             foreach (Corpus corpus in defaultSettings.Corpora)
                 listBoxCorpora.Items.Add(corpus);
 
-            BindingOperations.SetBinding(comboBoxQuery, ComboBox.ItemsSourceProperty, new Binding("Queries") { Source = defaultSettings, Mode=BindingMode.TwoWay, UpdateSourceTrigger=UpdateSourceTrigger.PropertyChanged });
+            BindingOperations.SetBinding(comboBoxQuery, ComboBox.ItemsSourceProperty, new Binding("Queries") { Source = defaultSettings, Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
 
             comboBoxResolverType.ItemsSource = Enum.GetValues(typeof(SearchEngine.ResolverType)).Cast<SearchEngine.ResolverType>();
             comboBoxResolverType.SelectedItem = defaultSettings.ResolverType;
@@ -70,13 +71,13 @@ namespace SearchMaster
         {
             if (listBoxCorpora.SelectedItems.Count <= 0)
             {
-                new Popup() { Title = "Warning", Message = "No corpus selected !", Owner = this, Type = Popup.PopupType.Warning }.ShowDialog();
+                new Popup() { Title = Properties.lang.Warning, Message = Properties.lang.NoCorpusSelected, Owner = this, Type = Popup.PopupType.Warning }.ShowDialog();
                 return;
             }
 
             if (comboBoxQuery.Text.Length <= 0)
             {
-                new Popup() { Title = "Warning", Message = "Query is empty.", Owner = this, Type = Popup.PopupType.Warning }.ShowDialog();
+                new Popup() { Title = Properties.lang.Warning, Message = Properties.lang.EmptyQuery, Owner = this, Type = Popup.PopupType.Warning }.ShowDialog();
                 return;
             }
 
@@ -137,12 +138,12 @@ namespace SearchMaster
         private async void buttonAddCorpus_Click(object sender, RoutedEventArgs e)
         {
             buttonAddCorpus.IsEnabled = false;
-            CorpusWindow corpusWindow = new CorpusWindow() { Title = "Corpus Creation Window", Owner = this };
+            CorpusWindow corpusWindow = new CorpusWindow() { Title = Properties.lang.CorpusCreationWindow, Owner = this };
             if (true == corpusWindow.ShowDialog())
             {
-                Indexer indexer = new Indexer("1.0.0", defaultSettings.MultithreadingEnable, MainWindow.SearchEngine.CorporaDirectory);
+                Indexer indexer = new Indexer(Properties.Settings.Default.IndexerVersion, defaultSettings.MultithreadingEnable, MainWindow.SearchEngine.CorporaDirectory);
                 statusProgressBar.Visibility = Visibility.Visible;
-                statusSummaryText.Text = "Indexing...";
+                statusSummaryText.Text = Properties.lang.Indexing + "...";
                 await Task.Run(() =>
                 {
                     indexer.ProcessCorpus(corpusWindow.Corpus);
@@ -159,7 +160,10 @@ namespace SearchMaster
 
         private void buttonRemoveCorpus_Click(object sender, RoutedEventArgs e)
         {
-            Popup popup = new Popup() { Title = "Confirm deletion", Message = "Are you sure you want to delete the selected corpus ?", Owner = this, Type=Popup.PopupType.Warning };
+            if (listBoxCorpora.SelectedItems.Count <= 0)
+                return;
+
+            Popup popup = new Popup() { Title = Properties.lang.ConfirmDeletion, Message = Properties.lang.ConfirmationMessage, Owner = this, Type = Popup.PopupType.Warning };
             if (true == popup.ShowDialog())
             {
                 Corpus[] corpora = new Corpus[listBoxCorpora.SelectedItems.Count];
@@ -183,11 +187,11 @@ namespace SearchMaster
 
         private void buttonCorpusSettings_Click(object sender, RoutedEventArgs e)
         {
-            Button cmd = (Button) sender;
+            Button cmd = (Button)sender;
             if (cmd.DataContext is Corpus)
             {
-                Corpus selectedCorpus = (Corpus) cmd.DataContext;
-                CorpusWindow corpusWindow = new CorpusWindow(selectedCorpus) { Title = "Corpus Creation Window", Owner = this };
+                Corpus selectedCorpus = (Corpus)cmd.DataContext;
+                CorpusWindow corpusWindow = new CorpusWindow(selectedCorpus) { Title = Properties.lang.CorpusCreationWindow, Owner = this };
                 if (true == corpusWindow.ShowDialog())
                 {
                     selectedCorpus.Name = corpusWindow.Corpus.Name;
@@ -203,8 +207,7 @@ namespace SearchMaster
 
         private void listBoxCorpora_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
-            textBlockCorporaSelectionStatus.Text = listBoxCorpora.SelectedItems.Count + " selected.";
+            textBlockCorporaSelectionStatus.Text = listBoxCorpora.SelectedItems.Count + " " + Properties.lang.Selected + ".";
         }
 
         private void listBoxSearchResults_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -269,9 +272,15 @@ namespace SearchMaster
         {
             try
             {
-                System.Diagnostics.Process.Start(Path.Combine(Environment.CurrentDirectory, "help_en.html"));
+                CultureInfo currentCulture = Thread.CurrentThread.CurrentCulture;
+                string targetedGuidePath = Path.Combine(Environment.CurrentDirectory, "help_" + currentCulture.TwoLetterISOLanguageName.ToLower() + ".html");
+                if (!File.Exists(targetedGuidePath))
+                {
+                    targetedGuidePath = Path.Combine(Environment.CurrentDirectory, "help_en.html");
+                }
+                System.Diagnostics.Process.Start(targetedGuidePath);
             }
-            catch (Win32Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
@@ -279,15 +288,15 @@ namespace SearchMaster
 
         private void MenuItemAbout_Click(object sender, RoutedEventArgs e)
         {
-            new Popup() { Message = "Application by XXXXXXXX", Owner = this }.ShowDialog();
+            new Popup() { Message = Properties.lang.AboutMessage + Environment.NewLine + Properties.lang.Version + " " + Properties.Settings.Default.IndexerVersion, Owner = this }.ShowDialog();
         }
 
         private void buttonOpenAppSettings_Click(object sender, RoutedEventArgs e)
         {
-            AppSettingsWindow appSettingsWindow = new AppSettingsWindow() { Title = "Application Settings", Owner = this, DataContext = defaultSearchEngine.Duplicate() };
+            AppSettingsWindow appSettingsWindow = new AppSettingsWindow() { Title = Properties.lang.ApplicationWindow, Owner = this, DataContext = defaultSearchEngine.Duplicate() };
             if (true == appSettingsWindow.ShowDialog())
             {
-                defaultSearchEngine = (SearchEngine) appSettingsWindow.DataContext;
+                defaultSearchEngine = (SearchEngine)appSettingsWindow.DataContext;
             }
         }
     }

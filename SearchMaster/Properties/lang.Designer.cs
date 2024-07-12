@@ -70,11 +70,29 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Application by SearchMaster.
+        /// </summary>
+        public static string AboutMessage {
+            get {
+                return ResourceManager.GetString("AboutMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Application.
         /// </summary>
         public static string Application {
             get {
                 return ResourceManager.GetString("Application", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Application Settings.
+        /// </summary>
+        public static string ApplicationWindow {
+            get {
+                return ResourceManager.GetString("ApplicationWindow", resourceCulture);
             }
         }
         
@@ -97,11 +115,38 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Are you sure you want to delete the selected corpus ?.
+        /// </summary>
+        public static string ConfirmationMessage {
+            get {
+                return ResourceManager.GetString("ConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Confirm deletion.
+        /// </summary>
+        public static string ConfirmDeletion {
+            get {
+                return ResourceManager.GetString("ConfirmDeletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Corpora Settings.
         /// </summary>
         public static string CorporaSettings {
             get {
                 return ResourceManager.GetString("CorporaSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Corpus Creation Window.
+        /// </summary>
+        public static string CorpusCreationWindow {
+            get {
+                return ResourceManager.GetString("CorpusCreationWindow", resourceCulture);
             }
         }
         
@@ -115,11 +160,29 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Corpus Parameters.
+        /// </summary>
+        public static string CorpusWindow {
+            get {
+                return ResourceManager.GetString("CorpusWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Directory.
         /// </summary>
         public static string Directory {
             get {
                 return ResourceManager.GetString("Directory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The query is empty.
+        /// </summary>
+        public static string EmptyQuery {
+            get {
+                return ResourceManager.GetString("EmptyQuery", resourceCulture);
             }
         }
         
@@ -169,6 +232,24 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Indexing.
+        /// </summary>
+        public static string Indexing {
+            get {
+                return ResourceManager.GetString("Indexing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Empty or invalid directory path.
+        /// </summary>
+        public static string InvalidPath {
+            get {
+                return ResourceManager.GetString("InvalidPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Manual.
         /// </summary>
         public static string Manual {
@@ -192,6 +273,24 @@ namespace SearchMaster.Properties {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No corpus name.
+        /// </summary>
+        public static string NoCorpusName {
+            get {
+                return ResourceManager.GetString("NoCorpusName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No corpus selected.
+        /// </summary>
+        public static string NoCorpusSelected {
+            get {
+                return ResourceManager.GetString("NoCorpusSelected", resourceCulture);
             }
         }
         
@@ -223,11 +322,29 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Popup.
+        /// </summary>
+        public static string Popup {
+            get {
+                return ResourceManager.GetString("Popup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Search.
         /// </summary>
         public static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à SearchMaster.
+        /// </summary>
+        public static string SearchMaster {
+            get {
+                return ResourceManager.GetString("SearchMaster", resourceCulture);
             }
         }
         
@@ -241,11 +358,38 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à selected.
+        /// </summary>
+        public static string Selected {
+            get {
+                return ResourceManager.GetString("Selected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Settings.
         /// </summary>
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Version.
+        /// </summary>
+        public static string Version {
+            get {
+                return ResourceManager.GetString("Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Warning.
+        /// </summary>
+        public static string Warning {
+            get {
+                return ResourceManager.GetString("Warning", resourceCulture);
             }
         }
         

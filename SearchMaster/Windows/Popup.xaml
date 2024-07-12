@@ -7,7 +7,7 @@
         xmlns:Properties="clr-namespace:SearchMaster.Properties"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="Popup" Height="125" Width="275">
+        Title="{x:Static Properties:lang.Popup}" Height="125" Width="275">
     <Window.Resources>
         <BitmapImage x:Key="IconInfo" UriSource="../Resources/icon_info.png" />
     </Window.Resources>

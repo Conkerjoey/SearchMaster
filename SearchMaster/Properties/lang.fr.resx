@@ -120,8 +120,14 @@
   <data name="About" xml:space="preserve">
     <value>À propos</value>
   </data>
+  <data name="AboutMessage" xml:space="preserve">
+    <value>Application par SearchMaster</value>
+  </data>
   <data name="Application" xml:space="preserve">
     <value>Application</value>
+  </data>
+  <data name="ApplicationWindow" xml:space="preserve">
+    <value>Paramètres de l'application</value>
   </data>
   <data name="BlackList" xml:space="preserve">
     <value>Exclusions</value>
@@ -129,14 +135,29 @@
   <data name="Cancel" xml:space="preserve">
     <value>Annuler</value>
   </data>
+  <data name="ConfirmationMessage" xml:space="preserve">
+    <value>Êtes-vous certain de vouloir supprimer ce corpus ?</value>
+  </data>
+  <data name="ConfirmDeletion" xml:space="preserve">
+    <value>Confirmation de suppression</value>
+  </data>
   <data name="CorporaSettings" xml:space="preserve">
     <value>Paramètres de Corpora</value>
+  </data>
+  <data name="CorpusCreationWindow" xml:space="preserve">
+    <value>Création de corpus</value>
   </data>
   <data name="CorpusDetails" xml:space="preserve">
     <value>Corpus Details</value>
   </data>
+  <data name="CorpusWindow" xml:space="preserve">
+    <value>Paramètres du corpus</value>
+  </data>
   <data name="Directory" xml:space="preserve">
     <value>Répertoire</value>
+  </data>
+  <data name="EmptyQuery" xml:space="preserve">
+    <value>La requête est vide</value>
   </data>
   <data name="Engine" xml:space="preserve">
     <value>Moteur</value>
@@ -153,6 +174,12 @@
   <data name="Help" xml:space="preserve">
     <value>Aide</value>
   </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>Indexage</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Chemin non spécifié ou invalide</value>
+  </data>
   <data name="Manual" xml:space="preserve">
     <value>Guide</value>
   </data>
@@ -161,6 +188,12 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nom</value>
+  </data>
+  <data name="NoCorpusName" xml:space="preserve">
+    <value>Aucun nom de corpus</value>
+  </data>
+  <data name="NoCorpusSelected" xml:space="preserve">
+    <value>Aucun corpus sélectionné</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>Continuer</value>
@@ -171,14 +204,29 @@
   <data name="Path" xml:space="preserve">
     <value>Chemin</value>
   </data>
+  <data name="Popup" xml:space="preserve">
+    <value>Notification</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Recherche</value>
+  </data>
+  <data name="SearchMaster" xml:space="preserve">
+    <value>SearchMaster</value>
   </data>
   <data name="SearchOptions" xml:space="preserve">
     <value>Options de recherche</value>
   </data>
+  <data name="Selected" xml:space="preserve">
+    <value>sélectionné(s)</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Paramètres</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Attention</value>
   </data>
   <data name="WhiteList" xml:space="preserve">
     <value>Inclusions</value>

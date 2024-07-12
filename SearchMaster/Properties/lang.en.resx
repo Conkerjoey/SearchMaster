@@ -120,8 +120,14 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="AboutMessage" xml:space="preserve">
+    <value>Application by SearchMaster</value>
+  </data>
   <data name="Application" xml:space="preserve">
     <value>Application</value>
+  </data>
+  <data name="ApplicationWindow" xml:space="preserve">
+    <value>Application Settings</value>
   </data>
   <data name="BlackList" xml:space="preserve">
     <value>Blacklist</value>
@@ -129,14 +135,29 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="ConfirmationMessage" xml:space="preserve">
+    <value>Are you sure you want to delete the selected corpus ?</value>
+  </data>
+  <data name="ConfirmDeletion" xml:space="preserve">
+    <value>Confirm deletion</value>
+  </data>
   <data name="CorporaSettings" xml:space="preserve">
     <value>Corpora Settings</value>
+  </data>
+  <data name="CorpusCreationWindow" xml:space="preserve">
+    <value>Corpus Creation Window</value>
   </data>
   <data name="CorpusDetails" xml:space="preserve">
     <value>Corpus Details</value>
   </data>
+  <data name="CorpusWindow" xml:space="preserve">
+    <value>Corpus Window</value>
+  </data>
   <data name="Directory" xml:space="preserve">
     <value>Directory</value>
+  </data>
+  <data name="EmptyQuery" xml:space="preserve">
+    <value>The query is empty</value>
   </data>
   <data name="Engine" xml:space="preserve">
     <value>Engine</value>
@@ -153,6 +174,12 @@
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>
+  <data name="Indexing" xml:space="preserve">
+    <value>Indexing</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Empty or invalid directory path</value>
+  </data>
   <data name="Manual" xml:space="preserve">
     <value>Manual</value>
   </data>
@@ -161,6 +188,12 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="NoCorpusName" xml:space="preserve">
+    <value>No corpus name</value>
+  </data>
+  <data name="NoCorpusSelected" xml:space="preserve">
+    <value>No corpus selected</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>
@@ -171,14 +204,29 @@
   <data name="Path" xml:space="preserve">
     <value>Path</value>
   </data>
+  <data name="Popup" xml:space="preserve">
+    <value>Popup</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Search</value>
+  </data>
+  <data name="SearchMaster" xml:space="preserve">
+    <value>SearchMaster</value>
   </data>
   <data name="SearchOptions" xml:space="preserve">
     <value>Search Options</value>
   </data>
+  <data name="Selected" xml:space="preserve">
+    <value>selected</value>
+  </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
   </data>
   <data name="WhiteList" xml:space="preserve">
     <value>Whitelist</value>
