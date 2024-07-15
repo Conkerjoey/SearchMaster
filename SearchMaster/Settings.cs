@@ -19,7 +19,7 @@ namespace SearchMaster
     public class Settings : INotifyPropertyChanged
     {
         public static readonly int MAX_QUERY_HISTORY = 50;
-        private List<Corpus> corpora = new List<Corpus>();
+        private ObservableCollection<Corpus> corpora = new ObservableCollection<Corpus>();
         private ObservableCollection<Query> queries = new ObservableCollection<Query>();
         private SearchEngine.ResolverType resolverType;
         private bool multithreadedFlag = true;
@@ -32,10 +32,10 @@ namespace SearchMaster
 
         }
 
-        public List<Corpus> Corpora
+        public ObservableCollection<Corpus> Corpora
         {
             get { return corpora; }
-            set { corpora = value; }
+            set { corpora = value; this.OnPropertyChanged("Corpora"); }
         }
 
         public ObservableCollection<Query> Queries

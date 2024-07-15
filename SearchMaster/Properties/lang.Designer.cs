@@ -304,6 +304,15 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Opened.
+        /// </summary>
+        public static string Opened {
+            get {
+                return ResourceManager.GetString("Opened", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Or.
         /// </summary>
         public static string Or {

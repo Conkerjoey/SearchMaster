@@ -51,6 +51,11 @@ namespace SearchMaster.Engine
             }
         }
 
+        public bool Opened
+        {
+            get; set;
+        }
+
         public string FormattedRelevance
         {
             get

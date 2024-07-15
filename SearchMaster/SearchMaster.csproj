@@ -129,6 +129,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Engine\Finder.cs" />
     <Compile Include="Engine\FullMatchResolver.cs" />
     <Compile Include="Engine\LabelDensityResolver.cs" />
     <Compile Include="Engine\IResolver.cs" />
@@ -162,7 +163,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>lang.fr.resx</DependentUpon>
     </Compile>
-    <Compile Include="Tools\Localization.cs" />
     <Compile Include="Windows\AppSettingsWindow.xaml.cs">
       <DependentUpon>AppSettingsWindow.xaml</DependentUpon>
     </Compile>

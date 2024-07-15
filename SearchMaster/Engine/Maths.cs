@@ -89,7 +89,7 @@ namespace SearchMaster.Engine
             return res;
         }
 
-        public static double[] Ones(int length)
+        public static double[] Ones(int length)
         {
             double[] res = new double[length];
             for (int i = 0; i < res.Length; i++)

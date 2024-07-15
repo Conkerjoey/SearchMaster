@@ -198,6 +198,9 @@
   <data name="OK" xml:space="preserve">
     <value>Continuer</value>
   </data>
+  <data name="Opened" xml:space="preserve">
+    <value>Ouvert</value>
+  </data>
   <data name="Or" xml:space="preserve">
     <value>Ou</value>
   </data>

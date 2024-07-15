@@ -72,7 +72,7 @@ namespace SearchMaster.Indexing
         public string Name
         {
             get { return name; }
-            set { name = value; if (originalName == null) originalName = name; this.OnPropertyChanged("Name"); }
+            set { name = value; if (originalName == null) originalName = value; this.OnPropertyChanged("Name"); }
         }
 
         public string Location

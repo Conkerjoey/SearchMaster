@@ -54,8 +54,8 @@ namespace SearchMaster
             textBlockSearchStatus.Text = string.Empty;
             statusCorporaDirectory.DataContext = defaultSearchEngine;
 
-            foreach (Corpus corpus in defaultSettings.Corpora)
-                listBoxCorpora.Items.Add(corpus);
+            // foreach (Corpus corpus in defaultSettings.Corpora)
+            //     listBoxCorpora.Items.Add(corpus);
 
             BindingOperations.SetBinding(comboBoxQuery, ComboBox.ItemsSourceProperty, new Binding("Queries") { Source = defaultSettings, Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
 
@@ -151,7 +151,7 @@ namespace SearchMaster
                 statusProgressBar.Visibility = Visibility.Hidden;
                 statusSummaryText.Text = string.Empty;
 
-                listBoxCorpora.Items.Add(corpusWindow.Corpus);
+                // listBoxCorpora.Items.Add(corpusWindow.Corpus);
                 defaultSettings.Corpora.Add(corpusWindow.Corpus);
                 defaultSettings.Save();
             }
@@ -166,15 +166,13 @@ namespace SearchMaster
             Popup popup = new Popup() { Title = Properties.lang.ConfirmDeletion, Message = Properties.lang.ConfirmationMessage, Owner = this, Type = Popup.PopupType.Warning };
             if (true == popup.ShowDialog())
             {
-                Corpus[] corpora = new Corpus[listBoxCorpora.SelectedItems.Count];
-                listBoxCorpora.SelectedItems.CopyTo(corpora, 0);
-                foreach (Corpus corpus in corpora)
+                for (int i = listBoxCorpora.SelectedItems.Count - 1; i >= 0; i--)
                 {
+                    Corpus corpus = (Corpus) listBoxCorpora.SelectedItems[i];
                     defaultSettings.Corpora.Remove(corpus);
-                    listBoxCorpora.Items.Remove(corpus);
                     try
                     {
-                        Directory.Delete(System.IO.Path.Combine(new string[] { defaultSearchEngine.CorporaDirectory, corpus.Name }), true);
+                        Directory.Delete(Path.Combine(new string[] { defaultSearchEngine.CorporaDirectory, corpus.Name }), true);
                     }
                     catch (Exception exception)
                     {
@@ -200,7 +198,7 @@ namespace SearchMaster
                     selectedCorpus.Whitelist = corpusWindow.Corpus.Whitelist;
                     selectedCorpus.Blacklist = corpusWindow.Corpus.Blacklist;
                     selectedCorpus.CrawlUrlEnabled = corpusWindow.Corpus.CrawlUrlEnabled;
-                    // TODO: Rescan directory
+                    // TODO: Rescan directory and recreate indexed folder.
                 }
             }
         }
