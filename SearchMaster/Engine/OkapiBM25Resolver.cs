@@ -16,6 +16,7 @@ namespace SearchMaster.Engine
         private Dictionary<Document, double[]> documentCountVectors;
         private int totalDocumentWords = 0;
         private bool multithreadingEnable;
+        private Finder finder;
 
         public List<string> IndexedDocumentsPath
         {
@@ -39,6 +40,7 @@ namespace SearchMaster.Engine
 
         public QueryResult SearchQuery(Query query)
         {
+            finder = new Finder(query);
             string[] vecQuery = query.Text.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -125,7 +127,7 @@ namespace SearchMaster.Engine
 
                 for (int l = 0; l < vectorizedLabels.Length; l++)
                 {
-                    WeightedLabel weightedLabel = document.WeightedLabels.Find(x => x.GetText().Contains(vectorizedLabels[l]));
+                    WeightedLabel weightedLabel = finder.Match(document.WeightedLabels, vectorizedLabels[l]);
                     if (weightedLabel != null)
                     {
                         double tf = weightedLabel.GetWeight();

@@ -178,6 +178,15 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Document(s).
+        /// </summary>
+        public static string Documents {
+            get {
+                return ResourceManager.GetString("Documents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à The query is empty.
         /// </summary>
         public static string EmptyQuery {
@@ -228,6 +237,15 @@ namespace SearchMaster.Properties {
         public static string Help {
             get {
                 return ResourceManager.GetString("Help", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à In.
+        /// </summary>
+        public static string In {
+            get {
+                return ResourceManager.GetString("In", resourceCulture);
             }
         }
         
@@ -340,6 +358,15 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Result(s).
+        /// </summary>
+        public static string Results {
+            get {
+                return ResourceManager.GetString("Results", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Search.
         /// </summary>
         public static string Search {
@@ -363,6 +390,15 @@ namespace SearchMaster.Properties {
         public static string SearchOptions {
             get {
                 return ResourceManager.GetString("SearchOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Seconds.
+        /// </summary>
+        public static string Seconds {
+            get {
+                return ResourceManager.GetString("Seconds", resourceCulture);
             }
         }
         

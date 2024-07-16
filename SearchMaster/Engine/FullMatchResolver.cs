@@ -14,6 +14,7 @@ namespace SearchMaster.Engine
     {
         private List<string> indexedDocumentsPaths;
         private bool multithreadingEnable;
+        private Finder finder;
 
         public List<string> IndexedDocumentsPath
         {
@@ -35,6 +36,7 @@ namespace SearchMaster.Engine
 
         public QueryResult SearchQuery(Query query)
         {
+            finder = new Finder(query);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             List<SearchResult> results = FindFullMatch(query.Text);
@@ -87,8 +89,11 @@ namespace SearchMaster.Engine
                 double relevance = 0;
                 for (int l = 0; l < vecQuery.Length; l++)
                 {
-                    List<WeightedLabel> weightedLabels = document.WeightedLabels.FindAll(x => x.GetText() == vecQuery[l] || x.GetText().IndexOf(vecQuery[l], StringComparison.InvariantCultureIgnoreCase) >= 0);
-                    relevance += weightedLabels.Count;
+                    WeightedLabel weightedLabel = finder.MatchEntirely(document.WeightedLabels, vecQuery[l]);
+                    if (weightedLabel != null)
+                    {
+                        relevance += 1;
+                    }
                 }
                 if (relevance > 0)
                 {

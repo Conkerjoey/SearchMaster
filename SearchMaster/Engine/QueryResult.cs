@@ -26,7 +26,7 @@ namespace SearchMaster.Engine
 
         public string GetQueryResultStatus()
         {
-            return searchResults.Count + " result(s) (" + elapsedTime.TotalSeconds.ToString("N2") + " seconds) from " + numberOfDocumentAnalyzed + " documents.";
+            return searchResults.Count + " " + Properties.lang.Results.ToLower() + " (" + elapsedTime.TotalSeconds.ToString("N2") + " " + Properties.lang.Seconds.ToLower() + ") " + Properties.lang.In.ToLower() + " " + numberOfDocumentAnalyzed + " " + Properties.lang.Documents.ToLower() + ".";
         }
     }
 }

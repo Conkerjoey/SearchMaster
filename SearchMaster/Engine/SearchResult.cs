@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,7 @@ using SearchMaster.Indexing;
 
 namespace SearchMaster.Engine
 {
-    public class SearchResult
+    public class SearchResult : INotifyPropertyChanged
     {
         public enum RelevanceType
         {
@@ -18,6 +19,18 @@ namespace SearchMaster.Engine
         private Document document;
         private double relevance;
         private RelevanceType relevanceType;
+        private bool opened = false;
+
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName)
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
 
         public SearchResult(Document doc, RelevanceType relevanceType, double relevance)
         {
@@ -53,7 +66,8 @@ namespace SearchMaster.Engine
 
         public bool Opened
         {
-            get; set;
+            get { return this.opened; }
+            set { this.opened = value; this.OnPropertyChanged("Opened"); }
         }
 
         public string FormattedRelevance

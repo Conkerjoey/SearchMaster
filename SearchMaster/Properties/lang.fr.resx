@@ -156,6 +156,9 @@
   <data name="Directory" xml:space="preserve">
     <value>Répertoire</value>
   </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Document(s)</value>
+  </data>
   <data name="EmptyQuery" xml:space="preserve">
     <value>La requête est vide</value>
   </data>
@@ -173,6 +176,9 @@
   </data>
   <data name="Help" xml:space="preserve">
     <value>Aide</value>
+  </data>
+  <data name="In" xml:space="preserve">
+    <value>Dans</value>
   </data>
   <data name="Indexing" xml:space="preserve">
     <value>Indexage</value>
@@ -210,6 +216,9 @@
   <data name="Popup" xml:space="preserve">
     <value>Notification</value>
   </data>
+  <data name="Results" xml:space="preserve">
+    <value>Résultat(s)</value>
+  </data>
   <data name="Search" xml:space="preserve">
     <value>Recherche</value>
   </data>
@@ -218,6 +227,9 @@
   </data>
   <data name="SearchOptions" xml:space="preserve">
     <value>Options de recherche</value>
+  </data>
+  <data name="Seconds" xml:space="preserve">
+    <value>Seconde(s)</value>
   </data>
   <data name="Selected" xml:space="preserve">
     <value>sélectionné(s)</value>

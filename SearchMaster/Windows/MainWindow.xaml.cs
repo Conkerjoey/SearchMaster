@@ -223,6 +223,7 @@ namespace SearchMaster
                     try
                     {
                         System.Diagnostics.Process.Start(sr.Document.DocumentSource.Path);
+                        sr.Opened = true;
                     }
                     catch (Win32Exception ex)
                     {

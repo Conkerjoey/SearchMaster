@@ -137,20 +137,20 @@
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
                                     <ColumnDefinition Width="auto" />
+                                    <ColumnDefinition Width="auto" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="auto"/>
                                     <RowDefinition Height="auto"/>
                                 </Grid.RowDefinitions>
-                                <Image Source="{Binding IconPath}" Width="32" Height="32" Grid.RowSpan="2" />
-                                <TextBlock Text="{Binding Text}" Grid.Column="1" Margin="5,0,0,0" Grid.ColumnSpan="1" FontSize="14px" FontWeight="DemiBold" />
+                                <Image Source="{Binding IconPath}" Width="32" Height="32" Grid.RowSpan="2" Grid.Column="0" />
+                                <TextBlock Text="{Binding Text}" Grid.Column="1" Margin="5,0,0,0" Grid.ColumnSpan="2" FontSize="14px" FontWeight="DemiBold" />
                                 <TextBlock Text="{Binding FormattedRelevance}" FontSize="12px" Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" />
-                                <TextBlock Text="{Binding FullPath}" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" Margin="5,0,0,0" FontSize="12px" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
-                                <Border Background="#007BFF" CornerRadius="10" Padding="8,0,8,0" Grid.Column="2" Grid.Row="0">
+                                <TextBlock Text="{Binding FullPath}" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" Margin="5,0,0,0" FontSize="12px" HorizontalAlignment="Right" />
+                                <Border Background="#007BFF" CornerRadius="10" Padding="8,0,8,0" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Right">
                                     <TextBlock Foreground="White" FontWeight="Bold" FontSize="12">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
-                                                <Setter Property="Text" Value="{x:Static Properties:lang.Opened}"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding Opened}" Value="True">
                                                         <Setter Property="Text" Value="{x:Static Properties:lang.Opened}"/>
@@ -159,6 +159,15 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Opened}" Value="False">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
                                 </Border>
                             </Grid>
                         </DataTemplate>

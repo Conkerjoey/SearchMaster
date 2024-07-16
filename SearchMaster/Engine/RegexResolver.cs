@@ -14,6 +14,7 @@ namespace SearchMaster.Engine
     {
         private List<string> indexedDocumentsPaths;
         private bool multithreadingEnable;
+        private Finder finder;
 
         public List<string> IndexedDocumentsPath
         {
@@ -35,6 +36,7 @@ namespace SearchMaster.Engine
 
         public QueryResult SearchQuery(Query query)
         {
+            finder = new Finder(query);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             Regex regex = new Regex(query.Text, RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -81,25 +83,21 @@ namespace SearchMaster.Engine
 
         private void FindRegexInDocument(List<string> documentsPathsSublist, Regex regex, ref List<SearchResult> results)
         {
-            // for (int i = 0; i < documentsPathsSublist.Count; i++)
-            // {
-            //     Document document = Document.Load(documentsPathsSublist[i]);
-            //     double relevance = 0;
-            //     string[] lines = document.GetLines();
-            //     for (int l = 0; l < lines.Length; l++)
-            //     {
-            //         MatchCollection matches = regex.Matches(lines[l]);
-            //         if (matches.Count > 0)
-            //         {
-            //             int bp = 0;
-            //         }
-            //         relevance += matches.Count;
-            //     }
-            //     if (relevance > 0)
-            //     {
-            //         results.Add(new SearchResult(document, SearchResult.RelevanceType.Count, relevance));
-            //     }
-            // }
+            for (int i = 0; i < documentsPathsSublist.Count; i++)
+            {
+                Document document = Document.Load(documentsPathsSublist[i]);
+                double relevance = 0;
+
+                WeightedLabel weightedLabel = finder.MatchRegex(document.WeightedLabels, regex);
+                if (weightedLabel != null)
+                {
+                    relevance += weightedLabel.GetTotalOccurence();
+                }
+                if (relevance > 0)
+                {
+                    results.Add(new SearchResult(document, SearchResult.RelevanceType.Count, relevance));
+                }
+            }
         }
     }
 }

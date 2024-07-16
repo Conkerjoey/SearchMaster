@@ -4,8 +4,4 @@ Automatic txt file detection based on character encoding
 Radio button to select find in files or use indexing method
 Getting Started
 Tesseract OCR
-Wildcard *
-Search option : file: “filename“ etc
-Search result opened flag badge
-Help page in Menu Bar using WebBrowser window ?
 Search hit preview (implements n-graph method)
