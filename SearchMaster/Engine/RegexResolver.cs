@@ -88,8 +88,8 @@ namespace SearchMaster.Engine
                 Document document = Document.Load(documentsPathsSublist[i]);
                 double relevance = 0;
 
-                WeightedLabel weightedLabel = finder.MatchRegex(document.NGram.WeightedLabels, regex);
-                if (weightedLabel != null)
+                List<WeightedLabel> weightedLabels = finder.MatchRegex(document.NGram.WeightedLabels, regex);
+                foreach (WeightedLabel weightedLabel in weightedLabels)
                 {
                     relevance += weightedLabel.GetTotalOccurence();
                 }

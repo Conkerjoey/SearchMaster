@@ -19,19 +19,23 @@ namespace SearchMaster.Engine
             // TODO: Search option: file: “filename“ etc
         }
 
-        public WeightedLabel Match(List<WeightedLabel> labels, string queryFragment)
+        // string[] myarr = new string[] { "s", "f", "s" };
+
+        // int[] v = myarr.Select((b, i) => b == "s" ? i : -1).Where(i => i != -1).ToArray();
+
+        public List<WeightedLabel> Match(List<WeightedLabel> labels, string queryFragment)
         {
-            return labels.Find(x => x.GetText().ToLower().Contains(queryFragment.ToLower()));
+            return labels.FindAll(x => x.GetText().ToLower().Contains(queryFragment.ToLower()));
         }
 
-        public WeightedLabel MatchEntirely(List<WeightedLabel> labels, string queryFragment)
+        public List<WeightedLabel> MatchEntirely(List<WeightedLabel> labels, string queryFragment)
         {
-            return labels.Find(x => x.GetText() == queryFragment);
+            return labels.FindAll(x => x.GetText() == queryFragment);
         }
 
-        public WeightedLabel MatchRegex(List<WeightedLabel> labels, Regex regex)
+        public List<WeightedLabel> MatchRegex(List<WeightedLabel> labels, Regex regex)
         {
-            return labels.Find(x =>
+            return labels.FindAll(x =>
             {
                 return regex.Match(x.GetText()).Success;
             });

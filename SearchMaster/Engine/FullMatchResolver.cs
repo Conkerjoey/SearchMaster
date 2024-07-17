@@ -89,10 +89,10 @@ namespace SearchMaster.Engine
                 double relevance = 0;
                 for (int l = 0; l < vecQuery.Length; l++)
                 {
-                    WeightedLabel weightedLabel = finder.MatchEntirely(document.NGram.WeightedLabels, vecQuery[l]);
-                    if (weightedLabel != null)
+                    List<WeightedLabel> weightedLabels = finder.MatchEntirely(document.NGram.WeightedLabels, vecQuery[l]);
+                    foreach (WeightedLabel weightedLabel in weightedLabels)
                     {
-                        relevance += 1;
+                        relevance++;
                     }
                 }
                 if (relevance > 0)

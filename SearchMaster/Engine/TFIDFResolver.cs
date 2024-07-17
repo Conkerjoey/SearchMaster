@@ -111,8 +111,8 @@ namespace SearchMaster.Engine
 
                 for (int l = 0; l < vectorizedLabels.Length; l++)
                 {
-                    WeightedLabel weightedLabel = finder.Match(document.NGram.WeightedLabels, vectorizedLabels[l]);
-                    if (weightedLabel != null)
+                    List<WeightedLabel> weightedLabels = finder.Match(document.NGram.WeightedLabels, vectorizedLabels[l]);
+                    foreach (WeightedLabel weightedLabel in weightedLabels)
                     {
                         double tf = weightedLabel.GetWeight();
                         if (documentWeightsVectors.ContainsKey(document))
