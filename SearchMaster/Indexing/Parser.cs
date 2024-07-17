@@ -17,9 +17,9 @@ namespace SearchMaster.Indexing
             this.lines = lines;
         }
 
-        public List<WeightedLabel> GetLabels(ref int totalWords)
+        public NGram GetNGram()
         {
-            List<WeightedLabel> labels = new List<WeightedLabel>();
+            NGram ngram = new NGram(5);
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i].Replace(",", " ").Replace("{", " ").Replace("}", " "); // Remove comma, curly-bracket
@@ -29,19 +29,10 @@ namespace SearchMaster.Indexing
                 string[] words = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 for (int j = 0; j < words.Length; j++)
                 {
-                    WeightedLabel l = labels.Find(x => x.GetText() == words[j]);
-                    if (l == null)
-                    {
-                        labels.Add(new WeightedLabel(words[j])); // TODO: Change for an ordered list and speed up comparison process.
-                    }
-                    else
-                    {
-                        l.IncrementTotalOccurence();
-                    }
+                    ngram.InsertLabel(words[j]);
                 }
-                totalWords += words.Length;
             }
-            return labels;
+            return ngram;
         }
 
         public List<string> GetURLs()

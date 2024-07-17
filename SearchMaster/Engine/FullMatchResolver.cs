@@ -89,7 +89,7 @@ namespace SearchMaster.Engine
                 double relevance = 0;
                 for (int l = 0; l < vecQuery.Length; l++)
                 {
-                    WeightedLabel weightedLabel = finder.MatchEntirely(document.WeightedLabels, vecQuery[l]);
+                    WeightedLabel weightedLabel = finder.MatchEntirely(document.NGram.WeightedLabels, vecQuery[l]);
                     if (weightedLabel != null)
                     {
                         relevance += 1;

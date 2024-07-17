@@ -34,24 +34,19 @@ namespace SearchMaster.Indexing
             get;set;
         }
 
-        public FileType FileType
+        public NGram NGram
         {
-            get;set;
+            get; set;
         }
 
-        public List<WeightedLabel> WeightedLabels
+        public FileType FileType
         {
             get;set;
         }
 
         public bool IsLabelPresent(WeightedLabel weightLabel)
         {
-            return this.WeightedLabels.Find(x => x.GetText() == weightLabel.GetText()) != null;
-        }
-
-        public int WordCount
-        {
-            get;set;
+            return this.NGram.WeightedLabels.Find(x => x.GetText() == weightLabel.GetText()) != null;
         }
 
         public void Save(string directory)

@@ -38,10 +38,10 @@ namespace SearchMaster.Indexing
         {
             for (int i = 0; i < documentsSublist.Count; i++)
             {
-                for (int l = 0; l < documentsSublist[i].WeightedLabels.Count; l++)
+                for (int l = 0; l < documentsSublist[i].NGram.WeightedLabels.Count; l++)
                 {
                     int labelDocOccurence = 1;
-                    WeightedLabel weightedLabel = documentsSublist[i].WeightedLabels[l];
+                    WeightedLabel weightedLabel = documentsSublist[i].NGram.WeightedLabels[l];
 
                     for (int j = 0; j < corpusDocuments.Count; j++)
                     {
@@ -54,7 +54,7 @@ namespace SearchMaster.Indexing
                         }
                     }
                     // Compute TF-IDF
-                    double weight = (weightedLabel.GetTotalOccurence() + 0.0D) / documentsSublist[i].WordCount * Math.Log(corpusDocuments.Count / (labelDocOccurence + 0.0D));
+                    double weight = (weightedLabel.GetTotalOccurence() + 0.0D) / documentsSublist[i].NGram.WordCount * Math.Log(corpusDocuments.Count / (labelDocOccurence + 0.0D));
                     // End of Compute
                     weightedLabel.SetWeight(weight);
                 }

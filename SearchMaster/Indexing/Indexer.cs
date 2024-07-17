@@ -67,11 +67,10 @@ namespace SearchMaster.Indexing
                             DocFile file = new DocFile() { FilePath = filepath, FileType = DocFile.DetermineFileType(filepath) };
                             string[] lines = Reader.ReadLines(file);
                             Parser parser = new Parser(lines);
-                            int wordCount = 0;
-                            List<WeightedLabel> labels = parser.GetLabels(ref wordCount);
+                            NGram ngram = parser.GetNGram();
                             List<string> urls = parser.GetURLs();
 
-                            Document doc = new Document() { Name = Path.GetFileName(filepath), FileType = file.FileType, WeightedLabels = labels, WordCount = wordCount, DocumentSource = new DocumentSource(DocumentSource.Type.Local, filepath) };
+                            Document doc = new Document() { Name = Path.GetFileName(filepath), FileType = file.FileType, NGram = ngram, DocumentSource = new DocumentSource(DocumentSource.Type.Local, filepath) };
                             documents.Add(doc);
 
                             docURLs[doc] = urls;
@@ -108,12 +107,11 @@ namespace SearchMaster.Indexing
                         DocFile webfile = new DocFile() { FilePath = tempFile, FileType = docType };
                         string[] weblines = Reader.ReadLines(webfile);
                         Parser webparser = new Parser(weblines);
-                        int webWordCount = 0;
-                        List<WeightedLabel> weblabels = webparser.GetLabels(ref webWordCount);
+                        NGram ngram = webparser.GetNGram();
                         
                         processedURLs.Add(url);
                         DocumentSource documentSource = new DocumentSource(DocumentSource.Type.Web, url);
-                        Document docFromWeb = new Document() { Name = url, FileType = webfile.FileType, WeightedLabels = weblabels, WordCount = webWordCount, DocumentSource = new DocumentSource(DocumentSource.Type.Web, url), Parent = parentDoc };
+                        Document docFromWeb = new Document() { Name = url, FileType = webfile.FileType, NGram = ngram, DocumentSource = new DocumentSource(DocumentSource.Type.Web, url), Parent = parentDoc };
                         documents.Add(docFromWeb);
                     }
                 }

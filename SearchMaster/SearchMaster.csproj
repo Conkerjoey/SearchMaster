@@ -143,6 +143,7 @@
     <Compile Include="Indexing\DocFile.cs" />
     <Compile Include="Indexing\HttpService.cs" />
     <Compile Include="Indexing\Indexer.cs" />
+    <Compile Include="Indexing\NGram.cs" />
     <Compile Include="Indexing\Parser.cs" />
     <Compile Include="Indexing\Reader.cs" />
     <Compile Include="Indexing\StringWrapper.cs" />

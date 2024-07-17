@@ -127,7 +127,7 @@ namespace SearchMaster.Engine
 
                 for (int l = 0; l < vectorizedLabels.Length; l++)
                 {
-                    WeightedLabel weightedLabel = finder.Match(document.WeightedLabels, vectorizedLabels[l]);
+                    WeightedLabel weightedLabel = finder.Match(document.NGram.WeightedLabels, vectorizedLabels[l]);
                     if (weightedLabel != null)
                     {
                         double tf = weightedLabel.GetWeight();
@@ -142,17 +142,17 @@ namespace SearchMaster.Engine
                             lock (documentWeightsVectors)
                             {
                                 documentWeightsVectors.Add(document, tempArray);
-                                totalDocumentWords += document.WordCount;
+                                totalDocumentWords += document.NGram.WordCount;
                             }
                         }
                         if (documentCountVectors.ContainsKey(document))
                         {
-                            documentCountVectors[document][l] = document.WordCount;
+                            documentCountVectors[document][l] = document.NGram.WordCount;
                         }
                         else
                         {
                             double[] tempArray = new double[vectorizedLabels.Length];
-                            tempArray[l] = document.WordCount;
+                            tempArray[l] = document.NGram.WordCount;
                             lock (documentCountVectors)
                             {
                                 documentCountVectors.Add(document, tempArray);
