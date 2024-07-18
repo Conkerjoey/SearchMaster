@@ -171,11 +171,20 @@
   <data name="FileFilter" xml:space="preserve">
     <value>FileFilter</value>
   </data>
+  <data name="Files" xml:space="preserve">
+    <value>Files</value>
+  </data>
   <data name="Folders" xml:space="preserve">
     <value>Folders</value>
   </data>
+  <data name="FromLinkIn" xml:space="preserve">
+    <value>From link in</value>
+  </data>
   <data name="Help" xml:space="preserve">
     <value>Help</value>
+  </data>
+  <data name="Hits" xml:space="preserve">
+    <value>Hit(s)</value>
   </data>
   <data name="In" xml:space="preserve">
     <value>In</value>

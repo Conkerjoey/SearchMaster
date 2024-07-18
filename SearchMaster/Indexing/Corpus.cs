@@ -102,7 +102,7 @@ namespace SearchMaster.Indexing
         {
             get
             {
-                return DocumentCount + " files";
+                return DocumentCount + " " + Properties.lang.Files;
             }
         }
 

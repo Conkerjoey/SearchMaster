@@ -1,3 +1,4 @@
+Non-indexing search
 PowerPoint file support
 OneNote file support
 Automatic txt file detection based on character encoding

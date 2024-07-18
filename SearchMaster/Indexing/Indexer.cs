@@ -13,6 +13,7 @@ using System.Security.Policy;
 using System.Runtime.InteropServices;
 using DocumentFormat.OpenXml.ExtendedProperties;
 using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 
 namespace SearchMaster.Indexing
 {

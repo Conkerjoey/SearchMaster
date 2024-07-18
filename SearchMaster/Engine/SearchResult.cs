@@ -77,7 +77,7 @@ namespace SearchMaster.Engine
                 switch (relevanceType)
                 {
                     case RelevanceType.Count:
-                        return (int)relevance + " hit(s)";
+                        return (int)relevance + " " + Properties.lang.Hits;
                     case RelevanceType.Percentage:
                         return (relevance * 100.0D).ToString("N1") + " %";
                     default:
@@ -92,7 +92,7 @@ namespace SearchMaster.Engine
             {
                 if (Document.Parent != null)
                 {
-                    return "From link in " + Document.Parent.DocumentSource.Path;
+                    return Properties.lang.FromLinkIn + " " + Document.Parent.DocumentSource.Path;
                 }
                 else
                 {
