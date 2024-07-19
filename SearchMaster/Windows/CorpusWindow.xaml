@@ -35,10 +35,10 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="textBlockCorpusName" Text="{x:Static Properties:lang.Name}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBox x:Name="textBoxCorpusName" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='placeholder'}" Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
-                <TextBlock x:Name="textBlockCorpusPath" Text="{x:Static Properties:lang.Path}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBox x:Name="textBoxCorpusPath" Text="{Binding Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='placeholder'}" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBlock x:Name="textBlockCorpusName" Text="{x:Static Properties:lang.Name}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxCorpusName" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='placeholder'}" Grid.Row="0" Grid.Column="1" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Height="25" Margin="10,10,0,0" TextWrapping="NoWrap" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
+                <TextBlock x:Name="textBlockCorpusPath" Text="{x:Static Properties:lang.Path}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxCorpusPath" Text="{Binding Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='placeholder'}" Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Height="25" Margin="10,10,0,0" TextWrapping="NoWrap" VerticalAlignment="Center"/>
                 <Button x:Name="buttonOpenFolder" Content="..." Grid.Column="2" HorizontalAlignment="Left" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Bottom" Width="25" Height="25" Click="buttonOpenFolder_Click"/>
             </Grid>
         </GroupBox>
@@ -54,11 +54,11 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="textBlockWhitelist" Text="{x:Static Properties:lang.WhiteList}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBox x:Name="textBoxWhitelist" Text="{Binding Whitelist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='placeholder'}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Height="25" Margin="10,10,0,0" TextWrapping="Wrap" Grid.ColumnSpan="2" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock x:Name="textBlockOr" Text="{x:Static Properties:lang.Or}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBlock x:Name="textBlockWhitelist" Text="{x:Static Properties:lang.WhiteList}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxWhitelist" Text="{Binding Whitelist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='placeholder'}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Height="25" Margin="10,10,0,0" TextWrapping="NoWrap" Grid.ColumnSpan="2" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock x:Name="textBlockOr" Text="{x:Static Properties:lang.Or}" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Center"/>
                 <TextBlock x:Name="textBlockBlacklist" Text="{x:Static Properties:lang.BlackList}" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" Margin="0,10,0,0" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBox x:Name="textBoxBlacklist" Text="{Binding Blacklist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='placeholder'}"  Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,10,0,0" Height="25" TextWrapping="Wrap" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+                <TextBox x:Name="textBoxBlacklist" Text="{Binding Blacklist, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue='placeholder'}"  Grid.Row="2" Grid.Column="1" HorizontalAlignment="Stretch" Margin="10,10,0,0" Height="25" TextWrapping="NoWrap" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
             </Grid>
         </GroupBox>
         <CheckBox x:Name="checkBoxCrawl" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Content="{x:Static Properties:lang.ExtendCrawling}" IsChecked="{Binding CrawlUrlEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>

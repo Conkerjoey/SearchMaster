@@ -138,6 +138,7 @@ namespace SearchMaster
         private async void buttonAddCorpus_Click(object sender, RoutedEventArgs e)
         {
             buttonAddCorpus.IsEnabled = false;
+            buttonRemoveCorpus.IsEnabled = false;
             CorpusWindow corpusWindow = new CorpusWindow() { Title = Properties.lang.CorpusCreationWindow, Owner = this };
             if (true == corpusWindow.ShowDialog())
             {
@@ -156,6 +157,7 @@ namespace SearchMaster
                 defaultSettings.Save();
             }
             buttonAddCorpus.IsEnabled = true;
+            buttonRemoveCorpus.IsEnabled = true;
         }
 
         private void buttonRemoveCorpus_Click(object sender, RoutedEventArgs e)

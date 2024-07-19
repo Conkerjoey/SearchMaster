@@ -7,28 +7,30 @@
         xmlns:Properties="clr-namespace:SearchMaster.Properties"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="{x:Static Properties:lang.Popup}" Height="125" Width="275">
+        Title="{x:Static Properties:lang.Popup}" SizeToContent="WidthAndHeight">
     <Window.Resources>
         <BitmapImage x:Key="IconInfo" UriSource="../Resources/icon_info.png" />
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10" />
             <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="5*" />
-            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="10" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="10" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="10" />
         </Grid.RowDefinitions>
-        <Image Source="{Binding Path=ImageIcon, Mode=OneWay, TargetNullValue={StaticResource IconInfo}, FallbackValue={StaticResource IconInfo}}" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Width="32" Height="32"/>
-        <TextBlock x:Name="textBlock" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Path=Message, Mode=OneWay, FallbackValue='An error occured.'}" FontSize="14" TextAlignment="Justify" />
-        <Button x:Name="buttonOK" Grid.Column="1" Grid.Row="2" Content="{x:Static Properties:lang.OK}" Width="75" Click="buttonOK_Click" IsDefault="True" />
-        <Button x:Name="buttonCancel" Grid.Column="4" Grid.Row="2" Content="{x:Static Properties:lang.Cancel}" Width="75" Click="buttonCancel_Click" />
+        <Image Source="{Binding Path=ImageIcon, Mode=OneWay, TargetNullValue={StaticResource IconInfo}, FallbackValue={StaticResource IconInfo}}" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Width="32" Height="32" Margin="5,15,5,15" />
+        <TextBlock x:Name="textBlock" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Path=Message, Mode=OneWay, FallbackValue='An error occured.gggggggggggggggggggggggggggggg'}" FontSize="14" TextAlignment="Justify" Margin="5,5,5,5" />
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="6" Grid.Row="2" HorizontalAlignment="Center">
+            <Button x:Name="buttonOK" Content="{x:Static Properties:lang.OK}" Width="75" Click="buttonOK_Click" IsDefault="True" Margin="5,5,15,5" />
+            <Button x:Name="buttonCancel" Content="{x:Static Properties:lang.Cancel}" Width="75" Click="buttonCancel_Click" Margin="15,5,5,5" />
+        </StackPanel>
     </Grid>
 </Window>
