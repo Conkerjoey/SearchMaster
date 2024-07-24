@@ -79,6 +79,15 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Acronym Settings.
+        /// </summary>
+        public static string AcronymSettings {
+            get {
+                return ResourceManager.GetString("AcronymSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Application.
         /// </summary>
         public static string Application {
@@ -444,6 +453,15 @@ namespace SearchMaster.Properties {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Use Acronyms.
+        /// </summary>
+        public static string UseAcronym {
+            get {
+                return ResourceManager.GetString("UseAcronym", resourceCulture);
             }
         }
         

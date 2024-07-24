@@ -23,6 +23,7 @@ namespace SearchMaster
         private ObservableCollection<Query> queries = new ObservableCollection<Query>();
         private SearchEngine.ResolverType resolverType;
         private bool multithreadedFlag = true;
+        private bool useAcronymFlag = false;
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
@@ -60,6 +61,12 @@ namespace SearchMaster
         {
             get { return multithreadedFlag; }
             set { multithreadedFlag = value; }
+        }
+
+        public bool UseAcronymEnable
+        {
+            get { return useAcronymFlag; }
+            set { useAcronymFlag = value; }
         }
 
         public void Save()

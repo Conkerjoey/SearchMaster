@@ -35,11 +35,21 @@ namespace SearchMaster.Windows
             }
         }
 
+        private void buttonOpenAcronymFile_Click(object sender, RoutedEventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = false;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                textBoxAcronymPath.Text = dialog.FileName;
+            }
+        }
+
         private void buttonOk_Click(object sender, RoutedEventArgs e)
         {
-            if (!System.IO.Directory.Exists(textBoxCorporaPath.Text) || textBoxCorporaPath.Text.Trim().Length <= 0)
+            if (!System.IO.Directory.Exists(textBoxCorporaPath.Text))
             {
-                new Popup() { Title = Properties.lang.Warning, Message = Properties.lang.InvalidPath, Owner = this, Type = Popup.PopupType.Error }.ShowDialog();
+                new Popup() { Title = Properties.lang.Warning, Message = Properties.lang.InvalidPath + Environment.NewLine + textBoxCorporaPath.Text, Owner = this, Type = Popup.PopupType.Error }.ShowDialog();
                 return;
             }
             DialogResult = true;

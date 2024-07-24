@@ -257,6 +257,15 @@ namespace SearchMaster
                 defaultSettings.Save();
             }
         }
+        
+        private void checkBoxUseAcronym_CheckedChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender is CheckBox)
+            {
+                defaultSettings.UseAcronymEnable = ((CheckBox)sender).IsChecked == true;
+                defaultSettings.Save();
+            }
+        }
 
         private void comboBoxQuery_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -297,7 +306,8 @@ namespace SearchMaster
             AppSettingsWindow appSettingsWindow = new AppSettingsWindow() { Title = Properties.lang.ApplicationWindow, Owner = this, DataContext = defaultSearchEngine.Duplicate() };
             if (true == appSettingsWindow.ShowDialog())
             {
-                defaultSearchEngine = (SearchEngine)appSettingsWindow.DataContext;
+                defaultSearchEngine = (SearchEngine) appSettingsWindow.DataContext;
+                defaultSearchEngine.Save();
             }
         }
     }

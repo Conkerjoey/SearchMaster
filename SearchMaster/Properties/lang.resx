@@ -123,6 +123,9 @@
   <data name="AboutMessage" xml:space="preserve">
     <value>Application by SearchMaster</value>
   </data>
+  <data name="AcronymSettings" xml:space="preserve">
+    <value>Acronym Settings</value>
+  </data>
   <data name="Application" xml:space="preserve">
     <value>Application</value>
   </data>
@@ -245,6 +248,9 @@
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="UseAcronym" xml:space="preserve">
+    <value>Use Acronyms</value>
   </data>
   <data name="Version" xml:space="preserve">
     <value>Version</value>

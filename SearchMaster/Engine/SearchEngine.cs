@@ -26,6 +26,7 @@ namespace SearchMaster.Engine
         }
 
         private string corporaDirectory = null;
+        private string acronymFilepath = null;
         private Dictionary<string, string> acronyms = new Dictionary<string, string>();
 
         [field: NonSerialized]
@@ -52,7 +53,10 @@ namespace SearchMaster.Engine
         {
             return new SearchEngine()
             {
-                CorporaDirectory = this.CorporaDirectory, Acronyms = this.acronyms.ToDictionary(entry => entry.Key, entry => entry.Value) };
+                CorporaDirectory = this.CorporaDirectory,
+                AcronymFilepath= this.acronymFilepath,
+                Acronyms = this.acronyms.ToDictionary(entry => entry.Key, entry => entry.Value)
+            };
         }
 
 
@@ -91,6 +95,12 @@ namespace SearchMaster.Engine
         {
             get { return corporaDirectory;  }
             set { corporaDirectory = value; this.OnPropertyChanged("CorporaDirectory"); }
+        }
+
+        public string AcronymFilepath
+        {
+            get { return acronymFilepath; }
+            set { acronymFilepath = value; this.OnPropertyChanged("AcronymFilepath"); }
         }
 
         public Dictionary<string, string> Acronyms {
