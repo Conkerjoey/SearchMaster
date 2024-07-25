@@ -9,6 +9,7 @@ using SearchMaster.Indexing;
 using System.Xml;
 using System.ComponentModel;
 using DocumentFormat.OpenXml.Bibliography;
+using System.Text.Json;
 
 namespace SearchMaster.Engine
 {
@@ -27,10 +28,12 @@ namespace SearchMaster.Engine
 
         private string corporaDirectory = null;
         private string acronymFilepath = null;
-        private Dictionary<string, string> acronyms = new Dictionary<string, string>();
 
         [field: NonSerialized]
+        private Dictionary<string, string> acronyms = new Dictionary<string, string>();
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
+
         public void OnPropertyChanged(string propertyName)
         {
             var handler = PropertyChanged;
@@ -54,8 +57,8 @@ namespace SearchMaster.Engine
             return new SearchEngine()
             {
                 CorporaDirectory = this.CorporaDirectory,
-                AcronymFilepath= this.acronymFilepath,
-                Acronyms = this.acronyms.ToDictionary(entry => entry.Key, entry => entry.Value)
+                AcronymFilepath = this.acronymFilepath,
+                Acronyms = this.acronyms?.ToDictionary(entry => entry.Key, entry => entry.Value)
             };
         }
 
@@ -77,6 +80,7 @@ namespace SearchMaster.Engine
             {
                 FileStream fs = File.Open("configuration.dat", FileMode.Open);
                 SearchEngine engine = (SearchEngine) formatter.Deserialize(fs);
+                engine.LoadAcronyms();
                 fs.Flush();
                 fs.Close();
                 fs.Dispose();
@@ -86,8 +90,17 @@ namespace SearchMaster.Engine
             {
                 Console.WriteLine(e.Message + Environment.NewLine + e.StackTrace);
                 SearchEngine engine = new SearchEngine();
+                engine.LoadAcronyms();
                 engine.Save();
                 return engine;
+            }
+        }
+
+        public void LoadAcronyms()
+        {
+            if (File.Exists(AcronymFilepath))
+            {
+                acronyms = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(AcronymFilepath));
             }
         }
 

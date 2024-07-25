@@ -308,6 +308,7 @@ namespace SearchMaster
             {
                 defaultSearchEngine = (SearchEngine) appSettingsWindow.DataContext;
                 defaultSearchEngine.Save();
+                defaultSearchEngine.LoadAcronyms();
             }
         }
     }

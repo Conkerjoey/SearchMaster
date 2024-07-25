@@ -14,6 +14,7 @@ namespace SearchMaster.Indexing
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
+
         public void OnPropertyChanged(string propertyName)
         {
             var handler = PropertyChanged;

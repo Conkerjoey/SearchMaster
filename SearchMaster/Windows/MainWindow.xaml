@@ -55,11 +55,21 @@
                     <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="textBlockResolver" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" TextWrapping="Wrap" Text="{x:Static Properties:lang.Engine}"/>
-                <ComboBox x:Name="comboBoxResolverType" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxResolverType_SelectionChanged" />
-                <CheckBox x:Name="checkBoxMultithread" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Content="{x:Static Properties:lang.Multithreaded}" VerticalAlignment="Center" Checked="checkBoxMultithread_CheckedChanged" Unchecked="checkBoxMultithread_CheckedChanged" />
+                <ComboBox x:Name="comboBoxResolverType" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxResolverType_SelectionChanged" Margin="0,0,5,0"/>
+                <Separator Grid.Column="2" Grid.Row="0" Grid.RowSpan="4" HorizontalAlignment="Left">
+                    <Separator.LayoutTransform>
+                        <RotateTransform Angle="90" />
+                    </Separator.LayoutTransform>
+                </Separator>
+                <CheckBox x:Name="checkBoxMultithread" Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Content="{x:Static Properties:lang.Multithreaded}" VerticalAlignment="Center" Checked="checkBoxMultithread_CheckedChanged" Unchecked="checkBoxMultithread_CheckedChanged" Margin="10,5,8,5" />
                 <StackPanel Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Orientation="Vertical" VerticalAlignment="Center">
-                    <CheckBox x:Name="checkBoxUseAcronym" Grid.Column="2" Grid.Row="1" Content="{x:Static Properties:lang.UseAcronym}" VerticalAlignment="Center" Checked="checkBoxUseAcronym_CheckedChanged" Unchecked="checkBoxUseAcronym_CheckedChanged" />
+                    <CheckBox x:Name="checkBoxUseAcronym" Grid.Column="2" Grid.Row="1" Content="{x:Static Properties:lang.UseAcronym}" VerticalAlignment="Center" Checked="checkBoxUseAcronym_CheckedChanged" Unchecked="checkBoxUseAcronym_CheckedChanged" Margin="8,5,5,5" />
                 </StackPanel>
+                <Separator Grid.Column="3" Grid.Row="0" Grid.RowSpan="4" HorizontalAlignment="Left">
+                    <Separator.LayoutTransform>
+                        <RotateTransform Angle="90" />
+                    </Separator.LayoutTransform>
+                </Separator>
                 <StackPanel Grid.Column="4" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Hidden">
                     <RadioButton x:Name="radioButtonSingleThread2" GroupName="ThreadingOption" Content="Single Threaded" />
                     <RadioButton x:Name="radioButtonMultiThread2" GroupName="ThreadingOption" Content="Multi Threaded" />
