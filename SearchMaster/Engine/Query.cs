@@ -11,9 +11,9 @@ namespace SearchMaster.Engine
     {
 
         private string text;
-        private SearchEngine.ResolverType type;
+        private Settings.EResolverType type;
 
-        public Query(string text, SearchEngine.ResolverType type)
+        public Query(string text, Settings.EResolverType type)
         {
             this.text = text;
             this.type = type;
@@ -24,7 +24,7 @@ namespace SearchMaster.Engine
             get { return text; }
         }
 
-        public SearchEngine.ResolverType Type
+        public Settings.EResolverType Type
         {
             get { return type; }
         }

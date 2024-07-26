@@ -15,22 +15,42 @@ using SearchMaster.Tools;
 
 namespace SearchMaster
 {
+
     [Serializable]
     public class Settings : INotifyPropertyChanged
     {
+        public enum EResolverType
+        {
+            CosineSimilarity,
+            LabelDensity,
+            Regex,
+            FullMatch,
+            OkapiBM25,
+            TFIDF,
+        }
+
         public static readonly int MAX_QUERY_HISTORY = 50;
         private ObservableCollection<Corpus> corpora = new ObservableCollection<Corpus>();
         private ObservableCollection<Query> queries = new ObservableCollection<Query>();
-        private SearchEngine.ResolverType resolverType;
+        private EResolverType resolverType;
         private bool multithreadedFlag = true;
         private bool useAcronymFlag = false;
+        private string corporaDirectory = null;
+        private string acronymFilepath = null;
+
+        [field: NonSerialized]
+        private Dictionary<string, string> acronyms = new Dictionary<string, string>();
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Settings()
         {
-
+            if (corporaDirectory == null)
+            {
+                corporaDirectory = Path.Combine(Environment.CurrentDirectory, "corpora");
+                Directory.CreateDirectory(corporaDirectory);
+            }
         }
 
         public ObservableCollection<Corpus> Corpora
@@ -45,7 +65,7 @@ namespace SearchMaster
             set { queries = value; this.OnPropertyChanged("Queries"); }
         }
 
-        public SearchEngine.ResolverType ResolverType
+        public EResolverType ResolverType
         {
             get
             {
@@ -88,6 +108,7 @@ namespace SearchMaster
             {
                 FileStream fs = File.Open("settings.dat", FileMode.Open);
                 Settings settings = (Settings)formatter.Deserialize(fs);
+                settings.LoadAcronyms();
                 fs.Flush();
                 fs.Close();
                 fs.Dispose();
@@ -97,6 +118,7 @@ namespace SearchMaster
             {
                 Console.WriteLine(e.Message + Environment.NewLine + e.StackTrace);
                 Settings settings = new Settings();
+                settings.LoadAcronyms();
                 settings.Save();
                 return settings;
             }
@@ -109,6 +131,47 @@ namespace SearchMaster
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public Settings Duplicate()
+        {
+            return new Settings()
+            {
+                MultithreadingEnable = this.multithreadedFlag,
+                UseAcronymEnable = this.useAcronymFlag,
+                CorporaDirectory = this.CorporaDirectory,
+                AcronymFilepath = this.acronymFilepath,
+                Acronyms = this.acronyms?.ToDictionary(entry => entry.Key, entry => entry.Value), // Deep copy
+                Corpora = this.corpora, // soft copy
+                Queries = this.queries // soft copy
+            };
+        }
+
+        public void LoadAcronyms()
+        {
+            if (File.Exists(AcronymFilepath))
+            {
+                acronyms = JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(AcronymFilepath));
+                throw new Exception();
+            }
+        }
+
+        public string CorporaDirectory
+        {
+            get { return corporaDirectory; }
+            set { corporaDirectory = value; this.OnPropertyChanged("CorporaDirectory"); }
+        }
+
+        public string AcronymFilepath
+        {
+            get { return acronymFilepath; }
+            set { acronymFilepath = value; this.OnPropertyChanged("AcronymFilepath"); }
+        }
+
+        public Dictionary<string, string> Acronyms
+        {
+            get { return acronyms; }
+            set { acronyms = value; }
         }
     }
 }

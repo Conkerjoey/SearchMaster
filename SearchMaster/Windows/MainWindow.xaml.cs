@@ -15,6 +15,7 @@ using SearchMaster.Windows;
 using System.Threading;
 using System.Globalization;
 using SearchMaster.Properties;
+using System.Text.Json;
 
 namespace SearchMaster
 {
@@ -23,18 +24,11 @@ namespace SearchMaster
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static SearchEngine defaultSearchEngine;
         private static Settings defaultSettings;
 
         static MainWindow()
         {
-            defaultSearchEngine = SearchEngine.Load();
             defaultSettings = Settings.Load();
-        }
-
-        public static SearchEngine SearchEngine
-        {
-            get { return defaultSearchEngine; }
         }
 
         public static Settings DefaultSettings
@@ -52,14 +46,14 @@ namespace SearchMaster
 
             textBlockCorporaSelectionStatus.Text = string.Empty;
             textBlockSearchStatus.Text = string.Empty;
-            statusCorporaDirectory.DataContext = defaultSearchEngine;
+            statusCorporaDirectory.DataContext = defaultSettings;
 
             // foreach (Corpus corpus in defaultSettings.Corpora)
             //     listBoxCorpora.Items.Add(corpus);
 
             BindingOperations.SetBinding(comboBoxQuery, ComboBox.ItemsSourceProperty, new Binding("Queries") { Source = defaultSettings, Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
 
-            comboBoxResolverType.ItemsSource = Enum.GetValues(typeof(SearchEngine.ResolverType)).Cast<SearchEngine.ResolverType>();
+            comboBoxResolverType.ItemsSource = Enum.GetValues(typeof(Settings.EResolverType)).Cast<Settings.EResolverType>();
             comboBoxResolverType.SelectedItem = defaultSettings.ResolverType;
 
             checkBoxMultithread.IsChecked = defaultSettings.MultithreadingEnable;
@@ -85,28 +79,28 @@ namespace SearchMaster
 
             foreach (Corpus corpus in listBoxCorpora.SelectedItems)
             {
-                serializedDocumentsPaths.AddRange(Utils.ListDirectory(Path.Combine(new string[] { defaultSearchEngine.CorporaDirectory, corpus.Name }), false, null));
+                serializedDocumentsPaths.AddRange(Utils.ListDirectory(Path.Combine(new string[] { defaultSettings.CorporaDirectory, corpus.Name }), false, null, null));
             }
 
             IResolver resolver = null;
             switch (defaultSettings.ResolverType)
             {
-                case SearchEngine.ResolverType.FullMatch:
+                case Settings.EResolverType.FullMatch:
                     resolver = new FullMatchResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
                     break;
-                case SearchEngine.ResolverType.LabelDensity:
+                case Settings.EResolverType.LabelDensity:
                     resolver = new LabelDensityResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
                     break;
-                case SearchEngine.ResolverType.Regex:
+                case Settings.EResolverType.Regex:
                     resolver = new RegexResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
                     break;
-                case SearchEngine.ResolverType.OkapiBM25:
+                case Settings.EResolverType.OkapiBM25:
                     resolver = new OkapiBM25(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
                     break;
-                case SearchEngine.ResolverType.TFIDF:
+                case Settings.EResolverType.TFIDF:
                     resolver = new TFIDFResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
                     break;
-                case SearchEngine.ResolverType.CosineSimilarity:
+                case Settings.EResolverType.CosineSimilarity:
                 default:
                     resolver = new CosineSimilarityResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
                     break;
@@ -142,7 +136,7 @@ namespace SearchMaster
             CorpusWindow corpusWindow = new CorpusWindow() { Title = Properties.lang.CorpusCreationWindow, Owner = this };
             if (true == corpusWindow.ShowDialog())
             {
-                Indexer indexer = new Indexer(Properties.Settings.Default.IndexerVersion, defaultSettings.MultithreadingEnable, MainWindow.SearchEngine.CorporaDirectory);
+                Indexer indexer = new Indexer(Properties.Settings.Default.IndexerVersion, defaultSettings.MultithreadingEnable, MainWindow.DefaultSettings.CorporaDirectory);
                 statusProgressBar.Visibility = Visibility.Visible;
                 statusSummaryText.Text = Properties.lang.Indexing + "...";
                 await Task.Run(() =>
@@ -174,7 +168,7 @@ namespace SearchMaster
                     defaultSettings.Corpora.Remove(corpus);
                     try
                     {
-                        Directory.Delete(Path.Combine(new string[] { defaultSearchEngine.CorporaDirectory, corpus.Name }), true);
+                        Directory.Delete(Path.Combine(new string[] { defaultSettings.CorporaDirectory, corpus.Name }), true);
                     }
                     catch (Exception exception)
                     {
@@ -244,7 +238,7 @@ namespace SearchMaster
         {
             if (sender is ComboBox)
             {
-                defaultSettings.ResolverType = (SearchEngine.ResolverType)((ComboBox)sender).SelectedIndex;
+                defaultSettings.ResolverType = (Settings.EResolverType)((ComboBox)sender).SelectedIndex;
                 defaultSettings.Save();
             }
         }
@@ -303,12 +297,20 @@ namespace SearchMaster
 
         private void buttonOpenAppSettings_Click(object sender, RoutedEventArgs e)
         {
-            AppSettingsWindow appSettingsWindow = new AppSettingsWindow() { Title = Properties.lang.ApplicationWindow, Owner = this, DataContext = defaultSearchEngine.Duplicate() };
+            AppSettingsWindow appSettingsWindow = new AppSettingsWindow() { Title = Properties.lang.ApplicationWindow, Owner = this, DataContext = defaultSettings.Duplicate() };
             if (true == appSettingsWindow.ShowDialog())
             {
-                defaultSearchEngine = (SearchEngine) appSettingsWindow.DataContext;
-                defaultSearchEngine.Save();
-                defaultSearchEngine.LoadAcronyms();
+                defaultSettings = (Settings) appSettingsWindow.DataContext;
+                try
+                {
+                    defaultSettings.LoadAcronyms();
+                }
+                catch (Exception ex)
+                {
+                    defaultSettings.AcronymFilepath = null;
+                    new Popup() { Title = Properties.lang.Warning, Message = Properties.lang.JsonError, Owner = this, Type = Popup.PopupType.Error }.ShowDialog();
+                }
+                defaultSettings.Save();
             }
         }
     }

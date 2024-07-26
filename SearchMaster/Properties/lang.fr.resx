@@ -198,6 +198,9 @@
   <data name="InvalidPath" xml:space="preserve">
     <value>Chemin non spécifié ou invalide</value>
   </data>
+  <data name="JsonError" xml:space="preserve">
+    <value>Erreur lors de l'ouverture du fichier json</value>
+  </data>
   <data name="Manual" xml:space="preserve">
     <value>Guide</value>
   </data>

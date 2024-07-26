@@ -198,6 +198,9 @@
   <data name="InvalidPath" xml:space="preserve">
     <value>Empty or invalid directory path</value>
   </data>
+  <data name="JsonError" xml:space="preserve">
+    <value>There was an error while loading the json file</value>
+  </data>
   <data name="Manual" xml:space="preserve">
     <value>Manual</value>
   </data>

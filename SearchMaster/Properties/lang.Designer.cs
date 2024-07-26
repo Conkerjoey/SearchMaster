@@ -304,6 +304,15 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à There was an error while loading the json file.
+        /// </summary>
+        public static string JsonError {
+            get {
+                return ResourceManager.GetString("JsonError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Manual.
         /// </summary>
         public static string Manual {

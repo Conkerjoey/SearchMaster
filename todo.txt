@@ -1,8 +1,24 @@
-Non-indexing search
-PowerPoint file support
-OneNote file support
-Automatic txt file detection based on character encoding
-Radio button to select find in files or use indexing method
-Getting Started
-Tesseract OCR
-Search hit preview (implements n-graph method)
+
+- Merge SearchEngine & Settings to have all configuration in one place, and one files
+- Non-indexing search
+- PowerPoint file support
+- OneNote file support
+- Search hit preview (implements n-graph method)
+- Getting Started
+
+
+
+
+
+RELEASE !!!
+
+BONUS FEATURES
+- Radio button to select find in files or use indexing method
+- Automatic txt file detection based on character encoding
+- Tesseract OCR
+
+
+
+
+
+
