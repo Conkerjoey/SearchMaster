@@ -349,11 +349,20 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à No corpus selected.
+        ///   Recherche une chaîne localisée semblable à No folder selected.
         /// </summary>
         public static string NoCorpusSelected {
             get {
                 return ResourceManager.GetString("NoCorpusSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Non Indexed Search.
+        /// </summary>
+        public static string NonIndexedSearch {
+            get {
+                return ResourceManager.GetString("NonIndexedSearch", resourceCulture);
             }
         }
         

@@ -16,6 +16,9 @@ using System.Threading;
 using System.Globalization;
 using SearchMaster.Properties;
 using System.Text.Json;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Reflection.Emit;
+using MS.WindowsAPICodePack.Internal;
 
 namespace SearchMaster
 {
@@ -42,10 +45,12 @@ namespace SearchMaster
 
             statusProgressBar.Value = 0;
             statusProgressBar.Visibility = Visibility.Hidden;
-            statusSummaryText.Text = string.Empty;
 
+            statusSummaryText.Text = string.Empty;
             textBlockCorporaSelectionStatus.Text = string.Empty;
             textBlockSearchStatus.Text = string.Empty;
+            textBoxSearchInFilesFolder.Text = string.Empty;
+
             statusCorporaDirectory.DataContext = defaultSettings;
 
             // foreach (Corpus corpus in defaultSettings.Corpora)
@@ -55,58 +60,79 @@ namespace SearchMaster
 
             comboBoxResolverType.ItemsSource = Enum.GetValues(typeof(Settings.EResolverType)).Cast<Settings.EResolverType>();
             comboBoxResolverType.SelectedItem = defaultSettings.ResolverType;
-
-            checkBoxMultithread.IsChecked = defaultSettings.MultithreadingEnable;
+            // TODO: Add binding for resolver type.
 
             DataContext = defaultSettings;
         }
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
         {
-            if (listBoxCorpora.SelectedItems.Count <= 0)
-            {
-                new Popup() { Title = Properties.lang.Warning, Message = Properties.lang.NoCorpusSelected, Owner = this, Type = Popup.PopupType.Warning }.ShowDialog();
-                return;
-            }
-
             if (comboBoxQuery.Text.Length <= 0)
             {
                 new Popup() { Title = Properties.lang.Warning, Message = Properties.lang.EmptyQuery, Owner = this, Type = Popup.PopupType.Warning }.ShowDialog();
                 return;
             }
+            QueryResult queryResult = null;
+            SearchMaster.Engine.Query query = null;
 
-            List<string> serializedDocumentsPaths = new List<string>();
-
-            foreach (Corpus corpus in listBoxCorpora.SelectedItems)
+            if (defaultSettings.NonIndexedSearch)
             {
-                serializedDocumentsPaths.AddRange(Utils.ListDirectory(Path.Combine(new string[] { defaultSettings.CorporaDirectory, corpus.Name }), false, null, null));
+                string folder = textBoxSearchInFilesFolder.Text;
+                string queryStr = comboBoxQuery.Text;
+                query = new Engine.Query(queryStr, Settings.EResolverType.LabelDensity);
+
+                if (!Directory.Exists(folder))
+                {
+                    new Popup() { Title = Properties.lang.Warning, Message = Properties.lang.InvalidPath, Owner = this, Type = Popup.PopupType.Warning }.ShowDialog();
+                }
+
+                queryResult = NonIndexedEngine.SearchInFolder(folder, query);
+            }
+            else
+            {
+                if (listBoxCorpora.SelectedItems.Count <= 0)
+                {
+                    new Popup() { Title = Properties.lang.Warning, Message = Properties.lang.NoCorpusSelected, Owner = this, Type = Popup.PopupType.Warning }.ShowDialog();
+                    return;
+                }
+
+                List<string> serializedDocumentsPaths = new List<string>();
+
+                foreach (Corpus corpus in listBoxCorpora.SelectedItems)
+                {
+                    serializedDocumentsPaths.AddRange(Utils.ListDirectory(Path.Combine(new string[] { defaultSettings.CorporaDirectory, corpus.Name }), false, null, null));
+                }
+
+                IResolver resolver = null;
+                switch (defaultSettings.ResolverType)
+                {
+                    case Settings.EResolverType.FullMatch:
+                        resolver = new FullMatchResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                        break;
+                    case Settings.EResolverType.LabelDensity:
+                        resolver = new LabelDensityResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                        break;
+                    case Settings.EResolverType.Regex:
+                        resolver = new RegexResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                        break;
+                    case Settings.EResolverType.OkapiBM25:
+                        resolver = new OkapiBM25(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                        break;
+                    case Settings.EResolverType.TFIDF:
+                        resolver = new TFIDFResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                        break;
+                    case Settings.EResolverType.CosineSimilarity:
+                    default:
+                        resolver = new CosineSimilarityResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                        break;
+                }
+
+                query = new SearchMaster.Engine.Query(comboBoxQuery.Text, defaultSettings.ResolverType);
+
+                queryResult = resolver.SearchQuery(query);
             }
 
-            IResolver resolver = null;
-            switch (defaultSettings.ResolverType)
-            {
-                case Settings.EResolverType.FullMatch:
-                    resolver = new FullMatchResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
-                    break;
-                case Settings.EResolverType.LabelDensity:
-                    resolver = new LabelDensityResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
-                    break;
-                case Settings.EResolverType.Regex:
-                    resolver = new RegexResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
-                    break;
-                case Settings.EResolverType.OkapiBM25:
-                    resolver = new OkapiBM25(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
-                    break;
-                case Settings.EResolverType.TFIDF:
-                    resolver = new TFIDFResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
-                    break;
-                case Settings.EResolverType.CosineSimilarity:
-                default:
-                    resolver = new CosineSimilarityResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
-                    break;
-            }
 
-            SearchMaster.Engine.Query query = new SearchMaster.Engine.Query(comboBoxQuery.Text, defaultSettings.ResolverType);
             if (defaultSettings.Queries.Contains(query))
             {
                 defaultSettings.Queries.Remove(query);
@@ -117,8 +143,6 @@ namespace SearchMaster
             {
                 defaultSettings.Queries.RemoveAt(defaultSettings.Queries.Count - 1);
             }
-
-            QueryResult queryResult = resolver.SearchQuery(query);
 
             textBlockSearchStatus.Text = queryResult.GetQueryResultStatus();
 
@@ -243,24 +267,6 @@ namespace SearchMaster
             }
         }
 
-        private void checkBoxMultithread_CheckedChanged(object sender, RoutedEventArgs e)
-        {
-            if (sender is CheckBox)
-            {
-                defaultSettings.MultithreadingEnable = ((CheckBox)sender).IsChecked == true;
-                defaultSettings.Save();
-            }
-        }
-        
-        private void checkBoxUseAcronym_CheckedChanged(object sender, RoutedEventArgs e)
-        {
-            if (sender is CheckBox)
-            {
-                defaultSettings.UseAcronymEnable = ((CheckBox)sender).IsChecked == true;
-                defaultSettings.Save();
-            }
-        }
-
         private void comboBoxQuery_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (((ComboBox)sender).SelectedItem != null)
@@ -268,6 +274,11 @@ namespace SearchMaster
         }
 
         private void Window_Closed(object sender, EventArgs e)
+        {
+            SaveSettings();
+        }
+
+        private void SaveSettings()
         {
             defaultSettings.Save();
         }
@@ -305,12 +316,22 @@ namespace SearchMaster
                 {
                     defaultSettings.LoadAcronyms();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     defaultSettings.AcronymFilepath = null;
                     new Popup() { Title = Properties.lang.Warning, Message = Properties.lang.JsonError, Owner = this, Type = Popup.PopupType.Error }.ShowDialog();
                 }
                 defaultSettings.Save();
+            }
+        }
+
+        private void buttonSearchFolder_Click(object sender, RoutedEventArgs e)
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.IsFolderPicker = true;
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                textBoxSearchInFilesFolder.Text = dialog.FileName;
             }
         }
     }

@@ -214,7 +214,10 @@
     <value>Aucun nom de corpus</value>
   </data>
   <data name="NoCorpusSelected" xml:space="preserve">
-    <value>Aucun corpus sélectionné</value>
+    <value>Aucun dossier sélectionné</value>
+  </data>
+  <data name="NonIndexedSearch" xml:space="preserve">
+    <value>Recherche non-indexé</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>Continuer</value>

@@ -35,6 +35,7 @@ namespace SearchMaster
         private EResolverType resolverType;
         private bool multithreadedFlag = true;
         private bool useAcronymFlag = false;
+        private bool nonIndexedSearch = false;
         private string corporaDirectory = null;
         private string acronymFilepath = null;
 
@@ -80,13 +81,19 @@ namespace SearchMaster
         public bool MultithreadingEnable
         {
             get { return multithreadedFlag; }
-            set { multithreadedFlag = value; }
+            set { multithreadedFlag = value; this.OnPropertyChanged("MultithreadingEnable"); }
         }
 
         public bool UseAcronymEnable
         {
             get { return useAcronymFlag; }
-            set { useAcronymFlag = value; }
+            set { useAcronymFlag = value; this.OnPropertyChanged("UseAcronymEnable"); }
+        }
+
+        public bool NonIndexedSearch
+        {
+            get { return nonIndexedSearch; }
+            set { nonIndexedSearch = value; this.OnPropertyChanged("NonIndexedSearch"); }
         }
 
         public void Save()

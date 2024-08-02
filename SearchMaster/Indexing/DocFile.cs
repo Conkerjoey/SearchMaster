@@ -45,6 +45,11 @@ namespace SearchMaster.Indexing
             {
                 return FileType.Word;
             }
+            else if (filepath.EndsWith(".ppt") ||
+                     filepath.EndsWith(".pptx"))
+            {
+                return FileType.PowerPoint;
+            }
             else if (filepath.EndsWith(".xls") ||
                      filepath.EndsWith(".xlsx"))
             {
@@ -77,6 +82,10 @@ namespace SearchMaster.Indexing
             else if (filepath.EndsWith(".json"))
             {
                 return FileType.Json;
+            }
+            else if (filepath.EndsWith(".java"))
+            {
+                return FileType.Java;
             }
             return FileType.Undefined;
         }

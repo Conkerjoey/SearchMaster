@@ -24,5 +24,7 @@ namespace SearchMaster.Indexing
         Html, // .html
         Css, // .css
         Javascript, // .js
+        Java, // .java
+        PowerPoint, // .pptx, ppt
     }
 }

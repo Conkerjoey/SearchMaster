@@ -214,7 +214,10 @@
     <value>No corpus name</value>
   </data>
   <data name="NoCorpusSelected" xml:space="preserve">
-    <value>No corpus selected</value>
+    <value>No folder selected</value>
+  </data>
+  <data name="NonIndexedSearch" xml:space="preserve">
+    <value>Non Indexed Search</value>
   </data>
   <data name="OK" xml:space="preserve">
     <value>OK</value>

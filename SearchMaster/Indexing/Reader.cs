@@ -5,10 +5,18 @@ using System.Text;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Presentation;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using System.Linq;
+using DocumentFormat.OpenXml.ExtendedProperties;
+using Org.BouncyCastle.Pqc.Crypto.Lms;
 using Microsoft.Office.Interop.OneNote;
+using System.Xml;
+using System.Runtime.InteropServices;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Drawing.Charts;
+using DocumentFormat.OpenXml;
 
 namespace SearchMaster.Indexing
 {
@@ -19,9 +27,11 @@ namespace SearchMaster.Indexing
             switch (docFile.FileType)
             {
                 case FileType.Html:
+                case FileType.Flow:
                 case FileType.Json:
                 case FileType.Css:
                 case FileType.Javascript:
+                case FileType.Java:
                 case FileType.Cpp:
                 case FileType.CSharp:
                 case FileType.Python:
@@ -83,21 +93,104 @@ namespace SearchMaster.Indexing
                     return strings.ToArray();
                 case FileType.Onenote:
                     {
-                        var oneNoteApp = new Application();
-                        string notebookId;
-                        oneNoteApp.OpenHierarchy(docFile.FilePath, null, out notebookId, CreateFileType.cftNone);
-                        string notebookXml;
-                        // Get the XML content of the OneNote file
-                        oneNoteApp.GetHierarchy(null, HierarchyScope.hsNotebooks, out notebookXml);
+                        List<string> content = new List<string>();
+                        Microsoft.Office.Interop.OneNote.Application oneNoteApp = null;
+                        try
+                        {
+                            oneNoteApp = new Microsoft.Office.Interop.OneNote.Application();
+                            string notebookId;
+                            oneNoteApp.OpenHierarchy(docFile.FilePath, null, out notebookId, CreateFileType.cftNone);
+                            string notebookXml;
+                            // Get the XML content of the OneNote file
+                            oneNoteApp.GetHierarchy(null, HierarchyScope.hsPages, out notebookXml);
+                            
+                            // Parse the XML content to get the text content
+                            XmlDocument notebookDoc = new XmlDocument();
+                            notebookDoc.LoadXml(notebookXml);
+                            XmlNodeList test = notebookDoc.ChildNodes;
+                            // Navigate through the XML to find the desired content.
+                            XmlNodeList notebookNodes = notebookDoc.SelectNodes("//one:Notebook", GetNamespaceManager(notebookDoc));
+                            foreach (XmlNode notebookNode in notebookNodes)
+                            {
+                                // Console.WriteLine("Notebook: " + notebookNode.Attributes["name"].Value);
+                                XmlNodeList sectionNodes = notebookNode.SelectNodes("one:Section", GetNamespaceManager(notebookDoc));
+                                foreach (XmlNode sectionNode in sectionNodes)
+                                {
+                                    // Console.WriteLine("  Section: " + sectionNode.Attributes["name"].Value);
+                                    if (string.Equals(System.IO.Path.GetFullPath(docFile.FilePath).TrimEnd('\\'), System.IO.Path.GetFullPath(sectionNode.Attributes["path"].Value).TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        XmlNodeList pageNodes = sectionNode.SelectNodes("one:Page", GetNamespaceManager(notebookDoc));
+                                        foreach (XmlNode pageNode in pageNodes)
+                                        {
+                                            // Console.WriteLine("    Page: " + pageNode.Attributes["name"].Value);
 
-                        // Parse the XML content to get the text content
-                        var notebookDoc = new System.Xml.XmlDocument();
-                        notebookDoc.LoadXml(notebookXml);
-                        oneNoteApp.CloseNotebook(notebookId);
-                        // Traverse through the XML to read the text content
-                        return ReadNotebookContent(notebookDoc.DocumentElement);
+                                            // Get the content of the page.
+                                            string pageId = pageNode.Attributes["ID"].Value;
+                                            string pageContent;
+                                            oneNoteApp.GetPageContent(pageId, out pageContent, PageInfo.piAll);
+
+                                            XmlDocument pageDoc = new XmlDocument();
+                                            pageDoc.LoadXml(pageContent);
+
+                                            // Console.WriteLine("      Content: " + pageDoc.DocumentElement.InnerText);
+                                            content.Add(pageDoc.DocumentElement.InnerText);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        finally
+                        {
+                            // Release COM objects and force garbage collection.
+                            if (oneNoteApp != null)
+                            {
+                                Marshal.ReleaseComObject(oneNoteApp);
+                            }
+                            GC.Collect();
+                            GC.WaitForPendingFinalizers();
+                        }
+                        return content.ToArray();
                     }
+                case FileType.PowerPoint:
+                    {
+                        List<string> content = new List<string>();
+                        using (PresentationDocument ppt = PresentationDocument.Open(docFile.FilePath, false))
+                        {
 
+                            PresentationPart presentationPart = ppt.PresentationPart;
+                            // Get the slide count from the SlideParts.
+                            if (presentationPart != null)
+                            {
+                                int slidesCount = presentationPart.SlideParts.Count();
+
+                                for (int i = 0; i < slidesCount; i++)
+                                {
+                                    OpenXmlElementList slideIds = presentationPart?.Presentation?.SlideIdList?.ChildElements ?? default;
+
+                                    if (presentationPart == null || slideIds.Count == 0)
+                                    {
+                                        return content.ToArray();
+                                    }
+
+                                    string relId = ((SlideId)slideIds[i]).RelationshipId;
+
+                                    if (relId != null)
+                                    {
+                                        // Get the slide part from the relationship ID.
+                                        SlidePart slide = (SlidePart)presentationPart.GetPartById(relId);
+
+                                        // Get the inner text of the slide:
+                                        IEnumerable<DocumentFormat.OpenXml.Drawing.Text> texts = slide.Slide.Descendants<DocumentFormat.OpenXml.Drawing.Text>();
+                                        foreach (DocumentFormat.OpenXml.Drawing.Text txt in texts)
+                                        {
+                                            content.Add(txt.Text);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        return content.ToArray();
+                    }
                 case FileType.PDF:
                     StringBuilder text = new StringBuilder();
                     if (File.Exists(docFile.FilePath))
@@ -118,20 +211,12 @@ namespace SearchMaster.Indexing
             return new string[] { };
         }
 
-        static string[] ReadNotebookContent(System.Xml.XmlNode node)
+        // Helper method to create an XmlNamespaceManager for the given XmlDocument.
+        private static XmlNamespaceManager GetNamespaceManager(XmlDocument xmlDoc)
         {
-            if (node == null)
-                return new string[] { };
-            List<string> lines = new List<string>();
-            foreach (System.Xml.XmlNode childNode in node.ChildNodes)
-            {
-                if (childNode.Name == "one:OE" && childNode.InnerText != null)
-                {
-                    lines.Add(childNode.InnerText);
-                }
-                ReadNotebookContent(childNode);
-            }
-            return lines.ToArray();
+            XmlNamespaceManager namespaceManager = new XmlNamespaceManager(xmlDoc.NameTable);
+            namespaceManager.AddNamespace("one", "http://schemas.microsoft.com/office/onenote/2013/onenote");
+            return namespaceManager;
         }
     }
 }

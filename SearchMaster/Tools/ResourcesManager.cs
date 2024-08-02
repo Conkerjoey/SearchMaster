@@ -39,6 +39,7 @@ namespace SearchMaster.Tools
                 case FileType.Css:
                 case FileType.Text:
                 case FileType.Undefined:
+                case FileType.Java:
                     return "Resources/icon_default.png";
                 default:
                     {

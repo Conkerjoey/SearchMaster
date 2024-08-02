@@ -72,8 +72,9 @@ namespace SearchMaster.Indexing
                             List<string> urls = parser.GetURLs();
 
                             Document doc = new Document() { Name = Path.GetFileName(filepath), FileType = file.FileType, NGram = ngram, DocumentSource = new DocumentSource(DocumentSource.Type.Local, filepath) };
-                            documents.Add(doc);
-
+                            lock (documents) {
+                                documents.Add(doc);
+                            }
                             docURLs[doc] = urls;
                         }
                         else
