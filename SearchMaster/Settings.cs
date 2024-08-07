@@ -15,7 +15,6 @@ using SearchMaster.Tools;
 
 namespace SearchMaster
 {
-
     [Serializable]
     public class Settings : INotifyPropertyChanged
     {

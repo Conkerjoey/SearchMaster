@@ -5,7 +5,7 @@ BONUS FEATURES
 - Automatic txt file detection based on character encoding
 - Tesseract OCR
 - OneNote file support
-- Release do that PACCAR
+- Release for PACCAR client
 - Wildcard *
 - Search option : file: “filename“ etc
 - Full Support for Caching System
@@ -15,3 +15,19 @@ FEATURES
 - No cloud usage
 - Local
 - High security
+
+
+
+Commentaires de Gab
+Pour ton application, mettre tout en anglais?
+    - À date, il y a Francais et Anglais de supporter et il s'adapte automatiquement en fonction de la langue de l'OS. Je vais ajouter une option manuelle plus tard.
+Sinon, uniformisé, par exemple, dand le menu déroulant, il y a "LabelDensity" alors que le reste est en français.
+    - Bon point. (À implémenter avec TypeConverter et Description Attribute pour un Enum)
+Pour les noms des options, j'avoue que pour l'instant ils ne me disent rien.
+    - Menu Aide -> Guide, il y a les explications.
+Est-ce que le parallélisé ne serait pas par défaut?
+    - Oui effectivement... J'ai caché l'option pour l'instant, par défaut c'est parallélisé avec N - 1 cores (j'en laisse un pour l'OS pour pas lagger l'expérience utilisateur)
+Tu pourrais ajouter un bouton à droite de la boîte d'option de recherche qui permet de lire des définitions sur les options?
+    - Oui dans le menu Aide -> Guide, il y a les explications. Est-ce que c'est assez évident et clair pour un nouvel utilisateur selon toi ?
+Pour la case "Dossiers", tu pourrais mettre "Dossiers inclus" ou "Dossiers indexés".
+    - Très bonne idée. C'est changé.
