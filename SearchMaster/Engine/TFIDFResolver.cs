@@ -54,15 +54,11 @@ namespace SearchMaster.Engine
             int logicalProcessorCount = 1;
             if (multithreadingEnable)
             {
-                logicalProcessorCount = Environment.ProcessorCount;
+                logicalProcessorCount = Environment.ProcessorCount - 1; // Let 1 core free to avoid to slow the OS
             }
             int documentsPerProcessor = (int)Math.Ceiling((indexedDocumentsPaths.Count + 0.0F) / logicalProcessorCount);
-            List<List<string>> indexedDocumentsPathsProcessors = new List<List<string>>();
 
-            for (int i = 0; i < indexedDocumentsPaths.Count; i += documentsPerProcessor)
-            {
-                indexedDocumentsPathsProcessors.Add(indexedDocumentsPaths.GetRange(i, Math.Min(documentsPerProcessor, indexedDocumentsPaths.Count - i)));
-            }
+            List<List<string>> indexedDocumentsPathsProcessors = Tools.ResourcesManager.SplitToCores(indexedDocumentsPaths, logicalProcessorCount);
             List<Thread> threads = new List<Thread>();
             for (int i = 0; i < logicalProcessorCount; i++)
             {

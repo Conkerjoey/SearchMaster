@@ -100,6 +100,7 @@ namespace SearchMaster
 
                 foreach (Corpus corpus in listBoxCorpora.SelectedItems)
                 {
+                    // serializedDocumentsPaths.AddRange(Utils.ListDirectory(Path.Combine(new string[] { defaultSettings.CacheManager.CacheDirectory, corpus.Name }), false, null, null));
                     serializedDocumentsPaths.AddRange(Utils.ListDirectory(Path.Combine(new string[] { defaultSettings.CorporaDirectory, corpus.Name }), false, null, null));
                 }
 
@@ -155,8 +156,6 @@ namespace SearchMaster
 
         private async void buttonAddCorpus_Click(object sender, RoutedEventArgs e)
         {
-            buttonAddCorpus.IsEnabled = false;
-            buttonRemoveCorpus.IsEnabled = false;
             CorpusWindow corpusWindow = new CorpusWindow() { Title = Properties.lang.CorpusCreationWindow, Owner = this };
             if (true == corpusWindow.ShowDialog())
             {
@@ -173,33 +172,32 @@ namespace SearchMaster
                 // listBoxCorpora.Items.Add(corpusWindow.Corpus);
                 defaultSettings.Corpora.Add(corpusWindow.Corpus);
                 defaultSettings.Save();
+                defaultSettings.CacheManager.Sync();
             }
-            buttonAddCorpus.IsEnabled = true;
-            buttonRemoveCorpus.IsEnabled = true;
         }
 
         private void buttonRemoveCorpus_Click(object sender, RoutedEventArgs e)
         {
-            if (listBoxCorpora.SelectedItems.Count <= 0)
-                return;
-
-            Popup popup = new Popup() { Title = Properties.lang.ConfirmDeletion, Message = Properties.lang.ConfirmationMessage, Owner = this, Type = Popup.PopupType.Warning };
-            if (true == popup.ShowDialog())
+            if (sender is Button)
             {
-                for (int i = listBoxCorpora.SelectedItems.Count - 1; i >= 0; i--)
+                if (((Button) sender).DataContext is Corpus)
                 {
-                    Corpus corpus = (Corpus) listBoxCorpora.SelectedItems[i];
-                    defaultSettings.Corpora.Remove(corpus);
-                    try
+                    Popup popup = new Popup() { Title = Properties.lang.ConfirmDeletion, Message = Properties.lang.ConfirmationMessage, Owner = this, Type = Popup.PopupType.Warning };
+                    if (true == popup.ShowDialog())
                     {
-                        Directory.Delete(Path.Combine(new string[] { defaultSettings.CorporaDirectory, corpus.Name }), true);
-                    }
-                    catch (Exception exception)
-                    {
-                        Console.WriteLine("Cannot remove corpus from disk at the installation path. " + exception.Message + Environment.NewLine + exception.StackTrace);
+                        Corpus corpus = (Corpus)((Button)sender).DataContext;
+                        defaultSettings.Corpora.Remove(corpus);
+                        try
+                        {
+                            Directory.Delete(Path.Combine(new string[] { defaultSettings.CorporaDirectory, corpus.Name }), true);
+                        }
+                        catch (Exception exception)
+                        {
+                            Console.WriteLine("Cannot remove corpus from disk at the installation path. " + exception.Message + Environment.NewLine + exception.StackTrace);
+                        }
+                        defaultSettings.Save();
                     }
                 }
-                defaultSettings.Save();
             }
         }
 

@@ -45,12 +45,19 @@ namespace SearchMaster
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
+        [field: NonSerialized]
+        public static readonly string cacheDirectory = Path.Combine(Environment.CurrentDirectory, "cache");
+
+        [field: NonSerialized]
+        private CacheManager cacheManager;
+
         public Settings()
         {
             if (corporaDirectory == null)
             {
                 corporaDirectory = Path.Combine(Environment.CurrentDirectory, "corpora");
                 Directory.CreateDirectory(corporaDirectory);
+                Directory.CreateDirectory(cacheDirectory);
             }
         }
 
@@ -96,6 +103,12 @@ namespace SearchMaster
             set { nonIndexedSearch = value; this.OnPropertyChanged("NonIndexedSearch"); }
         }
 
+        public CacheManager CacheManager
+        {
+            get { return cacheManager; }
+            set { cacheManager = value; }
+        }
+
         public void Save()
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -119,6 +132,8 @@ namespace SearchMaster
                 fs.Flush();
                 fs.Close();
                 fs.Dispose();
+                settings.cacheManager = new CacheManager() { SrcPath = settings.corporaDirectory, DstPath = Settings.cacheDirectory };
+                settings.cacheManager.Sync();
                 return settings;
             }
             catch (Exception e)
@@ -127,6 +142,8 @@ namespace SearchMaster
                 Settings settings = new Settings();
                 settings.LoadAcronyms();
                 settings.Save();
+                settings.cacheManager = new CacheManager() { SrcPath = settings.corporaDirectory, DstPath = Settings.cacheDirectory };
+                settings.cacheManager.Sync();
                 return settings;
             }
         }
@@ -166,7 +183,12 @@ namespace SearchMaster
         public string CorporaDirectory
         {
             get { return corporaDirectory; }
-            set { corporaDirectory = value; this.OnPropertyChanged("CorporaDirectory"); }
+            set {
+                corporaDirectory = value;
+                this.cacheManager = new CacheManager() { SrcPath = this.corporaDirectory, DstPath = Settings.cacheDirectory };
+                this.cacheManager.Sync();
+                this.OnPropertyChanged("CorporaDirectory");
+            }
         }
 
         public string AcronymFilepath

@@ -88,6 +88,15 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add Directory.
+        /// </summary>
+        public static string AddCorpus {
+            get {
+                return ResourceManager.GetString("AddCorpus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Application.
         /// </summary>
         public static string Application {
@@ -286,6 +295,15 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Indexed Folders.
+        /// </summary>
+        public static string IndexedFolders {
+            get {
+                return ResourceManager.GetString("IndexedFolders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Indexing.
         /// </summary>
         public static string Indexing {
@@ -408,6 +426,15 @@ namespace SearchMaster.Properties {
         public static string Popup {
             get {
                 return ResourceManager.GetString("Popup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Remove.
+        /// </summary>
+        public static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
             }
         }
         

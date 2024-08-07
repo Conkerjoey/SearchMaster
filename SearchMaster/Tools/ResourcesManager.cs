@@ -48,5 +48,17 @@ namespace SearchMaster.Tools
                     }
             }
         }
+
+        public static List<List<T>> SplitToCores<T>(List<T> originalList, int cores)
+        {
+            List<List<T>> indexedDocumentsPathsProcessors = new List<List<T>>();
+            int itemsPerProcessor = (int) Math.Ceiling((originalList.Count + 0.0F) / cores);
+
+            for (int i = 0; i < originalList.Count; i += itemsPerProcessor)
+            {
+                indexedDocumentsPathsProcessors.Add(originalList.GetRange(i, Math.Min(itemsPerProcessor, originalList.Count - i)));
+            }
+            return indexedDocumentsPathsProcessors;
+        }
     }
 }

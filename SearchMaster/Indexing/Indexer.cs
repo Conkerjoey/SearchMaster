@@ -38,15 +38,10 @@ namespace SearchMaster.Indexing
             int logicalProcessorCount = 1;
             if (isMultithreaded)
             {
-                logicalProcessorCount = Environment.ProcessorCount;
+                logicalProcessorCount = Environment.ProcessorCount - 1; // Let 1 core free to avoid to slow the OS
             }
-            int filesPerProcessor = (int)Math.Ceiling((filepaths.Count + 0.0F) / logicalProcessorCount);
-            List<List<string>> filepathSublists = new List<List<string>>();
 
-            for (int i = 0; i < filepaths.Count; i += filesPerProcessor)
-            {
-                filepathSublists.Add(filepaths.GetRange(i, Math.Min(filesPerProcessor, filepaths.Count - i)));
-            }
+            List<List<string>> filepathSublists = Tools.ResourcesManager.SplitToCores(filepaths, logicalProcessorCount);
             // ------------------------------------------
 
             List<Document> documents = new List<Document>();
@@ -133,15 +128,9 @@ namespace SearchMaster.Indexing
                 Console.WriteLine("[WARNING] Empty corpus '" + corpus.Name + "'.");
                 return;
             }
-
             // Multithreading stuff
-            int documentsPerProcessor = (int)Math.Ceiling((documents.Count + 0.0F) / logicalProcessorCount);
-            List<List<Document>> documentSublists = new List<List<Document>>();
+            List<List<Document>> documentSublists = Tools.ResourcesManager.SplitToCores(documents, logicalProcessorCount);
 
-            for (int i = 0; i < documents.Count; i += filesPerProcessor)
-            {
-                documentSublists.Add(documents.GetRange(i, Math.Min(filesPerProcessor, documents.Count - i)));
-            }
             // ------------------------------------------
             DirectoryInfo corpusDirectoryInfo = new DirectoryInfo(Path.Combine(new string[] { outputDirectory, corpus.Name }));
             corpusDirectoryInfo.Create();

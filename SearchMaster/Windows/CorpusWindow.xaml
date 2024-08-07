@@ -7,7 +7,7 @@
         xmlns:Properties="clr-namespace:SearchMaster.Properties"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="{x:Static Properties:lang.CorpusWindow}" Height="316" Width="425">
+        Title="{x:Static Properties:lang.CorpusWindow}" Height="323" Width="425">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>

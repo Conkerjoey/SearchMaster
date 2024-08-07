@@ -126,6 +126,9 @@
   <data name="AcronymSettings" xml:space="preserve">
     <value>Acronym Settings</value>
   </data>
+  <data name="AddCorpus" xml:space="preserve">
+    <value>Add Directory</value>
+  </data>
   <data name="Application" xml:space="preserve">
     <value>Application</value>
   </data>
@@ -192,6 +195,9 @@
   <data name="In" xml:space="preserve">
     <value>In</value>
   </data>
+  <data name="IndexedFolders" xml:space="preserve">
+    <value>Indexed Folders</value>
+  </data>
   <data name="Indexing" xml:space="preserve">
     <value>Indexing</value>
   </data>
@@ -233,6 +239,9 @@
   </data>
   <data name="Popup" xml:space="preserve">
     <value>Popup</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
   </data>
   <data name="Results" xml:space="preserve">
     <value>Result(s)</value>

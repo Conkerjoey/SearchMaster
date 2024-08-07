@@ -52,7 +52,7 @@ namespace SearchMaster.Indexing
         public void Save(string directory)
         {
             Directory.CreateDirectory(directory);
-            string filePath = Path.Combine(new string[] { directory, GetGuid().ToString() });
+            string filePath = Path.Combine(new string[] { directory, GetGuid().ToString() + ".bin" });
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
             formatter.Serialize(stream, this);

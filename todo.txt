@@ -1,9 +1,3 @@
-- PowerPoint file support
-- Getting Started
-
-
-
-
 RELEASE !!!
 
 BONUS FEATURES
@@ -11,9 +5,13 @@ BONUS FEATURES
 - Automatic txt file detection based on character encoding
 - Tesseract OCR
 - OneNote file support
+- Release do that PACCAR
+- Wildcard *
+- Search option : file: “filename“ etc
+- Full Support for Caching System
 
-
-
-
-
-
+FEATURES
+- Low bandwidth/hard disk usage
+- No cloud usage
+- Local
+- High security

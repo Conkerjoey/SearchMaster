@@ -7,7 +7,7 @@
         xmlns:Properties="clr-namespace:SearchMaster.Properties"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="{x:Static Properties:lang.ApplicationWindow}" Height="250" Width="564">
+        Title="{x:Static Properties:lang.ApplicationWindow}" Height="154" Width="564">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10"/>
@@ -40,7 +40,7 @@
                 <Button x:Name="buttonOpenFolder" Content="..." Grid.Column="2" HorizontalAlignment="Left" Grid.Row="0" Margin="10,0,0,0" VerticalAlignment="Bottom" Width="25" Height="25" Click="buttonOpenFolder_Click"/>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="groupBoxAcronym" Grid.Column="1" Header="{x:Static Properties:lang.AcronymSettings}" Height="auto" Grid.Row="2" Grid.ColumnSpan="4" VerticalAlignment="Center" Margin="0,0,0,10">
+        <GroupBox x:Name="groupBoxAcronym" Grid.Column="1" Header="{x:Static Properties:lang.AcronymSettings}" Height="auto" Grid.Row="2" Grid.ColumnSpan="4" VerticalAlignment="Center" Margin="0,0,0,10" Visibility="Collapsed">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
