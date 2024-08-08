@@ -39,58 +39,81 @@ namespace SearchMaster.Indexing
                 case FileType.Text:
                     return File.ReadAllLines(docFile.FilePath);
                 case FileType.Word:
-                    WordprocessingDocument wordDocument = WordprocessingDocument.Open(docFile.FilePath, false);
-                    Body body = wordDocument.MainDocumentPart.Document.Body;
-                    return body.InnerText.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-                case FileType.Excel:
-                    SpreadsheetDocument sheetDocument = SpreadsheetDocument.Open(docFile.FilePath, false);
-                    WorkbookPart workbookPart = sheetDocument.WorkbookPart;
-                    SharedStringTablePart sstpart = workbookPart.GetPartsOfType<SharedStringTablePart>().First();
-                    SharedStringTable sst = sstpart.SharedStringTable;
-
-                    WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
-                    Worksheet sheet = worksheetPart.Worksheet;
-
-                    var cells = sheet.Descendants<DocumentFormat.OpenXml.Spreadsheet.Cell>();
-                    var rows = sheet.Descendants<DocumentFormat.OpenXml.Spreadsheet.Row>();
-
-                    List<string> strings = new List<string>();
-
-                    // One way: go through each cell in the sheet
-                    foreach (DocumentFormat.OpenXml.Spreadsheet.Cell cell in cells)
                     {
-                        if ((cell.DataType != null) && (cell.DataType == CellValues.SharedString))
+                        try
                         {
-                            int ssid = int.Parse(cell.CellValue.Text);
-                            string str = sst.ChildElements[ssid].InnerText;
-                            //Console.WriteLine("Shared string {0}: {1}", ssid, str);
-                            strings.Add(str);
+                            WordprocessingDocument wordDocument = WordprocessingDocument.Open(docFile.FilePath, false);
+                            Body body = wordDocument.MainDocumentPart.Document.Body;
+                            return body.InnerText.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                         }
-                        else if (cell.CellValue != null)
+                        catch (FileFormatException e)
                         {
-                            // Console.WriteLine("Cell contents: {0}", cell.CellValue.Text);
-                            strings.Add(cell.CellValue.Text);
+                            Console.WriteLine("[ERROR] File is corrupted: " + docFile.FilePath);
+                            return new string[] { };
                         }
                     }
+                case FileType.Excel:
+                    {
+                        List<string> strings = new List<string>();
+                        try
+                        {
+                            SpreadsheetDocument sheetDocument = SpreadsheetDocument.Open(docFile.FilePath, false);
+                            WorkbookPart workbookPart = sheetDocument.WorkbookPart;
+                            SharedStringTablePart sstpart = workbookPart.GetPartsOfType<SharedStringTablePart>().First();
+                            SharedStringTable sst = sstpart.SharedStringTable;
 
-                    // // Or... via each row
-                    // foreach (Row row in rows)
-                    // {
-                    //     foreach (Cell c in row.Elements<Cell>())
-                    //     {
-                    //         if ((c.DataType != null) && (c.DataType == CellValues.SharedString))
-                    //         {
-                    //             int ssid = int.Parse(c.CellValue.Text);
-                    //             string str = sst.ChildElements[ssid].InnerText;
-                    //             Console.WriteLine("Shared string {0}: {1}", ssid, str);
-                    //         }
-                    //         else if (c.CellValue != null)
-                    //         {
-                    //             Console.WriteLine("Cell contents: {0}", c.CellValue.Text);
-                    //         }
-                    //     }
-                    // }
-                    return strings.ToArray();
+                            WorksheetPart worksheetPart = workbookPart.WorksheetParts.First();
+                            Worksheet sheet = worksheetPart.Worksheet;
+
+                            var cells = sheet.Descendants<DocumentFormat.OpenXml.Spreadsheet.Cell>();
+                            var rows = sheet.Descendants<DocumentFormat.OpenXml.Spreadsheet.Row>();
+
+
+                            // One way: go through each cell in the sheet
+                            foreach (DocumentFormat.OpenXml.Spreadsheet.Cell cell in cells)
+                            {
+                                if ((cell.DataType != null) && (cell.DataType == CellValues.SharedString))
+                                {
+                                    int ssid = int.Parse(cell.CellValue.Text);
+                                    string str = sst.ChildElements[ssid].InnerText;
+                                    //Console.WriteLine("Shared string {0}: {1}", ssid, str);
+                                    strings.Add(str);
+                                }
+                                else if (cell.CellValue != null)
+                                {
+                                    // Console.WriteLine("Cell contents: {0}", cell.CellValue.Text);
+                                    strings.Add(cell.CellValue.Text);
+                                }
+                            }
+
+                            // // Or... via each row
+                            // foreach (Row row in rows)
+                            // {
+                            //     foreach (Cell c in row.Elements<Cell>())
+                            //     {
+                            //         if ((c.DataType != null) && (c.DataType == CellValues.SharedString))
+                            //         {
+                            //             int ssid = int.Parse(c.CellValue.Text);
+                            //             string str = sst.ChildElements[ssid].InnerText;
+                            //             Console.WriteLine("Shared string {0}: {1}", ssid, str);
+                            //         }
+                            //         else if (c.CellValue != null)
+                            //         {
+                            //             Console.WriteLine("Cell contents: {0}", c.CellValue.Text);
+                            //         }
+                            //     }
+                            // }
+                        }
+                        catch (FileFormatException e)
+                        {
+                            Console.WriteLine("[ERROR] " + docFile.FilePath + " Message: " + e.Message);
+                        }
+                        catch (InvalidOperationException e)
+                        {
+                            Console.WriteLine("[ERROR] " + docFile.FilePath + " Message: " + e.Message);
+                        }
+                        return strings.ToArray();
+                    }
                 case FileType.Onenote:
                     {
                         List<string> content = new List<string>();
@@ -153,58 +176,73 @@ namespace SearchMaster.Indexing
                     }
                 case FileType.PowerPoint:
                     {
-                        List<string> content = new List<string>();
-                        using (PresentationDocument ppt = PresentationDocument.Open(docFile.FilePath, false))
+                        try
                         {
-
-                            PresentationPart presentationPart = ppt.PresentationPart;
-                            // Get the slide count from the SlideParts.
-                            if (presentationPart != null)
+                            List<string> content = new List<string>();
+                            using (PresentationDocument ppt = PresentationDocument.Open(docFile.FilePath, false))
                             {
-                                int slidesCount = presentationPart.SlideParts.Count();
 
-                                for (int i = 0; i < slidesCount; i++)
+                                PresentationPart presentationPart = ppt.PresentationPart;
+                                // Get the slide count from the SlideParts.
+                                if (presentationPart != null)
                                 {
-                                    OpenXmlElementList slideIds = presentationPart?.Presentation?.SlideIdList?.ChildElements ?? default;
+                                    int slidesCount = presentationPart.SlideParts.Count();
 
-                                    if (presentationPart == null || slideIds.Count == 0)
+                                    for (int i = 0; i < slidesCount; i++)
                                     {
-                                        return content.ToArray();
-                                    }
+                                        OpenXmlElementList slideIds = presentationPart?.Presentation?.SlideIdList?.ChildElements ?? default;
 
-                                    string relId = ((SlideId)slideIds[i]).RelationshipId;
-
-                                    if (relId != null)
-                                    {
-                                        // Get the slide part from the relationship ID.
-                                        SlidePart slide = (SlidePart)presentationPart.GetPartById(relId);
-
-                                        // Get the inner text of the slide:
-                                        IEnumerable<DocumentFormat.OpenXml.Drawing.Text> texts = slide.Slide.Descendants<DocumentFormat.OpenXml.Drawing.Text>();
-                                        foreach (DocumentFormat.OpenXml.Drawing.Text txt in texts)
+                                        if (presentationPart == null || slideIds.Count == 0)
                                         {
-                                            content.Add(txt.Text);
+                                            return content.ToArray();
+                                        }
+
+                                        string relId = ((SlideId)slideIds[i]).RelationshipId;
+
+                                        if (relId != null)
+                                        {
+                                            // Get the slide part from the relationship ID.
+                                            SlidePart slide = (SlidePart)presentationPart.GetPartById(relId);
+
+                                            // Get the inner text of the slide:
+                                            IEnumerable<DocumentFormat.OpenXml.Drawing.Text> texts = slide.Slide.Descendants<DocumentFormat.OpenXml.Drawing.Text>();
+                                            foreach (DocumentFormat.OpenXml.Drawing.Text txt in texts)
+                                            {
+                                                content.Add(txt.Text);
+                                            }
                                         }
                                     }
                                 }
                             }
+                            return content.ToArray();
                         }
-                        return content.ToArray();
+                        catch (FileFormatException e)
+                        {
+                            Console.WriteLine("[ERROR] " + docFile.FilePath + " Message: " + e.Message);
+                            return new string[] { };
+                        }
                     }
                 case FileType.PDF:
                     StringBuilder text = new StringBuilder();
                     if (File.Exists(docFile.FilePath))
                     {
-                        PdfReader pdfReader = new PdfReader(docFile.FilePath);
-                        for (int page = 1; page <= pdfReader.NumberOfPages; page++)
+                        try
                         {
-                            ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
-                            string currentText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
+                            PdfReader pdfReader = new PdfReader(docFile.FilePath);
+                            for (int page = 1; page <= pdfReader.NumberOfPages; page++)
+                            {
+                                ITextExtractionStrategy strategy = new SimpleTextExtractionStrategy();
+                                string currentText = PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
 
-                            currentText = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(currentText)));
-                            text.Append(currentText);
+                                currentText = Encoding.UTF8.GetString(ASCIIEncoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(currentText)));
+                                text.Append(currentText);
+                            }
+                            pdfReader.Close();
                         }
-                        pdfReader.Close();
+                        catch (iTextSharp.text.exceptions.InvalidPdfException e)
+                        {
+                            Console.WriteLine("[ERROR] " + docFile.FilePath + " Message: " + e.Message);
+                        }
                     }
                     return text.ToString().Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
             }

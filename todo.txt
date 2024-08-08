@@ -1,4 +1,6 @@
 RELEASE !!!
+- Tester sur les fichier du NAS (par exemple le dossier de l'université)
+- HTML files reading is too long. Try getting only text part in .html file.
 
 BONUS FEATURES
 - Search hit preview (implements n-graph method)
