@@ -12,6 +12,7 @@
         Closed="Window_Closed"
         >
     <Window.Resources>
+        <BitmapImage x:Key="IconTrash" UriSource="../Resources/icon_trash.png" />
         <Style x:Key="CustomButtonStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -35,8 +36,8 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border2" Background="#cc2929" CornerRadius="10" HorizontalAlignment="Stretch" Padding="12,0,12,0">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border x:Name="border2" Background="#cc2929" CornerRadius="10" HorizontalAlignment="Stretch">
+                            <Image Source="{StaticResource IconTrash}" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Width="16" Height="16" Margin="4,4,4,4"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
@@ -103,7 +104,7 @@
                     <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="textBlockResolver" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" TextWrapping="Wrap" Text="{x:Static Properties:lang.Engine}"/>
-                <ComboBox x:Name="comboBoxResolverType" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" Width="120" SelectionChanged="comboBoxResolverType_SelectionChanged" Margin="0,0,5,0">
+                <ComboBox x:Name="comboBoxResolverType" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" MinWidth="150" SelectionChanged="comboBoxResolverType_SelectionChanged" Margin="0,0,5,0">
                     <ComboBox.Style>
                         <Style TargetType="ComboBox">
                             <Setter Property="IsEnabled" Value="True"/>
@@ -158,9 +159,7 @@
                                 <Image Source="../Resources/icon_folder.png" Width="32" Height="32" Grid.RowSpan="2" />
                                 <TextBlock Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14px" FontWeight="DemiBold" Grid.Column="1" Margin="5,0,0,0" />
                                 <TextBlock Text="{Binding Location, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="12px" Grid.Column="1" Grid.Row="2" Margin="5,0,0,0" Grid.ColumnSpan="2" />
-                                <Button Click="buttonRemoveCorpus_Click" Style="{StaticResource ListBoxItemButtonStyle}" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Top">
-                                    <TextBlock Text="{x:Static Properties:lang.Remove}"  Foreground="White" FontWeight="Bold" FontSize="12"></TextBlock>
-                                </Button>
+                                <Button Click="buttonRemoveCorpus_Click" Style="{StaticResource ListBoxItemButtonStyle}" HorizontalAlignment="Right" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Top"></Button>
                                 <TextBlock Text="{Binding FormattedDocumentCount}" Grid.Column="3" Grid.Row="1" Margin="5,0,0,0" FontSize="12px" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
                             </Grid>
                         </DataTemplate>

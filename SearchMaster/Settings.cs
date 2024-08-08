@@ -18,6 +18,7 @@ namespace SearchMaster
     [Serializable]
     public class Settings : INotifyPropertyChanged
     {
+        [TypeConverter(typeof(LocalizedEnumConverter))]
         public enum EResolverType
         {
             CosineSimilarity,

@@ -159,6 +159,9 @@
   <data name="CorpusWindow" xml:space="preserve">
     <value>Corpus Parameters</value>
   </data>
+  <data name="CosineSimilarity" xml:space="preserve">
+    <value>Cosine Similarity</value>
+  </data>
   <data name="Directory" xml:space="preserve">
     <value>Directory</value>
   </data>
@@ -186,6 +189,9 @@
   <data name="FromLinkIn" xml:space="preserve">
     <value>From link in</value>
   </data>
+  <data name="FullMatch" xml:space="preserve">
+    <value>Full Match</value>
+  </data>
   <data name="Help" xml:space="preserve">
     <value>Help</value>
   </data>
@@ -206,6 +212,9 @@
   </data>
   <data name="JsonError" xml:space="preserve">
     <value>There was an error while loading the json file</value>
+  </data>
+  <data name="LabelDensity" xml:space="preserve">
+    <value>Label Density</value>
   </data>
   <data name="Manual" xml:space="preserve">
     <value>Manual</value>
@@ -228,6 +237,9 @@
   <data name="OK" xml:space="preserve">
     <value>OK</value>
   </data>
+  <data name="OkapiBM25" xml:space="preserve">
+    <value>OkapiBM25</value>
+  </data>
   <data name="Opened" xml:space="preserve">
     <value>Opened</value>
   </data>
@@ -239,6 +251,9 @@
   </data>
   <data name="Popup" xml:space="preserve">
     <value>Popup</value>
+  </data>
+  <data name="Regex" xml:space="preserve">
+    <value>Regex</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
@@ -263,6 +278,9 @@
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="TFIDF" xml:space="preserve">
+    <value>TF-IDF</value>
   </data>
   <data name="UseAcronym" xml:space="preserve">
     <value>Use Acronyms</value>

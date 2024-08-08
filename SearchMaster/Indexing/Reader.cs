@@ -17,6 +17,7 @@ using System.Runtime.InteropServices;
 using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using DocumentFormat.OpenXml;
+using NUglify;
 
 namespace SearchMaster.Indexing
 {
@@ -27,6 +28,11 @@ namespace SearchMaster.Indexing
             switch (docFile.FileType)
             {
                 case FileType.Html:
+                    {
+                        string content = File.ReadAllText(docFile.FilePath);
+                        UglifyResult result = Uglify.HtmlToText(content);
+                        return result.Code.Split(new string[] { "\n", "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    }
                 case FileType.Flow:
                 case FileType.Json:
                 case FileType.Css:

@@ -187,6 +187,15 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Cosine Similarity.
+        /// </summary>
+        public static string CosineSimilarity {
+            get {
+                return ResourceManager.GetString("CosineSimilarity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Directory.
         /// </summary>
         public static string Directory {
@@ -268,6 +277,15 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Full Match.
+        /// </summary>
+        public static string FullMatch {
+            get {
+                return ResourceManager.GetString("FullMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Help.
         /// </summary>
         public static string Help {
@@ -327,6 +345,15 @@ namespace SearchMaster.Properties {
         public static string JsonError {
             get {
                 return ResourceManager.GetString("JsonError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Label Density.
+        /// </summary>
+        public static string LabelDensity {
+            get {
+                return ResourceManager.GetString("LabelDensity", resourceCulture);
             }
         }
         
@@ -394,6 +421,15 @@ namespace SearchMaster.Properties {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à OkapiBM25.
+        /// </summary>
+        public static string OkapiBM25 {
+            get {
+                return ResourceManager.GetString("OkapiBM25", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Opened.
         /// </summary>
         public static string Opened {
@@ -426,6 +462,15 @@ namespace SearchMaster.Properties {
         public static string Popup {
             get {
                 return ResourceManager.GetString("Popup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Regex.
+        /// </summary>
+        public static string Regex {
+            get {
+                return ResourceManager.GetString("Regex", resourceCulture);
             }
         }
         
@@ -498,6 +543,15 @@ namespace SearchMaster.Properties {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à TF-IDF.
+        /// </summary>
+        public static string TFIDF {
+            get {
+                return ResourceManager.GetString("TFIDF", resourceCulture);
             }
         }
         

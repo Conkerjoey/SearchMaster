@@ -1,4 +1,12 @@
-RELEASE !!!
+Workflow avec Windchill
+- Télécharger en batch les documents sur Windchill
+- Les copier sur un Network Drive
+- Copier sur l'ordinateur local pour chaque installation de SearchMaster
+
+TODO
+- Caching only when files are on a different drive letter
+- Add Refresh button for indexed button list
+
 
 BONUS FEATURES
 - Search hit preview (implements n-graph method)
@@ -9,11 +17,12 @@ BONUS FEATURES
 - Wildcard *
 - Search option : file: “filename“ etc
 - Full Support for Caching System
+- Nuglify to trim Html
 
 FEATURES
 - Low bandwidth/hard disk usage
 - No cloud usage
-- Local
+- Local Processing
 - High security
 
 
@@ -22,7 +31,7 @@ Commentaires de Gab
 Pour ton application, mettre tout en anglais?
     - À date, il y a Francais et Anglais de supporter et il s'adapte automatiquement en fonction de la langue de l'OS. Je vais ajouter une option manuelle plus tard.
 Sinon, uniformisé, par exemple, dand le menu déroulant, il y a "LabelDensity" alors que le reste est en français.
-    - Bon point. (À implémenter avec TypeConverter et Description Attribute pour un Enum)
+    - Bon point. J'ai ajouté les languages aux options.
 Pour les noms des options, j'avoue que pour l'instant ils ne me disent rien.
     - Menu Aide -> Guide, il y a les explications.
 Est-ce que le parallélisé ne serait pas par défaut?

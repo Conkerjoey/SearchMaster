@@ -104,6 +104,9 @@
     <Reference Include="Microsoft.WindowsAPICodePack.ShellExtensions, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.WindowsAPICodePack-Shell.1.1.0.0\lib\Microsoft.WindowsAPICodePack.ShellExtensions.dll</HintPath>
     </Reference>
+    <Reference Include="NUglify, Version=1.21.9.0, Culture=neutral, PublicKeyToken=15bc7810aec21b5e, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUglify.1.21.9\lib\net40\NUglify.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -186,6 +189,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>lang.fr.resx</DependentUpon>
     </Compile>
+    <Compile Include="Tools\LocalizedEnumConverter.cs" />
     <Compile Include="Windows\AppSettingsWindow.xaml.cs">
       <DependentUpon>AppSettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -255,6 +259,7 @@
     <EmbeddedResource Include="Properties\lang.en.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>lang.en.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\lang.fr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -329,6 +334,7 @@
     <Content Include="help_en.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\icon_trash.png" />
     <Resource Include="Resources\icon_error.png" />
     <Resource Include="Resources\icon_warning.png" />
     <Resource Include="Resources\icon_info.png" />
