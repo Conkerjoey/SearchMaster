@@ -11,39 +11,23 @@ namespace SearchMaster.Engine
 {
     public class CosineSimilarityResolver : IResolver
     {
-        private List<string> indexedDocumentsPaths;
         private Dictionary<Document, double[]> documentWeightsVectors;
-        private bool multithreadingEnable;
         private Finder finder;
 
-        public List<string> IndexedDocumentsPath
+        public CosineSimilarityResolver(Finder finder)
         {
-            get
-            {
-                return indexedDocumentsPaths;
-            }
-            set
-            {
-                indexedDocumentsPaths = value;
-            }
-        }
-
-        public CosineSimilarityResolver(List<string> indexedDocumentsPaths, bool multithreadingEnable)
-        {
-            this.indexedDocumentsPaths = indexedDocumentsPaths;
+            this.finder = finder;
             this.documentWeightsVectors = new Dictionary<Document, double[]>();
-            this.multithreadingEnable = multithreadingEnable;
         }
 
         public QueryResult SearchQuery(Query query)
         {
-            finder = new Finder(query);
             string[] vecQuery = query.Text.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             List<SearchResult> results = SearchByCosineSimilarity(vecQuery);
             stopwatch.Stop();
-            return new QueryResult(results, query, indexedDocumentsPaths.Count, stopwatch.Elapsed);
+            return new QueryResult(results, query, finder.IndexedDocumentsPaths.Count, stopwatch.Elapsed);
         }
 
         private List<SearchResult> SearchByCosineSimilarity(string[] vectorizedLabels)
@@ -52,13 +36,13 @@ namespace SearchMaster.Engine
             documentWeightsVectors.Clear();
 
             int logicalProcessorCount = 1;
-            if (multithreadingEnable)
+            if (finder.MultithreadingEnabled)
             {
                 logicalProcessorCount = Environment.ProcessorCount - 1; // Let 1 core free to avoid to slow the OS
             }
-            int documentsPerProcessor = (int)Math.Ceiling((indexedDocumentsPaths.Count + 0.0F) / logicalProcessorCount);
+            int documentsPerProcessor = (int)Math.Ceiling((finder.IndexedDocumentsPaths.Count + 0.0F) / logicalProcessorCount);
 
-            List<List<string>> indexedDocumentsPathsProcessors = Tools.ResourcesManager.SplitToCores(indexedDocumentsPaths, logicalProcessorCount);
+            List<List<string>> indexedDocumentsPathsProcessors = Tools.ResourcesManager.SplitToCores(finder.IndexedDocumentsPaths, logicalProcessorCount);
             List<Thread> threads = new List<Thread>();
             for (int i = 0; i < logicalProcessorCount; i++)
             {
@@ -99,6 +83,9 @@ namespace SearchMaster.Engine
             for (int i = 0; i < documentsPathsSublist.Count; i++)
             {
                 Document document = Document.Load(documentsPathsSublist[i]);
+                if (!finder.EvaluateQueryFilters(document.DocumentSource.Path))
+                    continue;
+
                 for (int l = 0; l < vectorizedLabels.Length; l++)
                 {
                     List<WeightedLabel> weightedLabels = finder.Match(document.NGram.WeightedLabels, vectorizedLabels[l]);

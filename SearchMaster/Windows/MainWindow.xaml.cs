@@ -104,27 +104,29 @@ namespace SearchMaster
                     serializedDocumentsPaths.AddRange(Utils.ListDirectory(Path.Combine(new string[] { defaultSettings.CorporaDirectory, corpus.Name }), false, null, null));
                 }
 
+                Finder finder = new Finder(comboBoxQuery.Text, serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+
                 IResolver resolver = null;
                 switch (defaultSettings.ResolverType)
                 {
                     case Settings.EResolverType.FullMatch:
-                        resolver = new FullMatchResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                        resolver = new FullMatchResolver(finder);
                         break;
                     case Settings.EResolverType.LabelDensity:
-                        resolver = new LabelDensityResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                        resolver = new LabelDensityResolver(finder);
                         break;
                     case Settings.EResolverType.Regex:
-                        resolver = new RegexResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                        resolver = new RegexResolver(finder);
                         break;
                     case Settings.EResolverType.OkapiBM25:
-                        resolver = new OkapiBM25(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                        resolver = new OkapiBM25(finder);
                         break;
                     case Settings.EResolverType.TFIDF:
-                        resolver = new TFIDFResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                        resolver = new TFIDFResolver(finder);
                         break;
                     case Settings.EResolverType.CosineSimilarity:
                     default:
-                        resolver = new CosineSimilarityResolver(serializedDocumentsPaths, defaultSettings.MultithreadingEnable);
+                        resolver = new CosineSimilarityResolver(finder);
                         break;
                 }
 

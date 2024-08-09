@@ -8,12 +8,6 @@ namespace SearchMaster.Engine
 {
     public interface IResolver
     {
-        List<string> IndexedDocumentsPath
-        {
-            get;
-            set;
-        }
-
         QueryResult SearchQuery(Query query);
     }
 }

@@ -11,42 +11,26 @@ namespace SearchMaster.Engine
 {
     public class OkapiBM25 : IResolver
     {
-        private List<string> indexedDocumentsPaths;
         private Dictionary<Document, double[]> documentWeightsVectors;
         private Dictionary<Document, double[]> documentCountVectors;
         private int totalDocumentWords = 0;
-        private bool multithreadingEnable;
         private Finder finder;
 
-        public List<string> IndexedDocumentsPath
+        public OkapiBM25(Finder finder)
         {
-            get
-            {
-                return indexedDocumentsPaths;
-            }
-            set
-            {
-                indexedDocumentsPaths = value;
-            }
-        }
-
-        public OkapiBM25(List<string> indexedDocumentsPaths, bool multithreadingEnable)
-        {
-            this.indexedDocumentsPaths = indexedDocumentsPaths;
+            this.finder = finder;
             this.documentWeightsVectors = new Dictionary<Document, double[]>();
             this.documentCountVectors = new Dictionary<Document, double[]>();
-            this.multithreadingEnable = multithreadingEnable;
         }
 
         public QueryResult SearchQuery(Query query)
         {
-            finder = new Finder(query);
             string[] vecQuery = query.Text.ToLower().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             List<SearchResult> results = SearchByTFIDF(vecQuery);
             stopwatch.Stop();
-            return new QueryResult(results, query, indexedDocumentsPaths.Count, stopwatch.Elapsed);
+            return new QueryResult(results, query, finder.IndexedDocumentsPaths.Count, stopwatch.Elapsed);
         }
 
         private List<SearchResult> SearchByTFIDF(string[] vectorizedLabels)
@@ -56,12 +40,12 @@ namespace SearchMaster.Engine
             documentCountVectors.Clear();
 
             int logicalProcessorCount = 1;
-            if (multithreadingEnable)
+            if (finder.MultithreadingEnabled)
             {
                 logicalProcessorCount = Environment.ProcessorCount - 1; // Let 1 core free to avoid to slow the OS
             }
-            int documentsPerProcessor = (int)Math.Ceiling((indexedDocumentsPaths.Count + 0.0F) / logicalProcessorCount);
-            List<List<string>> indexedDocumentsPathsProcessors = Tools.ResourcesManager.SplitToCores(indexedDocumentsPaths, logicalProcessorCount);
+            int documentsPerProcessor = (int)Math.Ceiling((finder.IndexedDocumentsPaths.Count + 0.0F) / logicalProcessorCount);
+            List<List<string>> indexedDocumentsPathsProcessors = Tools.ResourcesManager.SplitToCores(finder.IndexedDocumentsPaths, logicalProcessorCount);
 
             List<Thread> threads = new List<Thread>();
             for (int i = 0; i < logicalProcessorCount; i++)
@@ -95,10 +79,10 @@ namespace SearchMaster.Engine
                     matCount[i, j] = documentCountVectors.ElementAt(i).Value[j];
             }
 
-            double avgWordCount = totalDocumentWords / indexedDocumentsPaths.Count;
+            double avgWordCount = totalDocumentWords / finder.IndexedDocumentsPaths.Count;
             double k1 = 1.5; // Range as per doc = [1.2, 2]
             double b = 0.75; // Value as per doc = 0.75
-            double[] docCounts = Maths.Times(Maths.Ones(vectorizedLabels.Length), indexedDocumentsPaths.Count);
+            double[] docCounts = Maths.Times(Maths.Ones(vectorizedLabels.Length), finder.IndexedDocumentsPaths.Count);
             double[] idf = Maths.Apply(Math.Log, Maths.Divide(docCounts, doc_count));
 
             double[,] bm25Score = Maths.Divide(Maths.Times(Maths.Times(mat, idf, 1), k1 + 1), Maths.Add(mat, Maths.Times(Maths.Add(Maths.Times(matCount, b / avgWordCount), 1 - b), k1)));
@@ -120,6 +104,8 @@ namespace SearchMaster.Engine
             for (int i = 0; i < documentsPathsSublist.Count; i++)
             {
                 Document document = Document.Load(documentsPathsSublist[i]);
+                if (!finder.EvaluateQueryFilters(document.DocumentSource.Path))
+                    continue;
 
                 for (int l = 0; l < vectorizedLabels.Length; l++)
                 {

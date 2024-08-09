@@ -190,6 +190,7 @@
       <DependentUpon>lang.fr.resx</DependentUpon>
     </Compile>
     <Compile Include="Tools\LocalizedEnumConverter.cs" />
+    <Compile Include="Tools\RegexUtil.cs" />
     <Compile Include="Windows\AppSettingsWindow.xaml.cs">
       <DependentUpon>AppSettingsWindow.xaml</DependentUpon>
     </Compile>
